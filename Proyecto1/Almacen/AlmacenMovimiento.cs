@@ -142,7 +142,7 @@ namespace Proyecto1.Almacen
                     decimal Descuento = Convert.ToDecimal(row.Cells["Descuento"].Value);
                     decimal MontoTotal = (cantidad * Precio) - Descuento + ITBS;
 
-                    decimal result = (MontoTotal != 0) ? Total : ITBS;
+                    decimal result = (MontoTotal != 0) ? MontoTotal : ITBS;
 
                     row.Cells["Total"].Value = result;
 
@@ -299,6 +299,11 @@ namespace Proyecto1.Almacen
             {
                 llenar();
             }
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            Guardar();
         }
     }
     

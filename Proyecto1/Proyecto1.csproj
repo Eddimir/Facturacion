@@ -110,7 +110,16 @@
     <Compile Include="DataADO\AlmacenMovimiento.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataADO\Cargos.cs">
+      <DependentUpon>ProyectoADO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataADO\Ciudades.cs">
+      <DependentUpon>ProyectoADO.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataADO\Clientes.cs">
+      <DependentUpon>ProyectoADO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataADO\ComprobantesImpuestos.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\ConfiguracionEmpresa.cs">
@@ -119,7 +128,13 @@
     <Compile Include="DataADO\CXC.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataADO\Departamentos.cs">
+      <DependentUpon>ProyectoADO.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataADO\Divisas.cs">
+      <DependentUpon>ProyectoADO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataADO\Empresas.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\Facturacion.cs">
@@ -138,6 +153,9 @@
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\Productos.cs">
+      <DependentUpon>ProyectoADO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataADO\ProductosCategoria.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\Proveedores.cs">
@@ -168,6 +186,9 @@
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\sysdiagrams.cs">
+      <DependentUpon>ProyectoADO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataADO\TipoDePago.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\Usuarios.cs">

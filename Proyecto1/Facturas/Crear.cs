@@ -53,9 +53,10 @@ namespace Proyecto1.Facturas
             {
                 //idfiltro = dtgvFiltro.CurrentRow.Cells[0].Value.ToString();
                 //Productos = dtgvFiltro.CurrentRow.Cells[1].Value.ToString();
-                //Existencia = Convert.ToDecimal(dtgvFiltro.CurrentRow.Cells[5].Value.ToString());
+                //Existencia = Convert.ToDecimal(dtgvFiltro.CurrentRow.Cells[5].Value.ToString());                
+                
                 string Filtro = txtfiltro.Text;
-
+                
                 if (Filtro != null)
                 {
                     LlenarPro(Filtro);
@@ -64,46 +65,59 @@ namespace Proyecto1.Facturas
             }
             catch { }
         }
+        private decimal? partcantidad = 1;
         private void LlenarPro(string Filtro)
         {
-            var prod = db.Productos.Where(x => x.Codigo == Filtro || x.Producto == Filtro).FirstOrDefault();
-
-            if (prod == null) {
-                MessageBox.Show("Porfavor intetelo de nuevo el producto no existe");
-            }
-            else
+            string[] parts = Filtro.Split('*');
+            string valorParte1 =  Clases.Veloz.VerificacionString(parts[0]); // primera parte
+            if (parts.Length == 2)
             {
-                //var pro = db.Productos.Find(Convert.ToInt32(prod.Id));
-                if (prod.Cantidad_Existencia >= 1)
-                {
-                    bool Existe = false;
-                    foreach (DataGridViewRow row in dataGridView1.Rows)
-                    {
-                        if (Convert.ToInt32(row.Cells[0].Value) == prod.Id)
-                        {
-                            MessageBox.Show($"El producto:{prod.Producto} ya fue insertado.");
-                            Existe = true;
-                        }
-                    }
-                    if (Existe == false)
-                    {
-                        if (prod.Cantidad_Existencia <= 5)
-                        {
-                            MessageBox.Show($"El producto: {Productos} se esta agotanto solo quedan: {prod.Cantidad_Existencia}");
-                        }
-                        dataGridView1.Rows.Add(prod.Id, prod.Producto, 1, prod.ITBS, prod.Precio);
-                        dataGridView1.MultiSelect = true;
-                    }
+                partcantidad = Convert.ToDecimal(parts[1]); // Segunda parte
+            }
+            if (!string.IsNullOrEmpty(valorParte1))
+            {
+                var prod = db.Productos.Where(x => x.Codigo == valorParte1 || x.Producto == valorParte1).FirstOrDefault();
 
-                    dataGridView1.AllowUserToOrderColumns = false;
-                    dataGridView1.BackgroundColor = Color.White;
-                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+                if (prod == null)
+                {
+                    MessageBox.Show("Porfavor intetelo de nuevo el producto no existe");
                 }
                 else
                 {
-                    MessageBox.Show($"El producto: {Productos} esta agotado.");
+                    //var pro = db.Productos.Find(Convert.ToInt32(prod.Id));
+                    if (prod.Cantidad_Existencia >= 1)
+                    {
+                        bool Existe = false;
+                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        {
+                            if (Convert.ToInt32(row.Cells[0].Value) == prod.Id)
+                            {
+                                MessageBox.Show($"El producto:{prod.Producto} ya fue insertado.");
+                                Existe = true;
+                            }
+                        }
+                        if (Existe == false)
+                        {
+                            if (prod.Cantidad_Existencia <= 5)
+                            {
+                                MessageBox.Show($"El producto: {Productos} se esta agotanto solo quedan: {prod.Cantidad_Existencia}");
+                            }
+                            dataGridView1.Rows.Add(prod.Id, prod.Producto, partcantidad, prod.Precio, prod.ITBS);
+                            dataGridView1.MultiSelect = true;
+                            partcantidad = 1;
+                        }
+
+                        dataGridView1.AllowUserToOrderColumns = false;
+                        dataGridView1.BackgroundColor = Color.White;
+                        dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                    }
+                    else
+                    {
+                        MessageBox.Show($"El producto: {Productos} esta agotado.");
+                    }
+                    ReadOnly();
                 }
-                ReadOnly();
             }
         }
         private void btnCliente_Click(object sender, EventArgs e)
@@ -137,7 +151,7 @@ namespace Proyecto1.Facturas
         //}
         private void Guardar()
         {
-
+            int longitud = 300;
             if (dataGridView1.Rows.Count == 0)
             {
                 MessageBox.Show("Debe de agregar un producto para poder continuar de lo contrario no podra continuar con el proceso");
@@ -146,15 +160,22 @@ namespace Proyecto1.Facturas
             {
                 MessageBox.Show("Antes debe de agregar el cliente correpondiente de lo contrario no podra proseguir con la facturacion");
             }
-            else 
+            else if(txtdescripcionPago.TextLength <= longitud)
             {
+                DateTime? valor = null;
+                //Fecha vencimiento en caso de que sea igual a verdadero otendre el valor del datapaicker en caso de que sea falso sera igual a null
                 facturacion = new DataADO.Facturacion()
                 {
                     idCliente = Convert.ToInt32(lblidcliente.Text),
                     idUsario = Convert.ToInt32(lbliduser.Text),
+                    IdTiPoDePago = Convert.ToInt32(cmbTipoDePago.SelectedValue),
                     Observaciones = richTextBox1.Text,
                     Fecha = DateTime.Now,
-                    total = Convert.ToDecimal(txttotal.Text)
+                    Total = Convert.ToDecimal(txttotal.Text),
+                    DetalleTipoDepago = txtdescripcionPago.Text,
+                    pagada = (ckbPagada.Checked == true) ? true : false,
+                    FechaVencimiento =  (ckbPagada.Checked == true) ? Convert.ToDateTime(dtfechavencimiento.Value) : valor,
+                    Contado = (ckbContado.Checked == true) ? true : false                    
                 };
                 bool validacion = false;
                 FacturacionDetalle = new List<DataADO.FacturacionDetalle>();               
@@ -181,25 +202,27 @@ namespace Proyecto1.Facturas
                                 Descuento = Convert.ToDecimal(rows.Cells[5].Value),
                                 Cantidad = Convert.ToDecimal(rows.Cells[2].Value),
                                 ITBIS = Convert.ToDecimal(rows.Cells[4].Value),
+                                Precio = Convert.ToDecimal(rows.Cells[3].Value),     
+                                //Impuesto = Convert.ToDecimal(rows.Cells[3].Value) * 0.18m,
                                 Facturacion = facturacion
                             });
                             validacion = true;
                         }
                         else
-
-
                         {
                             MessageBox.Show($"NO es posible guardar una cantidad no exitente del producto: {Query.Producto} solo queda un acnatidad de: {Query.Cantidad_Existencia}.");
                             validacion = false;
                         }
                     }                   
                 }
-
                 if (validacion == true)
                 {
-                    validacion1( FacturacionDetalle, facturacion);
-                }
-               
+                    validacion1(FacturacionDetalle, facturacion);
+                }               
+            }
+            else
+            {
+                MessageBox.Show("El detalle de tipo de pago supera la longitud maxima de carateres que es igual a: {0}",longitud.ToString());
             }
         }
         /// <summary>
@@ -208,7 +231,7 @@ namespace Proyecto1.Facturas
         /// <param name="resultado"></param>
         /// <param name="detalle"></param>
         /// <param name="facturacion1"></param>
-        public void validacion1( List<DataADO.FacturacionDetalle> detalle, DataADO.Facturacion facturacion1 )
+        public void validacion1(List<DataADO.FacturacionDetalle> detalle, DataADO.Facturacion facturacion1)
         {
             try
             {
@@ -229,6 +252,7 @@ namespace Proyecto1.Facturas
         {
             decimal TotalCalculo = 0;
             decimal SubTotal = 0;
+            decimal TotalDevuelta = 0;
             try
             {
                 foreach (DataGridViewRow rows in dataGridView1.Rows)
@@ -249,8 +273,23 @@ namespace Proyecto1.Facturas
                         SubTotal += cantidad * precio;
                     }
                 }
-                txttotal.Text = TotalCalculo.ToString();
-                txtsubtotal.Text = SubTotal.ToString();
+                txttotal.Text = TotalCalculo.ToString("N");
+                txtsubtotal.Text = SubTotal.ToString("N");
+
+                //Devolucion Calculo
+                if (txttotal.Text.Length != 0)
+                {                    
+                    if (Convert.ToDecimal(txtefectivo.Text) >= TotalCalculo)
+                    {
+                        TotalDevuelta = Convert.ToDecimal(txtefectivo.Text) - TotalCalculo;
+                        txtdevuelta.Text = TotalDevuelta.ToString("N");
+                    }
+                    else
+                    {
+                        txtefectivo.Text = string.Empty;
+                        txtdevuelta.Text = string.Empty;
+                    }                    
+                }
             }
             catch { }
         }
@@ -267,6 +306,7 @@ namespace Proyecto1.Facturas
         {
             CenterToScreen();
             FillUserAndAgregatted();
+            TiposDePago();
             //ReadOnly();
             //refrescar();
         }
@@ -398,7 +438,10 @@ namespace Proyecto1.Facturas
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            Guardar();
+            if(MessageBox.Show("Esta seguro de que desea facturar?","",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Guardar();
+            }           
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -408,7 +451,7 @@ namespace Proyecto1.Facturas
 
         private void btnVer_Click(object sender, EventArgs e)
         {
-            Proyecto1.Productos.VerProductos pro = new Productos.VerProductos();     
+            Productos.VerProductos pro = new Productos.VerProductos();     
             pro.Show();
         }
 
@@ -428,6 +471,47 @@ namespace Proyecto1.Facturas
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void txtefectivo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (txttotal.Text.Length != 0)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    Calculo();
+                }
+            }
+        }
+
+        private void TiposDePago()
+        {
+            var Tipos = from t in db.TipoDePago
+                        select new
+                        {
+                            t.Id,
+                            t.TipoDePago1
+                        };
+
+            cmbTipoDePago.DataSource = Tipos.ToList();
+            cmbTipoDePago.ValueMember = "Id";
+            cmbTipoDePago.DisplayMember = "TipoDePago1";
+            cmbTipoDePago.FlatStyle = FlatStyle.Flat;
+            cmbTipoDePago.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        private void ckbPagada_Click(object sender, EventArgs e)
+        {
+            if(ckbPagada.Checked == true)
+            {
+                dtfechavencimiento.Visible = false;
+                label4.Visible = false;
+            }
+            else
+            {
+                dtfechavencimiento.Visible = true;
+                label4.Visible = true;
+            }
         }
     }
 }

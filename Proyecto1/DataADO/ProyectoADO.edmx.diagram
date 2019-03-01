@@ -19,14 +19,7 @@
         <EntityTypeShape EntityType="DbConexion.ConfiguracionEmpresa" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="DbConexion.Seguridad" Width="1.5" PointX="8" PointY="11.5" />
         <AssociationConnector Association="DbConexion.FK_Seguridad_Modulos1" />
-        <EntityTypeShape EntityType="DbConexion.Usuarios" Width="1.5" PointX="0.75" PointY="8.125" />
-        <AssociationConnector Association="DbConexion.FK_AlmacenMovimiento_Usuarios" />
-        <AssociationConnector Association="DbConexion.FK_Seguridad_Usuarios1" />
-        <EntityTypeShape EntityType="DbConexion.Facturacion" Width="1.5" PointX="3" PointY="6.5" />
         <EntityTypeShape EntityType="DbConexion.FacturacionDetalle" Width="1.5" PointX="5.25" PointY="7.625" />
-        <AssociationConnector Association="DbConexion.FK_Facturacion_Clientes" />
-        <AssociationConnector Association="DbConexion.FK_Facturacion_Usuarios" />
-        <AssociationConnector Association="DbConexion.FK_FacturacionDetalle_Facturacion" />
         <EntityTypeShape EntityType="DbConexion.CXC" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="DbConexion.Sueldos" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="DbConexion.Proveedores" Width="1.5" PointX="10.375" PointY="8" />
@@ -34,11 +27,27 @@
         <EntityTypeShape EntityType="DbConexion.OrdenCompraDetalle" Width="1.5" PointX="13" PointY="11.125" />
         <EntityTypeShape EntityType="DbConexion.OrdenCompra" Width="1.5" PointX="13.625" PointY="7.5" />
         <AssociationConnector Association="DbConexion.FK_OrdenCompra_Proveedores" />
-        <AssociationConnector Association="DbConexion.FK_OrdenCompra_Usuarios" />
         <AssociationConnector Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" />
         <EntityTypeShape EntityType="DbConexion.Productos" Width="1.5" PointX="12.375" PointY="1" />
         <AssociationConnector Association="DbConexion.FK_FacturacionDetalle_Productos" />
         <AssociationConnector Association="DbConexion.FK_OrdenCompraDetalle_Productos" />
+        <EntityTypeShape EntityType="DbConexion.Cargos" Width="1.5" PointX="0.75" PointY="13.375" />
+        <EntityTypeShape EntityType="DbConexion.Ciudades" Width="1.5" PointX="10.375" PointY="5.75" />
+        <EntityTypeShape EntityType="DbConexion.ComprobantesImpuestos" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DbConexion.Departamentos" Width="1.5" PointX="14.375" PointY="3.75" />
+        <EntityTypeShape EntityType="DbConexion.Empresas" Width="1.5" PointX="5.375" PointY="14.75" />
+        <EntityTypeShape EntityType="DbConexion.ProductosCategoria" Width="1.5" PointX="7.375" PointY="14.75" />
+        <EntityTypeShape EntityType="DbConexion.TipoDePago" Width="1.5" PointX="5.375" PointY="4.875" />
+        <EntityTypeShape EntityType="DbConexion.Facturacion" Width="1.5" PointX="10.625" PointY="12.125" />
+        <AssociationConnector Association="DbConexion.FK_Facturacion_Clientes" />
+        <AssociationConnector Association="DbConexion.FK_Facturacion_TipoDePago" />
+        <AssociationConnector Association="DbConexion.FK_FacturacionDetalle_Facturacion" />
+        <EntityTypeShape EntityType="DbConexion.Usuarios" Width="1.5" PointX="3" PointY="18.125" />
+        <AssociationConnector Association="DbConexion.FK_AlmacenMovimiento_Usuarios" />
+        <AssociationConnector Association="DbConexion.FK_Usuarios_Cargos" />
+        <AssociationConnector Association="DbConexion.FK_Facturacion_Usuarios" />
+        <AssociationConnector Association="DbConexion.FK_OrdenCompra_Usuarios" />
+        <AssociationConnector Association="DbConexion.FK_Seguridad_Usuarios1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

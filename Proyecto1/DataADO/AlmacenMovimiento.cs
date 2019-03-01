@@ -29,7 +29,7 @@ namespace Proyecto1.DataADO
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlmacenDetalle> AlmacenDetalle { get; set; }
-        public virtual Usuarios Usuarios { get; set; }
         public virtual Proveedores Proveedores { get; set; }
+        public virtual Usuarios Usuarios { get; set; }
     }
 }

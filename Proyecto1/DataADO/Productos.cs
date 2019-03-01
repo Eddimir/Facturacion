@@ -30,6 +30,8 @@ namespace Proyecto1.DataADO
         public Nullable<decimal> Margen_Beneficio { get; set; }
         public string Despcricion { get; set; }
         public Nullable<System.DateTime> Registro { get; set; }
+        public Nullable<bool> AvisarVencimiento { get; set; }
+        public Nullable<int> DiasParaAvisar { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FacturacionDetalle> FacturacionDetalle { get; set; }

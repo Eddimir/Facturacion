@@ -57,5 +57,17 @@ namespace Proyecto1.Clases
                 return false;
             }
         }
+        public static string VerificacionString(string filtro)
+        {
+            try
+            {
+                string valor = filtro;
+            }
+            catch
+            {
+                return null;
+            }
+            return filtro;
+        }
     }
 }

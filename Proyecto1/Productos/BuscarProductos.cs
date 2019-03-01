@@ -27,10 +27,10 @@ namespace Proyecto1.Productos
         private void BuscarProductos_Load(object sender, EventArgs e)
         {
             CenterToScreen();
-            RefreFill();            
+            RefreshFill();            
         }
 
-        private IEnumerable<object> RefreFill()
+        private IEnumerable<object> RefreshFill()
         {
             using (var prdt = new DataADO.Proyecto1Entities())
             {
@@ -121,25 +121,33 @@ namespace Proyecto1.Productos
 
         private void Crear()
         {
-            
-            decimal precio = Convert.ToDecimal(txtPrecio.Text) + Convert.ToDecimal(txtbeneficio.Text);
-            dsproductos = new DataADO.Productos()
+            decimal precio = ((string.IsNullOrEmpty(txtPrecio.Text) && string.IsNullOrEmpty(txtbeneficio.Text) || string.IsNullOrEmpty(txtPrecio.Text)) == true) ? 0
+                             : Convert.ToDecimal(txtPrecio.Text) + Convert.ToDecimal(txtbeneficio.Text);
+            if (precio == 0)
             {
-                Codigo = GeneralCode(),
-                Producto = txtproducto.Text,
-                Despcricion = txtDescripcion.Text,
-                Precio = precio,
-                ITBS = Convert.ToDecimal(txtitbs.Text),
-                Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text),
-                Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text),
-                Registro = DateTime.Now
-            };
+                MessageBox.Show("El precio  no  puede ser igual a 0, porfavor modificar el registro");
+            }
+            else if(precio != 0)
+            {
+                dsproductos = new DataADO.Productos()
+                {
+                    Codigo = GeneralCode(),
+                    Producto = txtproducto.Text,
+                    Despcricion = txtDescripcion.Text,
+                    Precio = precio,
+                    ITBS = Convert.ToDecimal(txtitbs.Text),
+                    Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text),
+                    Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text),
+                    Registro = DateTime.Now
+                };
 
-            db.Productos.Add(dsproductos);
-            db.SaveChanges();
+                db.Productos.Add(dsproductos);
+                db.SaveChanges();
 
-            estatus = estatus.Modificando;
-            lblId.Text = dsproductos.Id.ToString();
+                estatus = estatus.Modificando;
+                lblId.Text = dsproductos.Id.ToString();
+                RefreshFill();
+            }
         }
 
         private void actualizar(int id)
@@ -161,7 +169,7 @@ namespace Proyecto1.Productos
 
                 db.SaveChanges();
             }
-            RefreFill();
+            RefreshFill();
         }
         private void Cargar(int? id)
         {

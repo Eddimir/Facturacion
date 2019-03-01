@@ -18,12 +18,13 @@ namespace Proyecto1.DataADO
         public Usuarios()
         {
             this.AlmacenMovimiento = new HashSet<AlmacenMovimiento>();
-            this.Seguridad = new HashSet<Seguridad>();
             this.Facturacion = new HashSet<Facturacion>();
             this.OrdenCompra = new HashSet<OrdenCompra>();
+            this.Seguridad = new HashSet<Seguridad>();
         }
     
         public int Id { get; set; }
+        public Nullable<int> IdCargo { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Telefono { get; set; }
@@ -36,11 +37,12 @@ namespace Proyecto1.DataADO
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlmacenMovimiento> AlmacenMovimiento { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Seguridad> Seguridad { get; set; }
+        public virtual Cargos Cargos { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facturacion> Facturacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenCompra> OrdenCompra { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Seguridad> Seguridad { get; set; }
     }
 }

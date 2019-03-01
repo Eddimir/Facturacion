@@ -22,15 +22,25 @@ namespace Proyecto1.DataADO
     
         public int Id { get; set; }
         public Nullable<int> idUsario { get; set; }
-        public string Observaciones { get; set; }
+        public Nullable<int> IdTiPoDePago { get; set; }
         public Nullable<int> idCliente { get; set; }
-        public decimal total { get; set; }
+        public string Observaciones { get; set; }
+        public Nullable<decimal> Total { get; set; }
         public Nullable<bool> Cerrada { get; set; }
         public Nullable<System.DateTime> Fecha { get; set; }
+        public Nullable<bool> Cuadrada { get; set; }
+        public Nullable<bool> Nula { get; set; }
+        public string RazonNula { get; set; }
+        public Nullable<bool> Contado { get; set; }
+        public Nullable<System.DateTime> FechaVencimiento { get; set; }
+        public Nullable<System.DateTime> FechaAnulacion { get; set; }
+        public Nullable<bool> pagada { get; set; }
+        public string DetalleTipoDepago { get; set; }
     
         public virtual Clientes Clientes { get; set; }
-        public virtual Usuarios Usuarios { get; set; }
+        public virtual TipoDePago TipoDePago { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FacturacionDetalle> FacturacionDetalle { get; set; }
+        public virtual Usuarios Usuarios { get; set; }
     }
 }
