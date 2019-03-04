@@ -174,7 +174,7 @@ namespace Proyecto1.Facturas
                     Total = Convert.ToDecimal(txttotal.Text),
                     DetalleTipoDepago = txtdescripcionPago.Text,
                     pagada = (ckbPagada.Checked == true) ? true : false,
-                    FechaVencimiento =  (ckbPagada.Checked == true) ? Convert.ToDateTime(dtfechavencimiento.Value) : valor,
+                    FechaVencimiento =  (ckbPagada.Checked == false) ? Convert.ToDateTime(dtfechavencimiento.Value) : valor,
                     Contado = (ckbContado.Checked == true) ? true : false                    
                 };
                 bool validacion = false;

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -39,6 +41,8 @@ namespace Proyecto1
         {
             this.Location = Screen.PrimaryScreen.WorkingArea.Location;
             this.Size = Screen.PrimaryScreen.WorkingArea.Size;
+            //timer1.Start();
+            timer1.Enabled = true;
         }
 
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -83,8 +87,24 @@ namespace Proyecto1
             {
                 Application.Exit();
             }
-                
+
             
+        }
+        private DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
+        private void mostrandovencimientodefacturas()
+        {
+
+          
+            var factura = (from d in db.Facturacion
+                           where DbFunctions.TruncateTime(d.FechaVencimiento) == DbFunctions.TruncateTime(DateTime.Today.Date)
+                           && d.pagada == false || d.pagada == null
+                           select d).ToList();
+
+
+            if (factura.Count >= 1)
+            {
+                MessageBox.Show("Atencion por favor dirigirse al modulo de facturacion hay facturas que hoy se vencen", "Antencion");
+            }
         }
 
         private void crearToolStripMenuItem_Click(object sender, EventArgs e)
@@ -153,5 +173,17 @@ namespace Proyecto1
             fralmacen.MdiParent = this;
             fralmacen.Show();
         }
+
+        /// <summary>
+        /// cada 5 minutos mensaje de alerta
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            mostrandovencimientodefacturas();
+            
+        }
+        
     }
 }

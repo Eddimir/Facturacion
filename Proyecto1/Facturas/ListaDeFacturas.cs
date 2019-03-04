@@ -27,21 +27,32 @@ namespace Proyecto1.Facturas
                               Cliente = m.Clientes.Nombre + " " + m.Clientes.Apellido,
                               Usuario = m.Usuarios.Nombre + " " + m.Usuarios.Apellido,
                               m.Fecha,
+                              m.Nula,
                               m.pagada,
                               m.Total,
                               
                           };
 
-            dtgvMaestro.DataSource = maestro.OrderBy(x=>x.Fecha).ToList();
-            SumalTotal();
+            dtgvMaestro.DataSource = maestro.OrderByDescending(x=>x.Fecha).ToList();            
             if (dtgvMaestro.Rows.Count == 1)
             {
                 button1.Visible = false;
             }
-            txtrazonnula.Visible = false;
-            lblrazonnula.Visible = false;
+            SumalTotal();
+            autosize();
         }
-        
+        private void autosize()
+        {
+            dtgvMaestro.BackgroundColor = Color.White;
+            dtgvDetalle.BackgroundColor = Color.White;
+
+            dtgvMaestro.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dtgvMaestro.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dtgvMaestro.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dtgvMaestro.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dtgvMaestro.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        }
+
         //private void refreshDetalle()
         //{
         //    var Detalle = from de in db.FacturacionDetalle
@@ -90,9 +101,10 @@ namespace Proyecto1.Facturas
                           };
 
             txtobservaciones.Text = db.Facturacion.Where(x => x.Id == IdMaestro).Select(x => x.Observaciones).First().ToString();
-            dtgvDetalle.DataSource = detalle.OrderBy(x => x.Fecha).ToList();
+            dtgvDetalle.DataSource = detalle.OrderByDescending(x => x.Fecha).ToList();
             
-            dtgvDetalle.Columns[0].Visible = false;            
+            dtgvDetalle.Columns[0].Visible = false;
+            AutoSizeDetalle();
 
         }
 
@@ -122,24 +134,34 @@ namespace Proyecto1.Facturas
                               de.Productos.Producto,
                               de.Cantidad,
                               de.ITBIS,
+                              de.Precio,
                               de.Descuento
                           };
 
-            dtgvDetalle.DataSource = detalle.OrderBy(x => x.Fecha).ToList();
+            dtgvDetalle.DataSource = detalle.OrderByDescending(x => x.Fecha).ToList();
             dtgvDetalle.Columns[0].Visible = false;
-
+            txtobservaciones.Text = string.Empty;
             //deseleccionando las filas
             dtgvMaestro.ClearSelection();
             dtgvDetalle.ClearSelection();
-
-            //butonclik = true;
             SumalTotal();
+            AutoSizeDetalle();
+        }
+        private void AutoSizeDetalle()
+        {
+            dtgvDetalle.BackgroundColor = Color.White;
+
+            dtgvDetalle.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dtgvDetalle.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dtgvDetalle.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dtgvDetalle.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dtgvDetalle.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
         private void SumalTotal()
         {
             decimal Total = 0;
             //decimal subtotal = 0;
-            if(dtgvMaestro.SelectedRows.Count == 1)
+            if(dtgvMaestro.SelectedRows.Count >= 1)
             {
                 foreach (DataGridViewRow row in dtgvMaestro.SelectedRows)
                 {
@@ -183,7 +205,7 @@ namespace Proyecto1.Facturas
                         }
                         else if (TotalFecha >= 3)
                         {
-                            MessageBox.Show($"Lo siento la factura no puede ser anulada, el cliente tiene un limite de dos dias para poder anular en este caso la diferencia fue de {TotalFecha} dias");
+                            MessageBox.Show($"Lo siento la factura no puede ser anulada, el cliente tiene un limite de dos dias para poder anular en este caso la diferencia es de {TotalFecha} dias");
                         }
                     }
                     else
@@ -203,20 +225,15 @@ namespace Proyecto1.Facturas
         }
         private void comprobacion(int? id, bool repuesta)
         {
-            if (repuesta == true)
+            if (repuesta == true && dtgvMaestro.SelectedRows.Count >= 1)
             {
-                txtrazonnula.Visible = true;
-                lblrazonnula.Visible = true;
                 if (id != null)
                 {
-                    if (txtrazonnula.Text.Length == 0)
-                    {
-                        MessageBox.Show("Recuerde dar una razon de porque la factura sera anulada");
-                    }
-                    else
-                    {
-                        Actualizacion(id);
-                    }
+                    //llamando otro formulario para validar la razon nula en caso de que se desee anular la fatura
+                    RazonNula frraxon = new RazonNula(id);
+                    frraxon.ShowDialog();
+                    repuesta = false;
+                    RefreshMaestro();                    
                 }
                 else
                 {
@@ -224,28 +241,70 @@ namespace Proyecto1.Facturas
                 }
             }
         }
-        private void Actualizacion(int? id)
+
+        private void btnPagar_Click(object sender, EventArgs e)
         {
-            try
+            if (dtgvMaestro.Rows.Count == 1)
             {
-                var act = (from d in db.Facturacion
-                           where d.Id == id
-                           select d).First();
+                int id = Convert.ToInt32(dtgvMaestro.CurrentRow.Cells[0].Value);
+                var cliente = db.Facturacion.Where(x => x.Id == id).Select(x => new { x.Clientes.Nombre, x.Clientes.Apellido }).First();
+                var factura = (from d in db.Facturacion
+                               where d.Id == id  /*&& d.Nula == false || d.Nula == null*/
+                               select d).First();
 
-              
-                act.RazonNula = txtrazonnula.Text;
-                act.Nula = true;
-                act.FechaAnulacion = DateTime.Now;
-                ////
-                repuesta = false;
-
-                //db.FacturacionDetalle.RemoveRange(Detalle);
-                //db.Facturacion.Remove(Maestro);
-                db.SaveChanges();
-                MessageBox.Show("Anulacion de factura realizada exitosamente");
-                RefreshMaestro();
+                if (factura.pagada == true)
+                {
+                    MessageBox.Show("La factura ya fue pagada");
+                }
+                else
+                {
+                    if (factura.Nula == true)
+                    {
+                        MessageBox.Show("Lo siento no es posible realizar el pago de una  factura que fue anulada ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else if (factura != null)
+                    {
+                        if (MessageBox.Show($"Esta seguro de que desea dar por pagada la factura del cliente {cliente.Nombre} {cliente.Apellido} ", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            factura.pagada = true;
+                            db.SaveChanges();
+                            RefreshMaestro();
+                        }
+                    }
+                }
             }
-            catch { }
+            else
+            {
+                MessageBox.Show("Antes se debe de selecionar un resgitros de lo contrario no sera valida la accion");
+            }
+            
+            
+
+           
+          
         }
+        //private void Actualizacion(int? id)
+        //{
+        //    try
+        //    {
+        //        var act = (from d in db.Facturacion
+        //                   where d.Id == id
+        //                   select d).First();
+
+
+        //        act.RazonNula = txtrazonnula.Text;
+        //        act.Nula = true;
+        //        act.FechaAnulacion = DateTime.Now;
+        //        ////
+        //        repuesta = false;
+
+        //        //db.FacturacionDetalle.RemoveRange(Detalle);
+        //        //db.Facturacion.Remove(Maestro);
+        //        db.SaveChanges();
+        //        MessageBox.Show("Anulacion de factura realizada exitosamente");
+        //        RefreshMaestro();
+        //    }
+        //    catch { }
+        //}
     }
 }
