@@ -21,14 +21,14 @@ namespace Proyecto1.Facturas
         private DataADO.Facturacion facturacion;
         private List<DataADO.FacturacionDetalle> FacturacionDetalle;
 
-        private void llenar(string id)
-        {
-            var cli = db.Clientes.Find(Convert.ToInt32(id));
+        //private void llenar(string id)
+        //{
+        //    var cli = db.Clientes.Find(Convert.ToInt32(id));
 
-            lblidcliente.Text = cli.Id.ToString();
-            txtNOmbre.Text = cli.Nombre;
-            txtApellido.Text = cli.Apellido;
-        }
+        //    lblidcliente.Text = cli.Id.ToString();
+        //    txtNOmbre.Text = cli.Nombre;
+        //    txtApellido.Text = cli.Apellido;
+        //}
 
         //private void btnBucarProducto_Click(object sender, EventArgs e)
         //{
@@ -77,8 +77,7 @@ namespace Proyecto1.Facturas
             if (!string.IsNullOrEmpty(valorParte1))
             {
                 var prod = db.Productos.Where(x => x.Codigo == valorParte1 || x.Producto == valorParte1).FirstOrDefault();
-
-
+                
                 if (prod == null)
                 {
                     MessageBox.Show("Porfavor intetelo de nuevo el producto no existe");
@@ -93,7 +92,7 @@ namespace Proyecto1.Facturas
                         {
                             if (Convert.ToInt32(row.Cells[0].Value) == prod.Id)
                             {
-                                MessageBox.Show($"El producto:{prod.Producto} ya fue insertado.");
+                                MessageBox.Show($"El producto: {prod.Producto} ya fue insertado.");
                                 Existe = true;
                             }
                         }
@@ -154,7 +153,7 @@ namespace Proyecto1.Facturas
             int longitud = 300;
             if (dataGridView1.Rows.Count == 0)
             {
-                MessageBox.Show("Debe de agregar un producto para poder continuar de lo contrario no podra continuar con el proceso");
+                MessageBox.Show("Debe de agregar un producto para poder continuar de lo contrario no podra continuar con el proceso","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             else if (lblidcliente.Text == "")
             {
@@ -240,9 +239,9 @@ namespace Proyecto1.Facturas
                 db.SaveChanges();
                 actualizaciondeexistencia();
 
-                Crear fr = new Crear();
-                fr.MdiParent = Principal.GetForm;
                 Close();
+                Crear fr = new Crear();
+                fr.MdiParent = ActiveForm;                
                 fr.Show();
             }
             catch { }
@@ -424,9 +423,11 @@ namespace Proyecto1.Facturas
                                  where h.Id == id
                                  select h).First();
 
-                    query.Cantidad_Existencia -= cantidad;
-                    //pro.Add(query);
-                    db.SaveChanges();
+                    if(query != null)
+                    {
+                        query.Cantidad_Existencia -= cantidad;
+                        db.SaveChanges();
+                    }
                 }
             }
         }

@@ -41,7 +41,7 @@
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Location = new System.Drawing.Point(9, 459);
+            this.lblTotal.Location = new System.Drawing.Point(12, 512);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(34, 13);
             this.lblTotal.TabIndex = 10;
@@ -49,7 +49,7 @@
             // 
             // txttotal
             // 
-            this.txttotal.Location = new System.Drawing.Point(48, 456);
+            this.txttotal.Location = new System.Drawing.Point(51, 509);
             this.txttotal.Name = "txttotal";
             this.txttotal.Size = new System.Drawing.Size(100, 20);
             this.txttotal.TabIndex = 9;
@@ -66,7 +66,7 @@
             // lbldetalles
             // 
             this.lbldetalles.AutoSize = true;
-            this.lbldetalles.Location = new System.Drawing.Point(12, 205);
+            this.lbldetalles.Location = new System.Drawing.Point(12, 261);
             this.lbldetalles.Name = "lbldetalles";
             this.lbldetalles.Size = new System.Drawing.Size(45, 13);
             this.lbldetalles.TabIndex = 7;
@@ -74,7 +74,7 @@
             // 
             // dtgvDetalle
             // 
-            this.dtgvDetalle.Location = new System.Drawing.Point(12, 221);
+            this.dtgvDetalle.Location = new System.Drawing.Point(12, 277);
             this.dtgvDetalle.Name = "dtgvDetalle";
             this.dtgvDetalle.Size = new System.Drawing.Size(827, 226);
             this.dtgvDetalle.TabIndex = 5;
@@ -91,7 +91,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 489);
+            this.ClientSize = new System.Drawing.Size(856, 534);
             this.Controls.Add(this.lblTotal);
             this.Controls.Add(this.txttotal);
             this.Controls.Add(this.button1);

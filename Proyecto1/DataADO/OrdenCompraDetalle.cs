@@ -18,6 +18,9 @@ namespace Proyecto1.DataADO
         public Nullable<int> IdProducto { get; set; }
         public Nullable<int> IdOrdenCompra { get; set; }
         public Nullable<decimal> Cantidad { get; set; }
+        public Nullable<decimal> ITBS { get; set; }
+        public Nullable<decimal> Descuento { get; set; }
+        public Nullable<decimal> Precio { get; set; }
     
         public virtual OrdenCompra OrdenCompra { get; set; }
         public virtual Productos Productos { get; set; }

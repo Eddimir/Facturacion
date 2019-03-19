@@ -21,10 +21,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdAlmacenMovimiento" Type="int" Nullable="false" />
-          <Property Name="Idalmacen" Type="int" Nullable="false" />
-          <Property Name="Cantidad" Type="decimal" Precision="16" Scale="2" Nullable="false" />
-          <Property Name="costo" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IdAlmacenMovimiento" Type="int" />
+          <Property Name="Idalmacen" Type="int" />
+          <Property Name="Cantidad" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="costo" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ITBS" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="AlmacenMovimiento">
           <Key>
@@ -182,6 +185,9 @@
           <Property Name="IdProducto" Type="int" />
           <Property Name="IdOrdenCompra" Type="int" />
           <Property Name="Cantidad" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ITBS" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="Productos">
           <Key>
@@ -292,7 +298,7 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <Property Name="id" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_AlmacenDetalle_Almacen">
-          <End Role="Almacen" Type="Self.Almacen" Multiplicity="1" />
+          <End Role="Almacen" Type="Self.Almacen" Multiplicity="0..1" />
           <End Role="AlmacenDetalle" Type="Self.AlmacenDetalle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Almacen">
@@ -304,7 +310,7 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AlmacenDetalle_AlmacenMovimiento">
-          <End Role="AlmacenMovimiento" Type="Self.AlmacenMovimiento" Multiplicity="1" />
+          <End Role="AlmacenMovimiento" Type="Self.AlmacenMovimiento" Multiplicity="0..1" />
           <End Role="AlmacenDetalle" Type="Self.AlmacenDetalle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AlmacenMovimiento">
@@ -634,16 +640,7 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <EntitySet Name="Modulos" EntityType="Self.Modulos" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Almacen" EntityType="DbConexion.Almacen" />
-          <EntitySet Name="AlmacenDetalle" EntityType="DbConexion.AlmacenDetalle" />
           <EntitySet Name="AlmacenMovimiento" EntityType="DbConexion.AlmacenMovimiento" />
-          <AssociationSet Name="FK_AlmacenDetalle_Almacen" Association="DbConexion.FK_AlmacenDetalle_Almacen">
-            <End Role="Almacen" EntitySet="Almacen" />
-            <End Role="AlmacenDetalle" EntitySet="AlmacenDetalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AlmacenDetalle_AlmacenMovimiento" Association="DbConexion.FK_AlmacenDetalle_AlmacenMovimiento">
-            <End Role="AlmacenMovimiento" EntitySet="AlmacenMovimiento" />
-            <End Role="AlmacenDetalle" EntitySet="AlmacenDetalle" />
-          </AssociationSet>
           <EntitySet Name="Puestos" EntityType="DbConexion.Puestos" />
           <EntitySet Name="vsModulosUsuarios" EntityType="DbConexion.vsModulosUsuarios" />
           <EntitySet Name="ConfiguracionEmpresa" EntityType="DbConexion.ConfiguracionEmpresa" />
@@ -660,24 +657,15 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="AlmacenMovimiento" EntitySet="AlmacenMovimiento" />
           </AssociationSet>
-          <EntitySet Name="OrdenCompraDetalle" EntityType="DbConexion.OrdenCompraDetalle" />
           <EntitySet Name="OrdenCompra" EntityType="DbConexion.OrdenCompra" />
           <AssociationSet Name="FK_OrdenCompra_Proveedores" Association="DbConexion.FK_OrdenCompra_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="OrdenCompra" EntitySet="OrdenCompra" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdenCompraDetalle_OrdenCompra" Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra">
-            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
-            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
-          </AssociationSet>
           <EntitySet Name="Productos" EntityType="DbConexion.Productos" />
           <AssociationSet Name="FK_FacturacionDetalle_Productos" Association="DbConexion.FK_FacturacionDetalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
             <End Role="FacturacionDetalle" EntitySet="FacturacionDetalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdenCompraDetalle_Productos" Association="DbConexion.FK_OrdenCompraDetalle_Productos">
-            <End Role="Productos" EntitySet="Productos" />
-            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
           </AssociationSet>
           <EntitySet Name="Cargos" EntityType="DbConexion.Cargos" />
           <EntitySet Name="Ciudades" EntityType="DbConexion.Ciudades" />
@@ -720,6 +708,24 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="Seguridad" EntitySet="Seguridad" />
           </AssociationSet>
+          <EntitySet Name="AlmacenDetalle" EntityType="DbConexion.AlmacenDetalle" />
+          <EntitySet Name="OrdenCompraDetalle" EntityType="DbConexion.OrdenCompraDetalle" />
+          <AssociationSet Name="FK_AlmacenDetalle_Almacen" Association="DbConexion.FK_AlmacenDetalle_Almacen">
+            <End Role="Almacen" EntitySet="Almacen" />
+            <End Role="AlmacenDetalle" EntitySet="AlmacenDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlmacenDetalle_AlmacenMovimiento" Association="DbConexion.FK_AlmacenDetalle_AlmacenMovimiento">
+            <End Role="AlmacenMovimiento" EntitySet="AlmacenMovimiento" />
+            <End Role="AlmacenDetalle" EntitySet="AlmacenDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompraDetalle_OrdenCompra" Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra">
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompraDetalle_Productos" Association="DbConexion.FK_OrdenCompraDetalle_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Almacen">
           <Key>
@@ -733,18 +739,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AlmacenDetalle" Relationship="DbConexion.FK_AlmacenDetalle_Almacen" FromRole="Almacen" ToRole="AlmacenDetalle" />
         </EntityType>
-        <EntityType Name="AlmacenDetalle">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdAlmacenMovimiento" Type="Int32" Nullable="false" />
-          <Property Name="Idalmacen" Type="Int32" Nullable="false" />
-          <Property Name="Cantidad" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="costo" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="Almacen" Relationship="DbConexion.FK_AlmacenDetalle_Almacen" FromRole="AlmacenDetalle" ToRole="Almacen" />
-          <NavigationProperty Name="AlmacenMovimiento" Relationship="DbConexion.FK_AlmacenDetalle_AlmacenMovimiento" FromRole="AlmacenDetalle" ToRole="AlmacenMovimiento" />
-        </EntityType>
         <EntityType Name="AlmacenMovimiento">
           <Key>
             <PropertyRef Name="Id" />
@@ -755,34 +749,10 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Observacion" Type="String" MaxLength="600" FixedLength="false" Unicode="true" />
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <NavigationProperty Name="AlmacenDetalle" Relationship="DbConexion.FK_AlmacenDetalle_AlmacenMovimiento" FromRole="AlmacenMovimiento" ToRole="AlmacenDetalle" />
           <NavigationProperty Name="Proveedores" Relationship="DbConexion.FK_AlmacenMovimiento_Proveedores1" FromRole="AlmacenMovimiento" ToRole="Proveedores" />
           <NavigationProperty Name="Usuarios" Relationship="DbConexion.FK_AlmacenMovimiento_Usuarios" FromRole="AlmacenMovimiento" ToRole="Usuarios" />
+          <NavigationProperty Name="AlmacenDetalle" Relationship="DbConexion.FK_AlmacenDetalle_AlmacenMovimiento" FromRole="AlmacenMovimiento" ToRole="AlmacenDetalle" />
         </EntityType>
-        <Association Name="FK_AlmacenDetalle_Almacen">
-          <End Type="DbConexion.Almacen" Role="Almacen" Multiplicity="1" />
-          <End Type="DbConexion.AlmacenDetalle" Role="AlmacenDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Almacen">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AlmacenDetalle">
-              <PropertyRef Name="Idalmacen" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AlmacenDetalle_AlmacenMovimiento">
-          <End Type="DbConexion.AlmacenMovimiento" Role="AlmacenMovimiento" Multiplicity="1" />
-          <End Type="DbConexion.AlmacenDetalle" Role="AlmacenDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AlmacenMovimiento">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AlmacenDetalle">
-              <PropertyRef Name="IdAlmacenMovimiento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Puestos">
           <Key>
             <PropertyRef Name="Id" />
@@ -897,17 +867,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="OrdenCompraDetalle">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="IdProducto" Type="Int32" />
-          <Property Name="IdOrdenCompra" Type="Int32" />
-          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="OrdenCompra" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompraDetalle" ToRole="OrdenCompra" />
-          <NavigationProperty Name="Productos" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="OrdenCompraDetalle" ToRole="Productos" />
-        </EntityType>
         <EntityType Name="OrdenCompra">
           <Key>
             <PropertyRef Name="Id" />
@@ -919,8 +878,8 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Fecha" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Proveedores" Relationship="DbConexion.FK_OrdenCompra_Proveedores" FromRole="OrdenCompra" ToRole="Proveedores" />
-          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompra" ToRole="OrdenCompraDetalle" />
           <NavigationProperty Name="Usuarios" Relationship="DbConexion.FK_OrdenCompra_Usuarios" FromRole="OrdenCompra" ToRole="Usuarios" />
+          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompra" ToRole="OrdenCompraDetalle" />
         </EntityType>
         <Association Name="FK_OrdenCompra_Proveedores">
           <End Type="DbConexion.Proveedores" Role="Proveedores" Multiplicity="0..1" />
@@ -931,18 +890,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             </Principal>
             <Dependent Role="OrdenCompra">
               <PropertyRef Name="IdProveedor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenCompraDetalle_OrdenCompra">
-          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="0..1" />
-          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrdenCompra">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenCompraDetalle">
-              <PropertyRef Name="IdOrdenCompra" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -960,9 +907,9 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <Property Name="Despcricion" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Registro" Type="DateTime" Precision="3" />
           <NavigationProperty Name="FacturacionDetalle" Relationship="DbConexion.FK_FacturacionDetalle_Productos" FromRole="Productos" ToRole="FacturacionDetalle" />
-          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="Productos" ToRole="OrdenCompraDetalle" />
           <Property Name="AvisarVencimiento" Type="Boolean" />
           <Property Name="DiasParaAvisar" Type="Int32" />
+          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="Productos" ToRole="OrdenCompraDetalle" />
         </EntityType>
         <Association Name="FK_FacturacionDetalle_Productos">
           <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
@@ -972,18 +919,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="FacturacionDetalle">
-              <PropertyRef Name="IdProducto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenCompraDetalle_Productos">
-          <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
-          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Productos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenCompraDetalle">
               <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
@@ -1188,6 +1123,83 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AlmacenDetalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdAlmacenMovimiento" Type="Int32" />
+          <Property Name="Idalmacen" Type="Int32" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="costo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ITBS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Almacen" Relationship="DbConexion.FK_AlmacenDetalle_Almacen" FromRole="AlmacenDetalle" ToRole="Almacen" />
+          <NavigationProperty Name="AlmacenMovimiento" Relationship="DbConexion.FK_AlmacenDetalle_AlmacenMovimiento" FromRole="AlmacenDetalle" ToRole="AlmacenMovimiento" />
+        </EntityType>
+        <EntityType Name="OrdenCompraDetalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdProducto" Type="Int32" />
+          <Property Name="IdOrdenCompra" Type="Int32" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ITBS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="OrdenCompra" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompraDetalle" ToRole="OrdenCompra" />
+          <NavigationProperty Name="Productos" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="OrdenCompraDetalle" ToRole="Productos" />
+        </EntityType>
+        <Association Name="FK_AlmacenDetalle_Almacen">
+          <End Type="DbConexion.Almacen" Role="Almacen" Multiplicity="0..1" />
+          <End Type="DbConexion.AlmacenDetalle" Role="AlmacenDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Almacen">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AlmacenDetalle">
+              <PropertyRef Name="Idalmacen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlmacenDetalle_AlmacenMovimiento">
+          <End Type="DbConexion.AlmacenMovimiento" Role="AlmacenMovimiento" Multiplicity="0..1" />
+          <End Type="DbConexion.AlmacenDetalle" Role="AlmacenDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlmacenMovimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AlmacenDetalle">
+              <PropertyRef Name="IdAlmacenMovimiento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompraDetalle_OrdenCompra">
+          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="0..1" />
+          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenCompraDetalle">
+              <PropertyRef Name="IdOrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompraDetalle_Productos">
+          <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
+          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenCompraDetalle">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1245,17 +1257,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
                 <ScalarProperty Name="ITBS" ColumnName="ITBS" />
                 <ScalarProperty Name="Existencia" ColumnName="Existencia" />
                 <ScalarProperty Name="Producto" ColumnName="Producto" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AlmacenDetalle">
-            <EntityTypeMapping TypeName="DbConexion.AlmacenDetalle">
-              <MappingFragment StoreEntitySet="AlmacenDetalle">
-                <ScalarProperty Name="costo" ColumnName="costo" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Idalmacen" ColumnName="Idalmacen" />
-                <ScalarProperty Name="IdAlmacenMovimiento" ColumnName="IdAlmacenMovimiento" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1357,16 +1358,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrdenCompraDetalle">
-            <EntityTypeMapping TypeName="DbConexion.OrdenCompraDetalle">
-              <MappingFragment StoreEntitySet="OrdenCompraDetalle">
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="IdOrdenCompra" ColumnName="IdOrdenCompra" />
-                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1498,6 +1489,33 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdCargo" ColumnName="IdCargo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlmacenDetalle">
+            <EntityTypeMapping TypeName="DbConexion.AlmacenDetalle">
+              <MappingFragment StoreEntitySet="AlmacenDetalle">
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="ITBS" ColumnName="ITBS" />
+                <ScalarProperty Name="costo" ColumnName="costo" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Idalmacen" ColumnName="Idalmacen" />
+                <ScalarProperty Name="IdAlmacenMovimiento" ColumnName="IdAlmacenMovimiento" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdenCompraDetalle">
+            <EntityTypeMapping TypeName="DbConexion.OrdenCompraDetalle">
+              <MappingFragment StoreEntitySet="OrdenCompraDetalle">
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="ITBS" ColumnName="ITBS" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdOrdenCompra" ColumnName="IdOrdenCompra" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

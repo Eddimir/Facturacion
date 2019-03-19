@@ -35,12 +35,11 @@ namespace Proyecto1.Productos
                             d.Precio,
                             d.ITBS,
                             Existencia = d.Cantidad_Existencia
-
                         };
 
             dtgvVer.DataSource = query.OrderBy(x => x.Producto).ToList();
             dtgvVer.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dtgvVer.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dtgvVer.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dtgvVer.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dtgvVer.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dtgvVer.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;

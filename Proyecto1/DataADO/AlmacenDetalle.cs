@@ -15,10 +15,13 @@ namespace Proyecto1.DataADO
     public partial class AlmacenDetalle
     {
         public int Id { get; set; }
-        public int IdAlmacenMovimiento { get; set; }
-        public int Idalmacen { get; set; }
-        public decimal Cantidad { get; set; }
-        public decimal costo { get; set; }
+        public Nullable<int> IdAlmacenMovimiento { get; set; }
+        public Nullable<int> Idalmacen { get; set; }
+        public Nullable<decimal> Cantidad { get; set; }
+        public Nullable<decimal> costo { get; set; }
+        public Nullable<decimal> ITBS { get; set; }
+        public Nullable<decimal> Descuento { get; set; }
+        public Nullable<decimal> Precio { get; set; }
     
         public virtual Almacen Almacen { get; set; }
         public virtual AlmacenMovimiento AlmacenMovimiento { get; set; }

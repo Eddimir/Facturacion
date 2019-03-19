@@ -182,7 +182,8 @@ namespace Proyecto1.Facturas
         private void btnAnular_Click(object sender, EventArgs e)
         {
             try
-            {                
+            {
+                repuesta = false;             
                 int? id = Convert.ToInt32(dtgvMaestro.CurrentRow.Cells["Id"].Value);
                 if (dtgvMaestro.SelectedRows.Count == 1 && dtgvDetalle.Rows.Count >= 1 && repuesta == false)
                 {                    
@@ -244,7 +245,7 @@ namespace Proyecto1.Facturas
 
         private void btnPagar_Click(object sender, EventArgs e)
         {
-            if (dtgvMaestro.Rows.Count == 1)
+            if (dtgvMaestro.SelectedRows.Count == 1)
             {
                 int id = Convert.ToInt32(dtgvMaestro.CurrentRow.Cells[0].Value);
                 var cliente = db.Facturacion.Where(x => x.Id == id).Select(x => new { x.Clientes.Nombre, x.Clientes.Apellido }).First();
@@ -277,11 +278,6 @@ namespace Proyecto1.Facturas
             {
                 MessageBox.Show("Antes se debe de selecionar un resgitros de lo contrario no sera valida la accion");
             }
-            
-            
-
-           
-          
         }
         //private void Actualizacion(int? id)
         //{
