@@ -82,14 +82,53 @@ namespace Proyecto1
             {
                 nombre = veloz22.Nombre;
                 contrasenia = veloz22.Contrasenia;
+                validacion();
             }
             else
             {
                 Application.Exit();
-            }
-
-            
+            }            
         }
+
+        private void validacion()
+        {
+            foreach (ToolStripMenuItem menuItem in menuStrip1.Items)
+                validacion(menuItem, null);
+        }
+
+        private void validacion(dynamic menuItem, string id)
+        {
+            using(var db = new DataADO.Proyecto1Entities())
+            {
+                var query = (from ep in db.Seguridad
+                             where ep.IdUsuario == veloz22.id
+                             select new
+                             {
+                                 ep.IdModulo,
+                                 ep.Modulos.NombreDeModulo
+
+                             }).ToList();
+
+                var padre = string.IsNullOrEmpty(id) ? null : $"{id}";
+
+                menuItem.Visible = false;
+
+                foreach(var permisoUsers in query)
+                {
+                    if (string.Equals(permisoUsers.NombreDeModulo.ToString(), menuItem.Text, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        padre = permisoUsers.IdModulo.ToString();
+                        menuItem.Visible = true;
+                    }
+                }
+                if (menuItem.GetType() != typeof(MenuStrip))
+                    return;
+
+                foreach (var item in menuItem.menuItem.Items)
+                    validacion(item, id);
+            }
+        }
+
         private DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
         private void mostrandovencimientodefacturas()
         {
@@ -184,6 +223,35 @@ namespace Proyecto1
             mostrandovencimientodefacturas();
             
         }
-        
+
+        private void listarToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            OrdenCompra.ListarOrdenCompra listarOrdenCompra = new OrdenCompra.ListarOrdenCompra()
+            {
+                MdiParent = this
+            };
+            listarOrdenCompra.Show();
+        }
+
+        private void darEntradaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OrdenCompra.OrdenCompra ordenCompra = new OrdenCompra.OrdenCompra()
+            {
+                MdiParent = this
+            };
+            ordenCompra.Show();
+        }
+        private void Agreggated()
+        {
+            this.WindowState = FormWindowState.Maximized;
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-Do");
+
+            MdiClient mdiClient;
+            foreach(Control ctl in this.Controls)
+            {
+                mdiClient = (MdiClient)ctl;
+                mdiClient.BackColor = Color.White;
+            }
+        }
     }
 }

@@ -53,6 +53,7 @@
             this.dtgvAsignarModulo.Name = "dtgvAsignarModulo";
             this.dtgvAsignarModulo.Size = new System.Drawing.Size(520, 411);
             this.dtgvAsignarModulo.TabIndex = 0;
+            this.dtgvAsignarModulo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dtgvAsignarModulo_KeyDown);
             // 
             // groupBox1
             // 

@@ -16,7 +16,7 @@ namespace Proyecto1.Modulos
         {
             InitializeComponent();
         }
-        private DataADO.Proyecto1Entities db;
+        private DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
         private DataADO.Modulos dsmodulos;
 
         private void AgsinarYModificar_Load(object sender, EventArgs e)
@@ -88,6 +88,30 @@ namespace Proyecto1.Modulos
             }                
             else
                 MessageBox.Show("Para poder continuar con el proceso antes se debe de agregar el usuario correpondiente");
+        }
+
+        private void dtgvAsignarModulo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Delete)
+            {
+                if(MessageBox.Show($"{Principal.veloz22.Nombre} esta completamente seguro de eliminar este modulo?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    foreach(DataGridViewRow row in dtgvAsignarModulo.SelectedRows)
+                    {
+                        using (var db = new DataADO.Proyecto1Entities())
+                        {
+                            int? IdMODULO = Convert.ToInt32(row.Cells["Id"].Value);
+                            var seguridad = (from d in db.Seguridad
+                                             where d.id == IdMODULO
+                                             select d).First();
+
+                            db.Seguridad.Remove(seguridad);
+                            db.SaveChanges();
+                        }
+                    }
+                    RefreshFill();
+                }
+            }
         }
     }
 }

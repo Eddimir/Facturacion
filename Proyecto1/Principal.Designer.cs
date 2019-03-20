@@ -47,6 +47,9 @@
             this.movimientoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mantenimientoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.ordenDeCompraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listarToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.darEntradaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +63,8 @@
             this.productosToolStripMenuItem,
             this.facturasToolStripMenuItem,
             this.modulosToolStripMenuItem,
-            this.almacenToolStripMenuItem});
+            this.almacenToolStripMenuItem,
+            this.ordenDeCompraToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1261, 60);
@@ -177,14 +181,14 @@
             // movimientoToolStripMenuItem
             // 
             this.movimientoToolStripMenuItem.Name = "movimientoToolStripMenuItem";
-            this.movimientoToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.movimientoToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.movimientoToolStripMenuItem.Text = "Movimiento";
             this.movimientoToolStripMenuItem.Click += new System.EventHandler(this.movimientoToolStripMenuItem_Click);
             // 
             // mantenimientoToolStripMenuItem
             // 
             this.mantenimientoToolStripMenuItem.Name = "mantenimientoToolStripMenuItem";
-            this.mantenimientoToolStripMenuItem.Size = new System.Drawing.Size(179, 24);
+            this.mantenimientoToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.mantenimientoToolStripMenuItem.Text = "Mantenimiento";
             this.mantenimientoToolStripMenuItem.Click += new System.EventHandler(this.mantenimientoToolStripMenuItem_Click);
             // 
@@ -192,6 +196,29 @@
             // 
             this.timer1.Interval = 70000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // ordenDeCompraToolStripMenuItem
+            // 
+            this.ordenDeCompraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.listarToolStripMenuItem1,
+            this.darEntradaToolStripMenuItem});
+            this.ordenDeCompraToolStripMenuItem.Name = "ordenDeCompraToolStripMenuItem";
+            this.ordenDeCompraToolStripMenuItem.Size = new System.Drawing.Size(140, 56);
+            this.ordenDeCompraToolStripMenuItem.Text = "Orden de Compra";
+            // 
+            // listarToolStripMenuItem1
+            // 
+            this.listarToolStripMenuItem1.Name = "listarToolStripMenuItem1";
+            this.listarToolStripMenuItem1.Size = new System.Drawing.Size(180, 24);
+            this.listarToolStripMenuItem1.Text = "Listar";
+            this.listarToolStripMenuItem1.Click += new System.EventHandler(this.listarToolStripMenuItem1_Click);
+            // 
+            // darEntradaToolStripMenuItem
+            // 
+            this.darEntradaToolStripMenuItem.Name = "darEntradaToolStripMenuItem";
+            this.darEntradaToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.darEntradaToolStripMenuItem.Text = "Dar entrada";
+            this.darEntradaToolStripMenuItem.Click += new System.EventHandler(this.darEntradaToolStripMenuItem_Click);
             // 
             // Principal
             // 
@@ -231,5 +258,8 @@
         private System.Windows.Forms.ToolStripMenuItem movimientoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mantenimientoToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem ordenDeCompraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listarToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem darEntradaToolStripMenuItem;
     }
 }

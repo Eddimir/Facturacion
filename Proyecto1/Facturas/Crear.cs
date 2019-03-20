@@ -98,15 +98,21 @@ namespace Proyecto1.Facturas
                         }
                         if (Existe == false)
                         {
-                            if (prod.Cantidad_Existencia <= 5)
+                            if ( partcantidad <= prod.Cantidad_Existencia)
                             {
-                                MessageBox.Show($"El producto: {Productos} se esta agotanto solo quedan: {prod.Cantidad_Existencia}");
+                                if (prod.Cantidad_Existencia <= 5)
+                                {
+                                    MessageBox.Show($"El producto: {Productos} se esta agotanto solo quedan: {prod.Cantidad_Existencia}");
+                                }
+                                dataGridView1.Rows.Add(prod.Id, prod.Producto, partcantidad, prod.Precio, prod.ITBS);
+                                dataGridView1.MultiSelect = true;
+                                partcantidad = 1;
                             }
-                            dataGridView1.Rows.Add(prod.Id, prod.Producto, partcantidad, prod.Precio, prod.ITBS);
-                            dataGridView1.MultiSelect = true;
-                            partcantidad = 1;
+                            else
+                            {
+                                MessageBox.Show($"No puede agregar una cantidad no existente del producto: {prod.Producto}","",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            }
                         }
-
                         dataGridView1.AllowUserToOrderColumns = false;
                         dataGridView1.BackgroundColor = Color.White;
                         dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;

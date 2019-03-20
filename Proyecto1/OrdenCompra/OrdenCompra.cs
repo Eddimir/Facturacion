@@ -18,6 +18,9 @@ namespace Proyecto1.OrdenCompra
         }
 
         private DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
+        private DataADO.OrdenCompra OrdenCompra1;
+        private List<DataADO.OrdenCompraDetalle> OrdenCompraDetalle;
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -35,7 +38,7 @@ namespace Proyecto1.OrdenCompra
             txtApellidoUser.Enabled = false;
 
             /*Customer*/
-            lblidcliente.Enabled = false;
+            lblidproveedor.Enabled = false;
             txtNOmbre.Enabled = false;
             txtApellido.Enabled = false;
         }
@@ -58,7 +61,7 @@ namespace Proyecto1.OrdenCompra
         {
             var cliente = db.Clientes.Find(Convert.ToInt32(id));
 
-            lblidcliente.Text = cliente.Id.ToString();
+            lblidproveedor.Text = cliente.Id.ToString();
             txtNOmbre.Text = cliente.Nombre;
             txtApellido.Text = cliente.Apellido;           
         }
@@ -127,6 +130,96 @@ namespace Proyecto1.OrdenCompra
                     pro.Cantidad_Existencia += cantidad;
                     db.SaveChanges();
                 }
+            }
+        }
+        private void Guardar()
+        {
+            if (dtgvordencompra.Rows.Count == 0)
+            {
+                MessageBox.Show("Debe de agregar un producto para poder continuar de lo contrario no podra continuar con el proceso", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (lblidproveedor.Text == "")
+            {
+                MessageBox.Show("Antes debe de agregar el cliente correpondiente de lo contrario no podra proseguir con la facturacion");
+            }
+            else
+            {
+                OrdenCompra1 = new DataADO.OrdenCompra()
+                {
+                    IdUsuario = Convert.ToInt32(lbliduser.Text),
+                    IdProveedor = Convert.ToInt32(lblidproveedor.Text),
+                    Fecha = DateTime.Now,
+                    Observaciones = txtobs.Text,
+                    Total = Convert.ToDecimal(txttotal.Text)
+                };
+                OrdenCompraDetalle = new List<DataADO.OrdenCompraDetalle>();
+                foreach(DataGridViewRow row in dtgvordencompra.Rows)
+                {
+                    OrdenCompraDetalle.Add(new DataADO.OrdenCompraDetalle()
+                    {
+                        IdProducto = Convert.ToInt32(row.Cells[0].Value),
+                        Descuento = Convert.ToDecimal(row.Cells[5].Value),
+                        Precio = Convert.ToDecimal(row.Cells[3].Value),
+                        Cantidad = Convert.ToDecimal(row.Cells[2].Value),
+                        ITBS = Convert.ToDecimal(row.Cells[4].Value),
+                        OrdenCompra = OrdenCompra1
+                    });
+                }
+
+                db.OrdenCompra.Add(OrdenCompra1);
+                db.OrdenCompraDetalle.AddRange(OrdenCompraDetalle);
+                db.SaveChanges();
+
+                Close();
+                OrdenCompra ordenCompra = new OrdenCompra();
+                ordenCompra.MdiParent = ActiveForm;
+                ordenCompra.Show();              
+            }            
+        }
+        private void Calculo()
+        {
+            decimal TotalCalculo = 0;
+            decimal SubTotal = 0;
+
+            foreach(DataGridViewRow row in dtgvordencompra.Rows)
+            {
+                decimal Precio = Convert.ToDecimal(row.Cells[3].Value);
+                decimal Cantidad = Convert.ToDecimal(row.Cells[2].Value);
+                decimal Itbs = Convert.ToDecimal(row.Cells[4].Value);
+                decimal Descuento = Convert.ToDecimal(row.Cells[5].Value);
+                decimal Total = (Precio * Cantidad) - Descuento + Itbs;
+                decimal result = (Total != 0) ? Total : Itbs;
+
+                row.Cells[6].Value = result;
+
+                TotalCalculo += Convert.ToDecimal(row.Cells["Total"].Value);
+                SubTotal += Cantidad * Precio;
+            }
+            txttotal.Text = TotalCalculo.ToString("N");
+            txtsubtotal.Text = SubTotal.ToString("N");
+
+        }
+
+        private void dtgvordencompra_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            Calculo();
+        }
+
+        private void dtgvordencompra_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            Calculo();
+        }
+
+        private void dtgvordencompra_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            Calculo();
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Esta seguro de que desea facturar la orden de compra?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Guardar();
             }
         }
     }

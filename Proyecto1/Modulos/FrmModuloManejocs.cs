@@ -85,8 +85,9 @@ namespace Proyecto1.Modulos
                     dbProyecto.Seguridad.AddRange(seguridad);
                     dbProyecto.SaveChanges();
                 }
-                MessageBox.Show("Exitoso");
                 Close();
+                MessageBox.Show("Exitoso");
+                
             }
         }
     }
