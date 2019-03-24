@@ -138,7 +138,8 @@ namespace Proyecto1.Productos
                     ITBS = Convert.ToDecimal(txtitbs.Text),
                     Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text),
                     Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text),
-                    Registro = DateTime.Now
+                    Registro = DateTime.Now,
+                    AvisarVencimiento = (ckbVencimiento.Checked == true) ? true : false
                 };
 
                 db.Productos.Add(dsproductos);

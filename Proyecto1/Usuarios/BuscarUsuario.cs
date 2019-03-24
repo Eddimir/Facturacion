@@ -16,13 +16,12 @@ namespace Proyecto1.Usuarios
         {
             InitializeComponent();
         }
-        public  Boolean buscando;
+        public  bool buscando;
 
         private void BuscarUsuario_Load(object sender, EventArgs e)
         {
-            this.CenterToScreen();
-            Fill();
-            
+            CenterToScreen();
+            Fill();           
         }
 
         private void Fill()
@@ -51,7 +50,7 @@ namespace Proyecto1.Usuarios
         public string Id;
         private void btnSeleccionar_Click(object sender, EventArgs e)
         {
-            Clientes.Clientes fr = new Clientes.Clientes();
+            //Clientes.VerClientes fr = new Clientes.VerClientes();
             if (buscando)
             {
                 Id = dataGridView1.CurrentRow.Cells[0].Value.ToString();
@@ -59,16 +58,11 @@ namespace Proyecto1.Usuarios
             }
             else
             {
-                fr.lblId.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                fr.ShowDialog();
+                //fr.lblId.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                //fr.ShowDialog();
             }
         }
 
-        private void btnNuevo_Click(object sender, EventArgs e)
-        {
-            Usuario frusuario = new Usuario();
-            frusuario.ShowDialog();
-        }
 
         private void txtfiltro_TextChanged(object sender, EventArgs e)
         {
@@ -97,6 +91,20 @@ namespace Proyecto1.Usuarios
             dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            dataGridView1.Columns[0].Visible = false;
+
+            dataGridView1.MultiSelect = true;
+            dataGridView1.AllowUserToOrderColumns = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.BackgroundColor = Color.White;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            dataGridView1.Columns[1].ReadOnly = true;
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+            dataGridView1.Columns[4].ReadOnly = true;
+            dataGridView1.Columns[5].ReadOnly = true;
         }
     }
 }

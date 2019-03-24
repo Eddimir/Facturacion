@@ -17,39 +17,11 @@ namespace Proyecto1
             InitializeComponent();
         }
      
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    this.Close();
-        //}
 
-        //private void button2_Click(object sender, EventArgs e)
-        //{
-        //    this.WindowState = FormWindowState.Minimized;
-        //}
-        //private Usuarios.BuscarUsuario first;
-
-        //private void btnUser_Click(object sender, EventArgs e)
-        //{
-        //    Usuarios.BuscarUsuario dd = new Usuarios.BuscarUsuario();
-           
-        //    ////Usuarios.BuscarUsuario dd = new Usuarios.BuscarUsuario();
-        //    ////dd.Controls.Add(this.first);
-
-        //    //this.first = new Usuarios.BuscarUsuario();
-        //    //this.SuspendLayout();
-
-        //    ////this.first.BackColor = new System.Drawing.SystemColors;
-        //    //this.first.Location = new System.Drawing.Point(98, 105);
-        //    //this.first.Size = new System.Drawing.Size(75, 16);
-            
-
-        //}
 
         private void Login_Load(object sender, EventArgs e)            
         {
-
             ModificacionCtrs();
-
         }
 
         private void btnEntrar_Click(object sender, EventArgs e)

@@ -95,11 +95,11 @@
     <Compile Include="Clientes\BuscarClientes.Designer.cs">
       <DependentUpon>BuscarClientes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Clientes\Clientes.cs">
+    <Compile Include="Clientes\VerClientes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Clientes\Clientes.Designer.cs">
-      <DependentUpon>Clientes.cs</DependentUpon>
+    <Compile Include="Clientes\VerClientes.Designer.cs">
+      <DependentUpon>VerClientes.cs</DependentUpon>
     </Compile>
     <Compile Include="DataADO\Almacen.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
@@ -325,8 +325,8 @@
     <EmbeddedResource Include="Clientes\BuscarClientes.resx">
       <DependentUpon>BuscarClientes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Clientes\Clientes.resx">
-      <DependentUpon>Clientes.cs</DependentUpon>
+    <EmbeddedResource Include="Clientes\VerClientes.resx">
+      <DependentUpon>VerClientes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturas\Crear.resx">
       <DependentUpon>Crear.cs</DependentUpon>
@@ -454,6 +454,7 @@
     <Folder Include="Cargos\" />
     <Folder Include="Ciudades\" />
     <Folder Include="Deparatamentod\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

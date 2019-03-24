@@ -94,6 +94,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCliente" Type="int" />
+          <Property Name="IdFacturacion" Type="int" />
           <Property Name="IdUsuario" Type="int" />
           <Property Name="Fecha" Type="datetime" />
           <Property Name="Monto" Type="decimal" Precision="18" Scale="2" />
@@ -345,6 +346,42 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CXC_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+          <End Role="CXC" Type="Self.CXC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CXC">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CXC_Facturacion">
+          <End Role="Facturacion" Type="Self.Facturacion" Multiplicity="0..1" />
+          <End Role="CXC" Type="Self.CXC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CXC">
+              <PropertyRef Name="IdFacturacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CXC_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="CXC" Type="Self.CXC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CXC">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Facturacion_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
           <End Role="Facturacion" Type="Self.Facturacion" Multiplicity="*" />
@@ -540,6 +577,18 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="AlmacenMovimiento" EntitySet="AlmacenMovimiento" />
           </AssociationSet>
+          <AssociationSet Name="FK_CXC_Clientes" Association="Self.FK_CXC_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="CXC" EntitySet="CXC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CXC_Facturacion" Association="Self.FK_CXC_Facturacion">
+            <End Role="Facturacion" EntitySet="Facturacion" />
+            <End Role="CXC" EntitySet="CXC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CXC_Usuarios" Association="Self.FK_CXC_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="CXC" EntitySet="CXC" />
+          </AssociationSet>
           <AssociationSet Name="FK_Facturacion_Clientes" Association="Self.FK_Facturacion_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Facturacion" EntitySet="Facturacion" />
@@ -607,6 +656,7 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <Property Name="Fecha_De_Registro" Type="DateTime" Precision="3" />
           <Property Name="Correo" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Facturacion" Relationship="DbConexion.FK_Facturacion_Clientes" FromRole="Clientes" ToRole="Facturacion" />
+          <NavigationProperty Name="CXC" Relationship="DbConexion.FK_CXC_Clientes" FromRole="Clientes" ToRole="CXC" />
         </EntityType>
         <EntityType Name="Divisas">
           <Key>
@@ -657,11 +707,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="AlmacenMovimiento" EntitySet="AlmacenMovimiento" />
           </AssociationSet>
-          <EntitySet Name="OrdenCompra" EntityType="DbConexion.OrdenCompra" />
-          <AssociationSet Name="FK_OrdenCompra_Proveedores" Association="DbConexion.FK_OrdenCompra_Proveedores">
-            <End Role="Proveedores" EntitySet="Proveedores" />
-            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
-          </AssociationSet>
           <EntitySet Name="Productos" EntityType="DbConexion.Productos" />
           <AssociationSet Name="FK_FacturacionDetalle_Productos" Association="DbConexion.FK_FacturacionDetalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
@@ -700,10 +745,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="Facturacion" EntitySet="Facturacion" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdenCompra_Usuarios" Association="DbConexion.FK_OrdenCompra_Usuarios">
-            <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
-          </AssociationSet>
           <AssociationSet Name="FK_Seguridad_Usuarios1" Association="DbConexion.FK_Seguridad_Usuarios1">
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="Seguridad" EntitySet="Seguridad" />
@@ -718,12 +759,33 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             <End Role="AlmacenMovimiento" EntitySet="AlmacenMovimiento" />
             <End Role="AlmacenDetalle" EntitySet="AlmacenDetalle" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdenCompraDetalle_OrdenCompra" Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra">
-            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
-            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrdenCompraDetalle_Productos" Association="DbConexion.FK_OrdenCompraDetalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
+            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
+          </AssociationSet>
+          <EntitySet Name="OrdenCompra" EntityType="DbConexion.OrdenCompra" />
+          <AssociationSet Name="FK_CXC_Clientes" Association="DbConexion.FK_CXC_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="CXC" EntitySet="CXC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CXC_Facturacion" Association="DbConexion.FK_CXC_Facturacion">
+            <End Role="Facturacion" EntitySet="Facturacion" />
+            <End Role="CXC" EntitySet="CXC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CXC_Usuarios" Association="DbConexion.FK_CXC_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="CXC" EntitySet="CXC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompra_Proveedores" Association="DbConexion.FK_OrdenCompra_Proveedores">
+            <End Role="Proveedores" EntitySet="Proveedores" />
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompra_Usuarios" Association="DbConexion.FK_OrdenCompra_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompraDetalle_OrdenCompra" Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra">
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
             <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
           </AssociationSet>
           </EntityContainer>
@@ -829,6 +891,10 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <Property Name="IdUsuario" Type="Int32" />
           <Property Name="Fecha" Type="DateTime" Precision="3" />
           <Property Name="Monto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdFacturacion" Type="Int32" />
+          <NavigationProperty Name="Clientes" Relationship="DbConexion.FK_CXC_Clientes" FromRole="CXC" ToRole="Clientes" />
+          <NavigationProperty Name="Facturacion" Relationship="DbConexion.FK_CXC_Facturacion" FromRole="CXC" ToRole="Facturacion" />
+          <NavigationProperty Name="Usuarios" Relationship="DbConexion.FK_CXC_Usuarios" FromRole="CXC" ToRole="Usuarios" />
         </EntityType>
         <EntityType Name="Sueldos">
           <Key>
@@ -863,32 +929,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="AlmacenMovimiento">
-              <PropertyRef Name="IdProveedor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="OrdenCompra">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdUsuario" Type="Int32" />
-          <Property Name="IdProveedor" Type="Int32" />
-          <Property Name="Observaciones" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Fecha" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Proveedores" Relationship="DbConexion.FK_OrdenCompra_Proveedores" FromRole="OrdenCompra" ToRole="Proveedores" />
-          <NavigationProperty Name="Usuarios" Relationship="DbConexion.FK_OrdenCompra_Usuarios" FromRole="OrdenCompra" ToRole="Usuarios" />
-          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompra" ToRole="OrdenCompraDetalle" />
-        </EntityType>
-        <Association Name="FK_OrdenCompra_Proveedores">
-          <End Type="DbConexion.Proveedores" Role="Proveedores" Multiplicity="0..1" />
-          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Proveedores">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenCompra">
               <PropertyRef Name="IdProveedor" />
             </Dependent>
           </ReferentialConstraint>
@@ -1005,6 +1045,7 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <NavigationProperty Name="TipoDePago" Relationship="DbConexion.FK_Facturacion_TipoDePago" FromRole="Facturacion" ToRole="TipoDePago" />
           <NavigationProperty Name="FacturacionDetalle" Relationship="DbConexion.FK_FacturacionDetalle_Facturacion" FromRole="Facturacion" ToRole="FacturacionDetalle" />
           <NavigationProperty Name="Usuarios" Relationship="DbConexion.FK_Facturacion_Usuarios" FromRole="Facturacion" ToRole="Usuarios" />
+          <NavigationProperty Name="CXC" Relationship="DbConexion.FK_CXC_Facturacion" FromRole="Facturacion" ToRole="CXC" />
         </EntityType>
         <Association Name="FK_Facturacion_Clientes">
           <End Type="DbConexion.Clientes" Role="Clientes" Multiplicity="0..1" />
@@ -1060,8 +1101,9 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <NavigationProperty Name="AlmacenMovimiento" Relationship="DbConexion.FK_AlmacenMovimiento_Usuarios" FromRole="Usuarios" ToRole="AlmacenMovimiento" />
           <NavigationProperty Name="Cargos" Relationship="DbConexion.FK_Usuarios_Cargos" FromRole="Usuarios" ToRole="Cargos" />
           <NavigationProperty Name="Facturacion" Relationship="DbConexion.FK_Facturacion_Usuarios" FromRole="Usuarios" ToRole="Facturacion" />
-          <NavigationProperty Name="OrdenCompra" Relationship="DbConexion.FK_OrdenCompra_Usuarios" FromRole="Usuarios" ToRole="OrdenCompra" />
           <NavigationProperty Name="Seguridad" Relationship="DbConexion.FK_Seguridad_Usuarios1" FromRole="Usuarios" ToRole="Seguridad" />
+          <NavigationProperty Name="CXC" Relationship="DbConexion.FK_CXC_Usuarios" FromRole="Usuarios" ToRole="CXC" />
+          <NavigationProperty Name="OrdenCompra" Relationship="DbConexion.FK_OrdenCompra_Usuarios" FromRole="Usuarios" ToRole="OrdenCompra" />
         </EntityType>
         <Association Name="FK_AlmacenMovimiento_Usuarios">
           <End Type="DbConexion.Usuarios" Role="Usuarios" Multiplicity="1" />
@@ -1096,18 +1138,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             </Principal>
             <Dependent Role="Facturacion">
               <PropertyRef Name="idUsario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenCompra_Usuarios">
-          <End Type="DbConexion.Usuarios" Role="Usuarios" Multiplicity="0..1" />
-          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuarios">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenCompra">
-              <PropertyRef Name="IdUsuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1149,8 +1179,8 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <Property Name="ITBS" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Descuento" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="OrdenCompra" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompraDetalle" ToRole="OrdenCompra" />
           <NavigationProperty Name="Productos" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="OrdenCompraDetalle" ToRole="Productos" />
+          <NavigationProperty Name="OrdenCompra" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompraDetalle" ToRole="OrdenCompra" />
         </EntityType>
         <Association Name="FK_AlmacenDetalle_Almacen">
           <End Type="DbConexion.Almacen" Role="Almacen" Multiplicity="0..1" />
@@ -1176,18 +1206,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrdenCompraDetalle_OrdenCompra">
-          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="0..1" />
-          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrdenCompra">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenCompraDetalle">
-              <PropertyRef Name="IdOrdenCompra" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrdenCompraDetalle_Productos">
           <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
           <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
@@ -1197,6 +1215,92 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
             </Principal>
             <Dependent Role="OrdenCompraDetalle">
               <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrdenCompra">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="IdProveedor" Type="Int32" />
+          <Property Name="Observaciones" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Proveedores" Relationship="DbConexion.FK_OrdenCompra_Proveedores" FromRole="OrdenCompra" ToRole="Proveedores" />
+          <NavigationProperty Name="Usuarios" Relationship="DbConexion.FK_OrdenCompra_Usuarios" FromRole="OrdenCompra" ToRole="Usuarios" />
+          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompra" ToRole="OrdenCompraDetalle" />
+        </EntityType>
+        <Association Name="FK_CXC_Clientes">
+          <End Type="DbConexion.Clientes" Role="Clientes" Multiplicity="0..1" />
+          <End Type="DbConexion.CXC" Role="CXC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CXC">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CXC_Facturacion">
+          <End Type="DbConexion.Facturacion" Role="Facturacion" Multiplicity="0..1" />
+          <End Type="DbConexion.CXC" Role="CXC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CXC">
+              <PropertyRef Name="IdFacturacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CXC_Usuarios">
+          <End Type="DbConexion.Usuarios" Role="Usuarios" Multiplicity="0..1" />
+          <End Type="DbConexion.CXC" Role="CXC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CXC">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompra_Proveedores">
+          <End Type="DbConexion.Proveedores" Role="Proveedores" Multiplicity="0..1" />
+          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenCompra">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompra_Usuarios">
+          <End Type="DbConexion.Usuarios" Role="Usuarios" Multiplicity="0..1" />
+          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenCompra">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompraDetalle_OrdenCompra">
+          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="0..1" />
+          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenCompraDetalle">
+              <PropertyRef Name="IdOrdenCompra" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1329,6 +1433,7 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
           <EntitySetMapping Name="CXC">
             <EntityTypeMapping TypeName="DbConexion.CXC">
               <MappingFragment StoreEntitySet="CXC">
+                <ScalarProperty Name="IdFacturacion" ColumnName="IdFacturacion" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
@@ -1358,18 +1463,6 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrdenCompra">
-            <EntityTypeMapping TypeName="DbConexion.OrdenCompra">
-              <MappingFragment StoreEntitySet="OrdenCompra">
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1516,6 +1609,18 @@ advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene de
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="IdOrdenCompra" ColumnName="IdOrdenCompra" />
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdenCompra">
+            <EntityTypeMapping TypeName="DbConexion.OrdenCompra">
+              <MappingFragment StoreEntitySet="OrdenCompra">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

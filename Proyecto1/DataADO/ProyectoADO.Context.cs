@@ -39,7 +39,6 @@ namespace Proyecto1.DataADO
         public virtual DbSet<CXC> CXC { get; set; }
         public virtual DbSet<Sueldos> Sueldos { get; set; }
         public virtual DbSet<Proveedores> Proveedores { get; set; }
-        public virtual DbSet<OrdenCompra> OrdenCompra { get; set; }
         public virtual DbSet<Productos> Productos { get; set; }
         public virtual DbSet<Cargos> Cargos { get; set; }
         public virtual DbSet<Ciudades> Ciudades { get; set; }
@@ -52,5 +51,6 @@ namespace Proyecto1.DataADO
         public virtual DbSet<Usuarios> Usuarios { get; set; }
         public virtual DbSet<AlmacenDetalle> AlmacenDetalle { get; set; }
         public virtual DbSet<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
+        public virtual DbSet<OrdenCompra> OrdenCompra { get; set; }
     }
 }

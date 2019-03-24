@@ -22,7 +22,7 @@ namespace Proyecto1.DataADO
         public Nullable<decimal> Descuento { get; set; }
         public Nullable<decimal> Precio { get; set; }
     
-        public virtual OrdenCompra OrdenCompra { get; set; }
         public virtual Productos Productos { get; set; }
+        public virtual OrdenCompra OrdenCompra { get; set; }
     }
 }

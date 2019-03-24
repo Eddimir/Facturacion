@@ -127,8 +127,8 @@ namespace Proyecto1.Facturas
         }
         private void btnCliente_Click(object sender, EventArgs e)
         {
-            Clientes.BuscarClientes cli = new Clientes.BuscarClientes();
-            cli.buscandi = true;
+            Clientes.VerClientes cli = new Clientes.VerClientes();
+            cli.Buscando = true;
             cli.ShowDialog();
 
             if (cli.id != null)
@@ -509,7 +509,7 @@ namespace Proyecto1.Facturas
 
         private void ckbPagada_Click(object sender, EventArgs e)
         {
-            if(ckbPagada.Checked == true)
+            if(ckbPagada.Checked)
             {
                 dtfechavencimiento.Visible = false;
                 label4.Visible = false;

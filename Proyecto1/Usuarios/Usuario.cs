@@ -48,6 +48,11 @@ namespace Proyecto1
 
             lblId.Text = dsUsuarios.Id.ToString();
             estatus = estatus.Modificando;
+
+            Close();
+            Usuario fr = new Usuario();
+            fr.MdiParent = ActiveForm;
+            fr.Show();
         }
         private void Actualizar(int id)
         {
@@ -124,6 +129,7 @@ namespace Proyecto1
 
             dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
             FillFiltro();
+            autoajuste();
            
         }
         private void FillFiltro()
@@ -143,6 +149,21 @@ namespace Proyecto1
             dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataGridView1.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            dataGridView1.Columns[0].Visible = false;
+
+            dataGridView1.MultiSelect = true;
+            dataGridView1.AllowUserToOrderColumns = false;
+            dataGridView1.BackgroundColor = Color.White;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            dataGridView1.Columns[1].ReadOnly = true;
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+            dataGridView1.Columns[4].ReadOnly = true;
+            dataGridView1.Columns[5].ReadOnly = true;
+            dataGridView1.Columns[6].ReadOnly = true;
+            dataGridView1.Columns[7].ReadOnly = true;
         }
 
         private IEnumerable<object> RefreshFill()
@@ -204,22 +225,22 @@ namespace Proyecto1
             }
             catch (Exception ex) { MessageBox.Show("El registro del proveedor no puede ser eliminado debido a que este esta asociado a otros registros y dicha accion puede general problemas en los registros asociados.." + ex.Message); }
         }
-        //private void FillPuestos()
-        //{
-        //    using(db = new DataADO.Proyecto1Entities())
-        //    {
-        //        var puestos = from h in db.Puestos
-        //                      select new
-        //                      {
-        //                          h.Id,
-        //                          h.Puesto
-        //                      };
+        private void FillPuestos()
+        {
+            using (db = new DataADO.Proyecto1Entities())
+            {
+                var puestos = from h in db.Puestos
+                              select new
+                              {
+                                  h.Id,
+                                  h.Puesto
+                              };
 
-        //        cmbPuestos.DataSource = puestos.ToList();
-        //        cmbPuestos.DisplayMember = "Puesto";
-        //        cmbPuestos.ValueMember = "Id";
+                cmbPuestos.DataSource = puestos.ToList();
+                cmbPuestos.DisplayMember = "Puesto";
+                cmbPuestos.ValueMember = "Id";
 
-        //    }
-        //}
+            }
+        }
     }
 }

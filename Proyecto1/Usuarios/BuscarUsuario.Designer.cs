@@ -30,14 +30,13 @@
         {
             this.btnSeleccionar = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btnNuevo = new System.Windows.Forms.Button();
             this.txtfiltro = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSeleccionar
             // 
-            this.btnSeleccionar.Location = new System.Drawing.Point(691, 362);
+            this.btnSeleccionar.Location = new System.Drawing.Point(775, 362);
             this.btnSeleccionar.Name = "btnSeleccionar";
             this.btnSeleccionar.Size = new System.Drawing.Size(87, 32);
             this.btnSeleccionar.TabIndex = 2;
@@ -51,24 +50,14 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 38);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(766, 318);
+            this.dataGridView1.Size = new System.Drawing.Size(850, 318);
             this.dataGridView1.TabIndex = 3;
-            // 
-            // btnNuevo
-            // 
-            this.btnNuevo.Location = new System.Drawing.Point(12, 362);
-            this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(87, 32);
-            this.btnNuevo.TabIndex = 4;
-            this.btnNuevo.Text = "Nuevo";
-            this.btnNuevo.UseVisualStyleBackColor = true;
-            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
             // txtfiltro
             // 
             this.txtfiltro.Location = new System.Drawing.Point(12, 12);
             this.txtfiltro.Name = "txtfiltro";
-            this.txtfiltro.Size = new System.Drawing.Size(100, 20);
+            this.txtfiltro.Size = new System.Drawing.Size(129, 20);
             this.txtfiltro.TabIndex = 5;
             this.txtfiltro.TextChanged += new System.EventHandler(this.txtfiltro_TextChanged);
             // 
@@ -76,9 +65,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(790, 402);
+            this.ClientSize = new System.Drawing.Size(874, 402);
             this.Controls.Add(this.txtfiltro);
-            this.Controls.Add(this.btnNuevo);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnSeleccionar);
             this.Name = "BuscarUsuario";
@@ -93,7 +81,6 @@
         #endregion
         private System.Windows.Forms.Button btnSeleccionar;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button btnNuevo;
         private System.Windows.Forms.TextBox txtfiltro;
     }
 }

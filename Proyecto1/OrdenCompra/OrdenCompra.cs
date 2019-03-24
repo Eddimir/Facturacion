@@ -45,16 +45,16 @@ namespace Proyecto1.OrdenCompra
 
         private void btnCliente_Click(object sender, EventArgs e)
         {
-            Clientes.BuscarClientes frmclientes = new Clientes.BuscarClientes
-            {
-                buscandi = true
-            };
-            frmclientes.ShowDialog();
+            //Clientes.BuscarClientes frmclientes = new Clientes.BuscarClientes
+            //{
+            //    buscandi = true
+            //};
+            //frmclientes.ShowDialog();
 
-            if(frmclientes.id != null)
-            {
-                llenarCliente(frmclientes.id);
-            }
+            //if(frmclientes.id != null)
+            //{
+            //    //llenarCliente(frmclientes.id);
+            //}
         }
 
         private void llenarCliente(string id)
@@ -161,7 +161,7 @@ namespace Proyecto1.OrdenCompra
                         Descuento = Convert.ToDecimal(row.Cells[5].Value),
                         Precio = Convert.ToDecimal(row.Cells[3].Value),
                         Cantidad = Convert.ToDecimal(row.Cells[2].Value),
-                        ITBS = Convert.ToDecimal(row.Cells[4].Value),
+                        ITBS = Convert.ToDecimal(row.Cells[4].Value),    
                         OrdenCompra = OrdenCompra1
                     });
                 }

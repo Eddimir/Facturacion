@@ -32,7 +32,6 @@
             this.btnNuevo = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtbeneficio = new System.Windows.Forms.TextBox();
-            this.lblId = new System.Windows.Forms.Label();
             this.lblCantidad = new System.Windows.Forms.Label();
             this.txtcantidad = new System.Windows.Forms.TextBox();
             this.txtDescripcion = new System.Windows.Forms.TextBox();
@@ -44,8 +43,10 @@
             this.lblITBS = new System.Windows.Forms.Label();
             this.lblPrecio = new System.Windows.Forms.Label();
             this.lblProducto = new System.Windows.Forms.Label();
+            this.lblId = new System.Windows.Forms.Label();
             this.txtfiltro = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.ckbVencimiento = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -105,15 +106,6 @@
             this.txtbeneficio.Name = "txtbeneficio";
             this.txtbeneficio.Size = new System.Drawing.Size(90, 23);
             this.txtbeneficio.TabIndex = 24;
-            // 
-            // lblId
-            // 
-            this.lblId.AutoSize = true;
-            this.lblId.Location = new System.Drawing.Point(362, 182);
-            this.lblId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblId.Name = "lblId";
-            this.lblId.Size = new System.Drawing.Size(0, 17);
-            this.lblId.TabIndex = 17;
             // 
             // lblCantidad
             // 
@@ -210,12 +202,21 @@
             // lblProducto
             // 
             this.lblProducto.AutoSize = true;
-            this.lblProducto.Location = new System.Drawing.Point(8, 21);
+            this.lblProducto.Location = new System.Drawing.Point(11, 20);
             this.lblProducto.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblProducto.Name = "lblProducto";
             this.lblProducto.Size = new System.Drawing.Size(65, 17);
             this.lblProducto.TabIndex = 0;
             this.lblProducto.Text = "Producto";
+            // 
+            // lblId
+            // 
+            this.lblId.AutoSize = true;
+            this.lblId.Location = new System.Drawing.Point(362, 182);
+            this.lblId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblId.Name = "lblId";
+            this.lblId.Size = new System.Drawing.Size(0, 17);
+            this.lblId.TabIndex = 17;
             // 
             // txtfiltro
             // 
@@ -236,11 +237,22 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
+            // ckbVencimiento
+            // 
+            this.ckbVencimiento.AutoSize = true;
+            this.ckbVencimiento.Location = new System.Drawing.Point(623, 176);
+            this.ckbVencimiento.Name = "ckbVencimiento";
+            this.ckbVencimiento.Size = new System.Drawing.Size(104, 21);
+            this.ckbVencimiento.TabIndex = 18;
+            this.ckbVencimiento.Text = "Vencimiento";
+            this.ckbVencimiento.UseVisualStyleBackColor = true;
+            // 
             // BuscarProductos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(755, 513);
+            this.Controls.Add(this.ckbVencimiento);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.lblId);
             this.Controls.Add(this.txtfiltro);
@@ -280,5 +292,6 @@
         private System.Windows.Forms.Label lblProducto;
         private System.Windows.Forms.TextBox txtfiltro;
         private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.CheckBox ckbVencimiento;
     }
 }

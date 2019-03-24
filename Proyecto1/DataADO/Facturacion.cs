@@ -18,6 +18,7 @@ namespace Proyecto1.DataADO
         public Facturacion()
         {
             this.FacturacionDetalle = new HashSet<FacturacionDetalle>();
+            this.CXC = new HashSet<CXC>();
         }
     
         public int Id { get; set; }
@@ -42,5 +43,7 @@ namespace Proyecto1.DataADO
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FacturacionDetalle> FacturacionDetalle { get; set; }
         public virtual Usuarios Usuarios { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CXC> CXC { get; set; }
     }
 }

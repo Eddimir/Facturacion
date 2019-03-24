@@ -39,32 +39,60 @@ namespace Proyecto1.Proveedores
         }
         private void RefreSFill()
         {
-            var query = from x in db.Proveedores
+            var query = from pr in db.Proveedores
                         select new
                         {
-                            x.Id,
-                            x.Nombre,
-                            x.Apellido,
-                            x.Direccion,
-                            x.Celular,
-                            x.Cedula,
-                            x.Provincia,
-                            x.Empresa,
-                            x.Telefono_Empresa
-
+                            pr.Id,
+                            Proveedor = pr.Nombre + " " + pr.Apellido,
+                            pr.Celular,
+                            pr.Provincia,
+                            pr.Empresa
                         };
 
-            dgvProveedores.DataSource = query.ToList();
+            dgvProveedores.DataSource = query.OrderBy(x=>x.Id).ToList();
+            AutoAjuste();
 
+        }
+        private void AutoAjuste()
+        {
             dgvProveedores.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvProveedores.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvProveedores.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvProveedores.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvProveedores.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgvProveedores.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dgvProveedores.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvProveedores.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dgvProveedores.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvProveedores.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dgvProveedores.Columns[8].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvProveedores.Columns[0].Visible = false;
+
+            dgvProveedores.MultiSelect = true;
+            dgvProveedores.AllowUserToOrderColumns = false;
+            dgvProveedores.AllowUserToDeleteRows = false;
+            dgvProveedores.BackgroundColor = Color.White;
+            dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            dgvProveedores.Columns[1].ReadOnly = true;
+            dgvProveedores.Columns[2].ReadOnly = true;
+            dgvProveedores.Columns[3].ReadOnly = true;
+            dgvProveedores.Columns[4].ReadOnly = true;
+        }
+
+        private void txtfiltro_TextChanged(object sender, EventArgs e)
+        {
+            using (db = new DataADO.Proyecto1Entities())
+            {
+                var proveedor = from pr in db.Proveedores
+                                where pr.Nombre.Contains(txtfiltro.Text) || pr.Apellido.Contains(txtfiltro.Text)
+                                || pr.Empresa.Contains(txtfiltro.Text)
+                                select new
+                                {
+                                    pr.Id,
+                                    Proveedor = pr.Nombre + " " + pr.Apellido,
+                                    pr.Celular,
+                                    pr.Provincia,
+                                    pr.Empresa
+                                };
+                dgvProveedores.DataSource = proveedor.OrderBy(x => x.Id).ToList();
+
+                AutoAjuste();
+            }
         }
 
         //private void LimpiarCampos()
