@@ -19,40 +19,38 @@ namespace Proyecto1
             InitializeComponent();
         }
 
-
+        private DataADO.Proyecto1Entities db;
+        estatus estatus;
         private void Usuario_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
+            RefreshFill();
         }
-        private DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
-        private DataADO.Usuarios dsUsuarios = new DataADO.Usuarios();
-        estatus estatus;
+     
 
         private void Crear()
         {
-            dsUsuarios = new DataADO.Usuarios()
+            using (db = new DataADO.Proyecto1Entities())
             {
-                Nombre = txtNOmbre.Text,
-                Apellido = txtApellido.Text,
-                Cedula = txtCedula.Text,
-                Celular = txtCelular.Text,
-                Telefono = txtTelefono.Text,
-                Activo_estado = true,
-                Direccion = txtDireccion.Text,
-                Contrasena = txtconntrasenia.Text,
-                NombreUsuario = txtNOmbreUser.Text
-            };
+                var user = new DataADO.Usuarios()
+                {
+                    Nombre = txtNOmbre.Text,
+                    Apellido = txtApellido.Text,
+                    Cedula = txtCedula.Text,
+                    Celular = txtCelular.Text,
+                    Telefono = txtTelefono.Text,
+                    Activo_estado = true,
+                    Direccion = txtDireccion.Text,
+                    Contrasena = txtconntrasenia.Text,
+                    NombreUsuario = txtNOmbreUser.Text
+                };
 
-            db.Usuarios.Add(dsUsuarios);
-            db.SaveChanges();
+                db.Usuarios.Add(user);
+                db.SaveChanges();
 
-            lblId.Text = dsUsuarios.Id.ToString();
-            estatus = estatus.Modificando;
-
-            Close();
-            Usuario fr = new Usuario();
-            fr.MdiParent = ActiveForm;
-            fr.Show();
+                lblId.Text = user.Id.ToString();
+                estatus = estatus.Modificando;
+            }
         }
         private void Actualizar(int id)
         {
@@ -60,19 +58,18 @@ namespace Proyecto1
             {
                 using (db = new DataADO.Proyecto1Entities())
                 {
-                    dsUsuarios = db.Usuarios
+                    var user = db.Usuarios
                                 .Where(x => x.Id == id)
                                 .First();
 
-                    dsUsuarios.Nombre = txtNOmbre.Text;
-                    dsUsuarios.Apellido = txtApellido.Text;
-                    dsUsuarios.Direccion = txtDireccion.Text;
-                    dsUsuarios.Celular = txtCelular.Text;
-                    dsUsuarios.Cedula = txtCedula.Text;
-                    dsUsuarios.Telefono = txtTelefono.Text;
-                    dsUsuarios.NombreUsuario = txtNOmbreUser.Text;
-                    dsUsuarios.Contrasena = txtconntrasenia.Text;
-                    dsUsuarios.Activo_estado = ckbActivo.Checked;
+                    user.Nombre = txtNOmbre.Text;
+                    user.Direccion = txtDireccion.Text;
+                    user.Celular = txtCelular.Text;
+                    user.Cedula = txtCedula.Text;
+                    user.Telefono = txtTelefono.Text;
+                    user.NombreUsuario = txtNOmbreUser.Text;
+                    user.Contrasena = txtconntrasenia.Text;
+                    user.Activo_estado = ckbActivo.Checked;
 
                     db.SaveChanges();                   
                 }
@@ -83,21 +80,21 @@ namespace Proyecto1
         {
             using(db = new DataADO.Proyecto1Entities())
             {
-                dsUsuarios = (from e in db.Usuarios
+                var user = (from e in db.Usuarios
                               where e.Id == id
                               select e).First();
 
-                lblId.Text = dsUsuarios.Id.ToString();
+                lblId.Text = user.Id.ToString();
                 //lblPuesto.Text = dsUsuarios.IdPuesto.ToString();
-                txtNOmbre.Text = dsUsuarios.Nombre;
-                txtApellido.Text = dsUsuarios.Apellido;
-                txtCedula.Text = dsUsuarios.Cedula;
-                txtCelular.Text = dsUsuarios.Celular;
-                txtDireccion.Text = dsUsuarios.Direccion;
-                txtTelefono.Text = dsUsuarios.Telefono;
-                txtNOmbreUser.Text = dsUsuarios.NombreUsuario;
-                txtconntrasenia.Text = dsUsuarios.Contrasena;
-                ckbActivo.Checked = Convert.ToBoolean(dsUsuarios.Activo_estado);
+                txtNOmbre.Text = user.Nombre;
+                txtApellido.Text = user.Apellido;
+                txtCedula.Text = user.Cedula;
+                txtCelular.Text = user.Celular;
+                txtDireccion.Text = user.Direccion;
+                txtTelefono.Text = user.Telefono;
+                txtNOmbreUser.Text = user.NombreUsuario;
+                txtconntrasenia.Text = user.Contrasena;
+                ckbActivo.Checked = Convert.ToBoolean(user.Activo_estado);
                
                 //cmbPuestos.Text = dsUsuarios.IdPuesto.ToString();
                 
@@ -110,26 +107,34 @@ namespace Proyecto1
                 Crear();
             else
                 Actualizar(Convert.ToInt32(lblId.Text));
+
+            RefreshFill();
         }
 
         private void txtfiltro_TextChanged(object sender, EventArgs e)
         {
-            var filtro = db.Usuarios.Where(x => x.Nombre.Contains(txtfiltro.Text) || x.Apellido.Contains(txtfiltro.Text))
-                    .Select(x => new
-                    {
-                        x.Id,
-                        x.Nombre,
-                        x.Apellido,
-                        x.Cedula,
-                        x.Direccion,
-                        x.Telefono,
-                        x.Celular,
-                        x.Activo_estado
-                    });
+            try
+            {
+                using (db = new DataADO.Proyecto1Entities())
+                {
+                    var filtro = db.Usuarios.Where(x => x.Nombre.Contains(txtfiltro.Text) || x.Apellido.Contains(txtfiltro.Text))
+                            .Select(x => new
+                            {
+                                x.Id,
+                                x.Nombre,
+                                x.Apellido,
+                                x.Cedula,
+                                x.Direccion,
+                                x.Telefono,
+                                x.Celular,
+                                x.Activo_estado
+                            });
 
-            dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
-            FillFiltro();
-            autoajuste();
+                    dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
+                    autoajuste();
+                }
+            }
+            catch { }
            
         }
         private void FillFiltro()
@@ -155,7 +160,6 @@ namespace Proyecto1
             dataGridView1.MultiSelect = true;
             dataGridView1.AllowUserToOrderColumns = false;
             dataGridView1.BackgroundColor = Color.White;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
             dataGridView1.Columns[1].ReadOnly = true;
             dataGridView1.Columns[2].ReadOnly = true;
@@ -168,22 +172,25 @@ namespace Proyecto1
 
         private IEnumerable<object> RefreshFill()
         {
-            var filtro = db.Usuarios
-                    .Select(x => new
-                    {
-                        x.Id,
-                        x.Nombre,
-                        x.Apellido,
-                        x.Cedula,
-                        x.Direccion,
-                        x.Telefono,
-                        x.Celular,
-                        x.Activo_estado
-                    });
+            using (db = new DataADO.Proyecto1Entities())
+            {
+                var filtro = db.Usuarios
+                        .Select(x => new
+                        {
+                            x.Id,
+                            x.Nombre,
+                            x.Apellido,
+                            x.Cedula,
+                            x.Direccion,
+                            x.Telefono,
+                            x.Celular,
+                            x.Activo_estado
+                        });
 
-            dataGridView1.DataSource = filtro.ToList();
-            autoajuste();
-            return filtro.ToList();
+                dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
+                autoajuste();
+                return filtro.ToList();
+            }
         }
         private void Limpiar()
         {
@@ -196,6 +203,8 @@ namespace Proyecto1
             txtCelular.Text = "";
             txtNOmbreUser.Text = "";
             txtconntrasenia.Text = "";
+            txtTelefono.Text = "";
+            ckbActivo.Checked = false;
 
         }
 
@@ -203,22 +212,25 @@ namespace Proyecto1
         {
             try
             {
-                if (e.KeyCode == Keys.Delete)
+                using (db = new DataADO.Proyecto1Entities())
                 {
-                    if (lblId.Text.Length == 0)
+                    if (e.KeyCode == Keys.Delete)
                     {
-                        MessageBox.Show("Para poder continuar con la accion antes debe de seleccionar el proveedor al eliminar");
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Seguro que desea eliminar el proveedor esta accion no se podra deshacer?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        if (lblId.Text.Length == 0)
                         {
-                            var User = db.Usuarios.Find(Convert.ToInt32(lblId.Text));
-                            db.Usuarios.Attach(User);
-                            db.Usuarios.Remove(User);
-                            db.SaveChanges();
-                            MessageBox.Show("El registro fue eliminado correctamente.");
-                            RefreshFill();
+                            MessageBox.Show("Para poder continuar con la accion antes debe de seleccionar el proveedor al eliminar");
+                        }
+                        else
+                        {
+                            if (MessageBox.Show("Seguro que desea eliminar el Usuario esta accion no se podra deshacer?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                            {
+                                var User = db.Usuarios.Find(Convert.ToInt32(lblId.Text));
+                                db.Usuarios.Attach(User);
+                                db.Usuarios.Remove(User);
+                                db.SaveChanges();
+                                MessageBox.Show("El registro fue eliminado correctamente.");
+                                RefreshFill();
+                            }
                         }
                     }
                 }
@@ -241,6 +253,16 @@ namespace Proyecto1
                 cmbPuestos.ValueMember = "Id";
 
             }
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            FillFiltro();
+        }
+
+        private void btnNuevo_Click(object sender, EventArgs e)
+        {
+            Limpiar();
         }
     }
 }

@@ -28,17 +28,21 @@ namespace Proyecto1.Clientes
         }
         private void Llenar()
         {
-            var Clientes = db.Clientes
-                .Select(x => new
-                {
-                    x.Id,
-                    Cliente = x.Nombre + " " + x.Apellido,
-                    x.Edad,
-                    x.Celular,
-                    x.Correo
-                });
+            using (db = new DataADO.Proyecto1Entities())
+            {
+                var Clientes = db.Clientes               
+                    .Select(x => new
+                    {
+                        x.Id,
+                        Cliente = x.Nombre + " " + x.Apellido,
+                        x.Edad,
+                        x.Celular,
+                        x.Correo
+                    });
 
-            dtgvVer.DataSource = Clientes.OrderBy(x=>x.Id).ToList();
+                dtgvVer.DataSource = Clientes.OrderBy(x => x.Id).ToList();
+            }         
+
             autosize();
         }
         private void autosize()

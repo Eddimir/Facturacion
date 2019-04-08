@@ -17,13 +17,14 @@ namespace Proyecto1.DataADO
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Facturacion()
         {
-            this.FacturacionDetalle = new HashSet<FacturacionDetalle>();
             this.CXC = new HashSet<CXC>();
+            this.FacturacionDetalle = new HashSet<FacturacionDetalle>();
         }
     
         public int Id { get; set; }
         public Nullable<int> idUsario { get; set; }
         public Nullable<int> IdTiPoDePago { get; set; }
+        public Nullable<int> IdTipoDivisa { get; set; }
         public Nullable<int> idCliente { get; set; }
         public string Observaciones { get; set; }
         public Nullable<decimal> Total { get; set; }
@@ -37,13 +38,15 @@ namespace Proyecto1.DataADO
         public Nullable<System.DateTime> FechaAnulacion { get; set; }
         public Nullable<bool> pagada { get; set; }
         public string DetalleTipoDepago { get; set; }
+        public Nullable<decimal> MontoRecibido { get; set; }
     
         public virtual Clientes Clientes { get; set; }
-        public virtual TipoDePago TipoDePago { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FacturacionDetalle> FacturacionDetalle { get; set; }
-        public virtual Usuarios Usuarios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CXC> CXC { get; set; }
+        public virtual TipoDeDivisa TipoDeDivisa { get; set; }
+        public virtual TipoDePago TipoDePago { get; set; }
+        public virtual Usuarios Usuarios { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FacturacionDetalle> FacturacionDetalle { get; set; }
     }
 }

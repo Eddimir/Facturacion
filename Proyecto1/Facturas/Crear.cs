@@ -180,7 +180,8 @@ namespace Proyecto1.Facturas
                     DetalleTipoDepago = txtdescripcionPago.Text,
                     pagada = (ckbPagada.Checked == true) ? true : false,
                     FechaVencimiento =  (ckbPagada.Checked == false) ? Convert.ToDateTime(dtfechavencimiento.Value) : valor,
-                    Contado = (ckbContado.Checked == true) ? true : false                    
+                    Contado = (ckbContado.Checked == true) ? true : false,
+                    IdTipoDivisa = Convert.ToInt32(cmbtipodivisa.SelectedValue)
                 };
                 bool validacion = false;
                 FacturacionDetalle = new List<DataADO.FacturacionDetalle>();               
@@ -253,47 +254,88 @@ namespace Proyecto1.Facturas
             catch { }
             
         }
+
         private void Calculo()
         {
-            decimal TotalCalculo = 0;
-            decimal SubTotal = 0;
-            decimal TotalDevuelta = 0;
             try
             {
-                foreach (DataGridViewRow rows in dataGridView1.Rows)
+                decimal TotalCalculo = 0, SubTotal = 0, TotalDevuelta, cantidad, precio, Descuento, ITBS, Total;
+                decimal? /*dollar, Euro, PrecioDivisa, ItbsDivisa, Desdivisa,*/ tipodinero = 0;
+
+                db = new DataADO.Proyecto1Entities();
+                if (dataGridView1.Rows.Count >= 1)
                 {
-                    decimal cantidad = Convert.ToDecimal(rows.Cells["Cantidad"].Value);
-                    decimal precio = Convert.ToDecimal(rows.Cells["Precio"].Value);
-                    decimal Descuento = Convert.ToDecimal(rows.Cells["Descuento"].Value);
-                    decimal ITBS = Convert.ToDecimal(rows.Cells["ITBS"].Value);
-                    decimal Total =  (precio * cantidad) - Descuento + ITBS;
-                    //si es diferente de cero en caso de que no itbs
-                    decimal result = (Total != 0) ? Total : ITBS;
-
-                    rows.Cells["Total"].Value = result;
-
-                    if (cantidad != 0)
+                    foreach (DataGridViewRow rows in dataGridView1.Rows)
                     {
+
+                        var tipodivisa = db.TipoDeDivisa.Select(x => new { x.TipoDivisa, x.Valor });
+                        if (cmbtipodivisa.Text == "Dollar")
+                        {
+                            tipodinero = tipodivisa.Where(x => x.TipoDivisa == "Dollar").Select(x => x.Valor).Single();
+                        }
+                        else if (cmbtipodivisa.Text == "Euro")
+                        {
+                            tipodinero = tipodivisa.Where(x => x.TipoDivisa == "Euro").Select(x => x.Valor).Single();
+                        }
+
+
+
+                        cantidad = Convert.ToDecimal(rows.Cells["Cantidad"].Value);
+                        precio = (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? Convert.ToDecimal(rows.Cells["Precio"].Value) / Convert.ToDecimal(tipodinero) : Convert.ToDecimal(rows.Cells["Precio"].Value);
+                        Descuento = (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? Convert.ToDecimal(rows.Cells["Descuento"].Value) / (decimal)tipodinero : Convert.ToDecimal(rows.Cells["Descuento"].Value);
+                        ITBS = (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? Convert.ToDecimal(rows.Cells["ITBS"].Value) / Convert.ToDecimal(tipodinero) : Convert.ToDecimal(rows.Cells["ITBS"].Value);
+
+                        //precio = (decimal)rows.Cells["Precio"].Value;
+                        Total = (precio * cantidad) - Descuento + ITBS;
+                        decimal result = (Total != 0) ? Total : ITBS;
+
+                        //if(dataGridView1.Rows.Count >= 1)
+                        //{
+
+                        //   result = (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? result : result;
+                        //    //if (cmbtipodivisa.Text == "Dollar")
+                        //    //{
+                        //    //    result /= Convert.ToDecimal(dollar);
+
+                        //    //}
+                        //    //else if (cmbtipodivisa.Text == "Euro")
+                        //    //{
+                        //    //    result /= Convert.ToDecimal(Euro);
+                        //    //}
+                        //}
+
+                        rows.Cells["Total"].Value = result.ToString("N");
+                        //if (cmbTipoDePago.Text == "Dollar" || cmbtipodivisa.Text == "Euro")
+                        //{                           
+                        //    rows.Cells["ITBS"].Value = ITBS.ToString("N");
+                        //    rows.Cells["Precio"].Value = precio.ToString("N");
+                        //}
+
+
                         TotalCalculo += Convert.ToDecimal(rows.Cells["Total"].Value);
-                        SubTotal += cantidad * precio;
-                    }
-                }
-                txttotal.Text = TotalCalculo.ToString("N");
-                txtsubtotal.Text = SubTotal.ToString("N");
+                        SubTotal += (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? result : cantidad * precio;
+                  
 
-                //Devolucion Calculo
-                if (txttotal.Text.Length != 0)
-                {                    
-                    if (Convert.ToDecimal(txtefectivo.Text) >= TotalCalculo)
-                    {
-                        TotalDevuelta = Convert.ToDecimal(txtefectivo.Text) - TotalCalculo;
-                        txtdevuelta.Text = TotalDevuelta.ToString("N");
+                        
                     }
-                    else
+  
+                    txttotal.Text = TotalCalculo.ToString("N");
+                    txtsubtotal.Text = SubTotal.ToString("N");
+
+                    //Devolucion Calculo
+                    if (txttotal.Text.Length != 0)
                     {
-                        txtefectivo.Text = string.Empty;
-                        txtdevuelta.Text = string.Empty;
-                    }                    
+                        if (Convert.ToDecimal(txtefectivo.Text) >= TotalCalculo)
+                        {
+                            TotalDevuelta = Convert.ToDecimal(txtefectivo.Text) - TotalCalculo;
+                            txtdevuelta.Text = TotalDevuelta.ToString("N");
+                        }
+                        else
+                        {
+                            txtefectivo.Text = string.Empty;
+                            txtdevuelta.Text = string.Empty;
+                        }
+                    }
                 }
             }
             catch { }
@@ -311,9 +353,7 @@ namespace Proyecto1.Facturas
         {
             CenterToScreen();
             FillUserAndAgregatted();
-            TiposDePago();
-            //ReadOnly();
-            //refrescar();
+            TiposDePagoYDivisas();
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -386,7 +426,6 @@ namespace Proyecto1.Facturas
 
         private void dtgvFiltro_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            //idfiltro = null;
             Llenarproducto();
         }
 
@@ -491,7 +530,7 @@ namespace Proyecto1.Facturas
             }
         }
 
-        private void TiposDePago()
+        private void TiposDePagoYDivisas()
         {
             var Tipos = from t in db.TipoDePago
                         select new
@@ -505,6 +544,20 @@ namespace Proyecto1.Facturas
             cmbTipoDePago.DisplayMember = "TipoDePago1";
             cmbTipoDePago.FlatStyle = FlatStyle.Flat;
             cmbTipoDePago.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            var tipodivisa = db.TipoDeDivisa
+                               .Select(x => new
+                               {
+                                   x.Id,
+                                   x.TipoDivisa
+                               });                            
+
+            cmbtipodivisa.DataSource = tipodivisa.ToList();
+            cmbtipodivisa.ValueMember = "Id";
+            cmbtipodivisa.DisplayMember = "TipoDivisa";
+            cmbtipodivisa.FlatStyle = FlatStyle.Flat;
+            cmbtipodivisa.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbtipodivisa.SelectedIndex = 2;
         }
 
         private void ckbPagada_Click(object sender, EventArgs e)
@@ -519,6 +572,26 @@ namespace Proyecto1.Facturas
                 dtfechavencimiento.Visible = true;
                 label4.Visible = true;
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            string mensaje = "Esta seguro de que desea cancelar la factura";
+            string Eslogam = "Punto de venta en desarrollo";
+            DialogResult =  MessageBox.Show(mensaje, Eslogam, MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+
+            if (DialogResult == DialogResult.Yes)
+            {
+                Close();
+                Crear fr = new Crear();
+                fr.MdiParent = ActiveForm;
+                fr.Show();
+            }
+        }
+
+        private void cmbtipodivisa_SelectedValueChanged(object sender, EventArgs e)
+        {
+            Calculo();
         }
     }
 }

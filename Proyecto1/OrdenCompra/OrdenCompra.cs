@@ -222,5 +222,11 @@ namespace Proyecto1.OrdenCompra
                 Guardar();
             }
         }
+
+        private void btnVer_Click(object sender, EventArgs e)
+        {
+            Productos.VerProductos pro = new Productos.VerProductos();
+            pro.Show();
+        }
     }
 }

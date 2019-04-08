@@ -14,7 +14,17 @@ namespace Proyecto1.DataADO
     
     public partial class ProductosCategoria
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProductosCategoria()
+        {
+            this.Productos = new HashSet<Productos>();
+        }
+    
         public int Id { get; set; }
         public string Categoria { get; set; }
+        public string Descripcion { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Productos> Productos { get; set; }
     }
 }

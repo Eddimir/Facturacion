@@ -113,11 +113,27 @@ namespace Proyecto1.Clientes
         {
             dataGridView1.BackgroundColor = Color.White;
 
-            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+           
             dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+
+            dataGridView1.MultiSelect = true;
+            dataGridView1.AllowUserToOrderColumns = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+
+            dataGridView1.Columns[0].Visible = false;
+            dataGridView1.Columns[1].ReadOnly = true;
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+            dataGridView1.Columns[4].ReadOnly = true;
+            dataGridView1.Columns[5].ReadOnly = true;
+            dataGridView1.Columns[6].ReadOnly = true;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -182,21 +198,22 @@ namespace Proyecto1.Clientes
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if(lblApellido.Text.Length == 0)
-            {
-                Crear();
-            }
-            else
-            {
-                estatus = estatus.Modificando;
-                Actualizar(Convert.ToInt32(lblId.Text));
-            }
-            RefresFill();
+           
+                if (lblId.Text.Length == 0)
+                {
+                    Crear();
+                }
+                else
+                {
+                    Actualizar(Convert.ToInt32(lblId.Text));
+                }
+                RefresFill();
+            
         }
 
         private void Actualizar(int id)
         {
-            if(estatus == estatus.Modificando)
+            if(estatus == estatus.Modificando || estatus != estatus.Modificando)
             {
                 using(db = new DataADO.Proyecto1Entities())
                 {
@@ -226,7 +243,7 @@ namespace Proyecto1.Clientes
         {
             using(db = new DataADO.Proyecto1Entities())
             {
-                var Cliente = new DataADO.Clientes
+                var Cliente = new DataADO.Clientes()
                 {
                     Nombre = txtNOmbre.Text,
                     Apellido = txtApellido.Text,
@@ -234,21 +251,16 @@ namespace Proyecto1.Clientes
                     Cedula = txtcedula.Text,
                     Celular = txtCelular.Text,
                     Correo = txtcorreo.Text,
-                    Edad = Convert.ToInt32(txtedad.Text),
-                    Fecha_De_Registro = DateTime.Now
-
+                    Edad = (txtedad.Text.Length != 0) ? Convert.ToInt32(txtedad.Text) : 0,
+                    Fecha_De_Registro = DateTime.Today
                 };
 
                 db.Clientes.Add(Cliente);
                 db.SaveChanges();
 
-                estatus = estatus.creando;
+                estatus = estatus.Modificando;
                 lblId.Text = Cliente.Id.ToString();
-
-                Close();
-                BuscarClientes  cl = new BuscarClientes();
-                cl.MdiParent = ActiveForm;
-                cl.Show();
+         
             }
         }
 
@@ -259,24 +271,27 @@ namespace Proyecto1.Clientes
 
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (MessageBox.Show("Esta seguro que quiere eliminar el siguiente registro? " +
-             ", la accion no se podra deshacer.", "Atencion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (e.KeyCode == Keys.Delete)
             {
-                try
+                if (MessageBox.Show("Esta seguro que quiere eliminar el siguiente registro? " +
+                 ", la accion no se podra deshacer.", "Atencion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    using(db = new DataADO.Proyecto1Entities())
+                    try
                     {
-                        var Cli = db.Clientes.Find(Convert.ToInt32(lblId.Text));
+                        using (db = new DataADO.Proyecto1Entities())
+                        {
+                            var Cli = db.Clientes.Find(Convert.ToInt32(lblId.Text));
 
-                        db.Clientes.Attach(Cli);
-                        db.Clientes.Remove(Cli);
-                        db.SaveChanges();
-                        MessageBox.Show("El cliente se ha eliminado exitosamente");
-                        RefresFill();
-                    }                  
+                            db.Clientes.Attach(Cli);
+                            db.Clientes.Remove(Cli);
+                            db.SaveChanges();
+                            MessageBox.Show("El cliente se ha eliminado exitosamente");
+                            RefresFill();
+                        }
+                    }
+                    catch { MessageBox.Show("El registro no puede ser eliminado debido a que este tiene Historias", "*", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+
                 }
-                catch { MessageBox.Show("El registro no puede ser eliminado debido a que este tiene Historias", "*", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-
             }
         }
     }

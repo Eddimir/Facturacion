@@ -172,6 +172,7 @@
             this.lblId.Name = "lblId";
             this.lblId.Size = new System.Drawing.Size(0, 17);
             this.lblId.TabIndex = 17;
+            this.lblId.Visible = false;
             // 
             // txtDireccion
             // 

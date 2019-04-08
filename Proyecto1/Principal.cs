@@ -32,24 +32,20 @@ namespace Proyecto1
 
         private void usuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Usuarios.BuscarUsuario user = new Usuarios.BuscarUsuario();
-            user.MdiParent = this;
-            user.Show();
+          
         }
 
         private void Principal_Load(object sender, EventArgs e)
         {
-            this.Location = Screen.PrimaryScreen.WorkingArea.Location;
-            this.Size = Screen.PrimaryScreen.WorkingArea.Size;
+          
             //timer1.Start();
             timer1.Enabled = true;
+            Agreggated();
         }
 
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clientes.BuscarClientes fr = new Clientes.BuscarClientes();
-            fr.MdiParent = this;
-            fr.Show();
+            
         }
 
         private void proveedoresToolStripMenuItem_Click(object sender, EventArgs e)
@@ -61,9 +57,9 @@ namespace Proyecto1
 
         private void productosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var productos = new Productos.BuscarProductos();
-            productos.MdiParent = this;
-            productos.Show();
+            //var productos = new Productos.BuscarProductos();
+            //productos.MdiParent = this;
+            //productos.Show();
         }
 
         private void facturasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -82,7 +78,7 @@ namespace Proyecto1
             {
                 nombre = veloz22.Nombre;
                 contrasenia = veloz22.Contrasenia;
-                validacion();
+                //validacion();
             }
             else
             {
@@ -148,29 +144,21 @@ namespace Proyecto1
 
         private void crearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Modulos.FrmCrearModulos fr = new Modulos.FrmCrearModulos
-            {
-                MdiParent = this
-            };
-            fr.Show();
+          
         }
 
         private void agregarYModificarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Modulos.AgsinarYModificar fr = new Modulos.AgsinarYModificar
-            {
-                MdiParent = this
-            };
-            fr.Show();
+           
         }
 
         private void seleccionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Proveedores.Proveedores fr = new Proveedores.Proveedores
-            {
-                MdiParent = this
-            };
-            fr.Show();
+            //Proveedores.Proveedores fr = new Proveedores.Proveedores
+            //{
+            //    MdiParent = this
+            //};
+            //fr.Show();
 
         }
 
@@ -244,14 +232,83 @@ namespace Proyecto1
         private void Agreggated()
         {
             this.WindowState = FormWindowState.Maximized;
+            IsMdiContainer = true;
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-Do");
 
             MdiClient mdiClient;
             foreach(Control ctl in this.Controls)
             {
-                mdiClient = (MdiClient)ctl;
-                mdiClient.BackColor = Color.White;
+                try
+                {
+                    mdiClient = (MdiClient)ctl;
+                    mdiClient.BackColor = Color.White;
+                }
+                catch { }
             }
+
+            this.Location = Screen.PrimaryScreen.WorkingArea.Location;
+            this.Size = Screen.PrimaryScreen.WorkingArea.Size;
+
+            //usuarioToolStripMenuItem.Visible = false;
+            //clientesToolStripMenuItem.Visible = false;
+            //proveedoresToolStripMenuItem.Visible = false;
+            //productosToolStripMenuItem.Visible = false;
+            //facturasToolStripMenuItem.Visible = false;
+            //modulosToolStripMenuItem.Visible = false;
+            //almacenToolStripMenuItem.Visible = false;
+            //ordenDeCompraToolStripMenuItem.Visible = false;
+            //ajustesToolStripMenuItem.Visible = false;
+        }
+
+        private void mantenimientoToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Productos.BuscarProductos buscarProductos = new Productos.BuscarProductos
+            {
+                MdiParent = this
+            };
+
+            buscarProductos.Show();
+        }
+
+        private void mantenimientoToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            Usuario usuario = new Usuario
+            {
+                MdiParent = this
+            };
+            usuario.Show();
+        }
+
+        private void mantenimientoToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            Clientes.BuscarClientes fr = new Clientes.BuscarClientes();
+            fr.MdiParent = this;
+            fr.Show();
+        }
+
+        private void crearToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Modulos.FrmCrearModulos fr = new Modulos.FrmCrearModulos
+            {
+                MdiParent = this
+            };
+            fr.Show();
+        }
+
+        private void agregarYModificarToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Modulos.AgsinarYModificar fr = new Modulos.AgsinarYModificar
+            {
+                MdiParent = this
+            };
+            fr.Show();
+        }
+
+        private void categoriasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Categorias.frmcategorias fr = new Categorias.frmcategorias();
+            fr.MdiParent = this;
+            fr.Show();
         }
     }
 }

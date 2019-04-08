@@ -12,17 +12,19 @@ namespace Proyecto1.DataADO
     using System;
     using System.Collections.Generic;
     
-    public partial class OrdenCompraDetalle
+    public partial class TipoDeDivisa
     {
-        public int Id { get; set; }
-        public Nullable<int> IdProducto { get; set; }
-        public Nullable<int> IdOrdenCompra { get; set; }
-        public Nullable<decimal> Cantidad { get; set; }
-        public Nullable<decimal> ITBS { get; set; }
-        public Nullable<decimal> Descuento { get; set; }
-        public Nullable<decimal> Precio { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TipoDeDivisa()
+        {
+            this.Facturacion = new HashSet<Facturacion>();
+        }
     
-        public virtual OrdenCompra OrdenCompra { get; set; }
-        public virtual Productos Productos { get; set; }
+        public int Id { get; set; }
+        public string TipoDivisa { get; set; }
+        public Nullable<decimal> Valor { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Facturacion> Facturacion { get; set; }
     }
 }

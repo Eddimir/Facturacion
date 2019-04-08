@@ -21,8 +21,8 @@ namespace Proyecto1.DataADO
         public Nullable<decimal> Monto { get; set; }
         public Nullable<int> IdFacturacion { get; set; }
     
+        public virtual Usuarios Usuarios { get; set; }
         public virtual Clientes Clientes { get; set; }
         public virtual Facturacion Facturacion { get; set; }
-        public virtual Usuarios Usuarios { get; set; }
     }
 }

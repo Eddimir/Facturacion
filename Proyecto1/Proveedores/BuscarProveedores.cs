@@ -123,7 +123,7 @@ namespace Proyecto1.Proveedores
                 dgvProveedores.DataSource = pro.OrderBy(x => x.Id).ToList();
                 autosize();
               
-                prueba();
+                Filtro();
             }
         }
         private void Cargar(int? Id)
@@ -236,10 +236,10 @@ namespace Proyecto1.Proveedores
 
         private void dgvProveedores_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            prueba();
+            Filtro();
 
         }
-        private void prueba()
+        private void Filtro()
         {
             try
             {

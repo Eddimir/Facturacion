@@ -30,6 +30,8 @@ namespace Proyecto1.DataADO
         public string Telefono_Empresa { get; set; }
         public string Direccion { get; set; }
         public string Provincia { get; set; }
+        public string email { get; set; }
+        public string razonsocial { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AlmacenMovimiento> AlmacenMovimiento { get; set; }

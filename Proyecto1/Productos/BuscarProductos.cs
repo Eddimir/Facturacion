@@ -19,10 +19,9 @@ namespace Proyecto1.Productos
         }
 
         estatus estatus;
-        private DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
-        private DataADO.Productos dsproductos;
+        private DataADO.Proyecto1Entities db;
+        private DataADO.Productos Producto;
         public string IdProducto;
-        public string Producto;
 
         private void BuscarProductos_Load(object sender, EventArgs e)
         {
@@ -32,9 +31,9 @@ namespace Proyecto1.Productos
 
         private IEnumerable<object> RefreshFill()
         {
-            using (var prdt = new DataADO.Proyecto1Entities())
+            using (var db = new DataADO.Proyecto1Entities())
             {
-                var pro = (from d in prdt.Productos
+                var pro = (from d in db.Productos
                            select new
                            {
                                d.Id,
@@ -51,16 +50,7 @@ namespace Proyecto1.Productos
                 return pro.ToList();
             }
         }
-        private void AutoAJuste()
-        {
-            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            ReadOnly();
-        }
+   
        
 
         //private void btnSeleccionar_Click(object sender, EventArgs e)
@@ -102,6 +92,7 @@ namespace Proyecto1.Productos
             txtitbs.Text = "";
             txtproducto.Text = "";
             txtPrecio.Text = "";
+            ckbVencimiento.Checked = false;
 
         }
         private string GeneralCode()
@@ -121,72 +112,84 @@ namespace Proyecto1.Productos
 
         private void Crear()
         {
-            decimal precio = ((string.IsNullOrEmpty(txtPrecio.Text) && string.IsNullOrEmpty(txtbeneficio.Text) || string.IsNullOrEmpty(txtPrecio.Text)) == true) ? 0
-                             : Convert.ToDecimal(txtPrecio.Text) + Convert.ToDecimal(txtbeneficio.Text);
-            if (precio == 0)
+            using (db = new DataADO.Proyecto1Entities())
             {
-                MessageBox.Show("El precio  no  puede ser igual a 0, porfavor modificar el registro");
-            }
-            else if(precio != 0)
-            {
-                dsproductos = new DataADO.Productos()
+
+                decimal beneficio = (txtbeneficio.Text.Length == 0) ? 0 : Convert.ToDecimal(txtbeneficio.Text);
+                decimal Precio = (txtPrecio.Text.Length == 0) ? 0 : Convert.ToDecimal(txtPrecio.Text);
+                decimal precioTotal = ((Precio + beneficio) == 0.00m) ? 0 : Precio + beneficio;
+
+                if (precioTotal == 0)
                 {
-                    Codigo = GeneralCode(),
-                    Producto = txtproducto.Text,
-                    Despcricion = txtDescripcion.Text,
-                    Precio = precio,
-                    ITBS = Convert.ToDecimal(txtitbs.Text),
-                    Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text),
-                    Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text),
-                    Registro = DateTime.Now,
-                    AvisarVencimiento = (ckbVencimiento.Checked == true) ? true : false
-                };
+                    MessageBox.Show("El precio  no  puede ser igual a 0, porfavor modificar el registro");
+                }
+                else if (precioTotal != 0)
+                {
+                   var  Producto = new DataADO.Productos
+                   {
+                        Codigo = GeneralCode(),
+                        Producto = txtproducto.Text,
+                        Despcricion = txtDescripcion.Text,
+                        Precio = precioTotal,
+                        ITBS = (txtitbs.Text.Length == 0) ? 0 : Convert.ToDecimal(txtitbs.Text),
+                        Cantidad_Existencia = (txtcantidad.Text.Length == 0) ? 0 : Convert.ToDecimal(txtcantidad.Text),
+                        Margen_Beneficio = beneficio,
+                        Registro = DateTime.Now,
+                        AvisarVencimiento = (ckbVencimiento.Checked == true) ? true : false
+                    };
 
-                db.Productos.Add(dsproductos);
-                db.SaveChanges();
+                    db.Productos.Add(Producto);
+                    db.SaveChanges();
 
-                estatus = estatus.Modificando;
-                lblId.Text = dsproductos.Id.ToString();
-                RefreshFill();
+                    estatus = estatus.Modificando;
+                    lblId.Text = Producto.Id.ToString();
+                    RefreshFill();
+                }
             }
         }
 
         private void actualizar(int id)
         {
-            if (estatus == estatus.Modificando || estatus != estatus.Modificando)
+            using (db = new DataADO.Proyecto1Entities())
             {
-                //decimal precio = Convert.ToDecimal(txtPrecio.Text) + Convert.ToDecimal(txtbeneficio.Text);
+                if (estatus == estatus.Modificando || estatus != estatus.Modificando)
+                {
+                    //decimal precio = Convert.ToDecimal(txtPrecio.Text) + Convert.ToDecimal(txtbeneficio.Text);
 
-                dsproductos = (from pro in db.Productos
-                               where pro.Id == id
-                               select pro).First();
+                    var Producto = (from pro in db.Productos
+                                    where pro.Id == id
+                                    select pro).First();
 
-                dsproductos.Producto = txtproducto.Text;
-                dsproductos.Despcricion = txtDescripcion.Text;
-                dsproductos.Precio = Convert.ToDecimal(txtPrecio.Text);
-                dsproductos.ITBS = Convert.ToDecimal(txtitbs.Text);
-                dsproductos.Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text);
-                dsproductos.Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text);
+                    Producto.Producto = txtproducto.Text;
+                    Producto.Despcricion = txtDescripcion.Text;
+                    Producto.Precio = Convert.ToDecimal(txtPrecio.Text);
+                    Producto.ITBS = Convert.ToDecimal(txtitbs.Text);
+                    Producto.Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text);
+                    Producto.Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text);
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
             RefreshFill();
         }
         private void Cargar(int? id)
         {
-            if (id != null)
+            using (db = new DataADO.Proyecto1Entities())
             {
-                dsproductos = (from p in db.Productos
-                               where p.Id == id
-                               select p).First();
+                if (id != null)
+                {
+                    var Producto = (from p in db.Productos
+                                    where p.Id == id
+                                    select p).First();
 
-                lblId.Text = dsproductos.Id.ToString();
-                txtproducto.Text = dsproductos.Producto;
-                txtDescripcion.Text = dsproductos.Despcricion;
-                txtPrecio.Text = dsproductos.Precio.ToString();
-                txtitbs.Text = dsproductos.ITBS.ToString();
-                txtbeneficio.Text = dsproductos.Margen_Beneficio.ToString();
-                txtcantidad.Text = dsproductos.Cantidad_Existencia.ToString();
+                    lblId.Text = Producto.Id.ToString();
+                    txtproducto.Text = Producto.Producto;
+                    txtDescripcion.Text = Producto.Despcricion;
+                    txtPrecio.Text = Producto.Precio.ToString();
+                    txtitbs.Text = Producto.ITBS.ToString();
+                    txtbeneficio.Text = Producto.Margen_Beneficio.ToString();
+                    txtcantidad.Text = Producto.Cantidad_Existencia.ToString();
+                }
             }
         }
 
@@ -200,25 +203,30 @@ namespace Proyecto1.Productos
             {
                 actualizar(Convert.ToInt32(lblId.Text));
             }
+            RefreshFill();
+           
         }
 
         private void txtfiltro_TextChanged(object sender, EventArgs e)
         {
-            var pro = (from d in db.Productos
-                       where d.Producto.Contains(txtfiltro.Text) || d.Despcricion.Contains(txtfiltro.Text)
-                       select new
-                       {
-                           d.Id,
-                           d.Producto,
-                           d.Precio,
-                           d.ITBS,
-                           d.Despcricion,
-                           d.Cantidad_Existencia
-                       });
+            using (db = new DataADO.Proyecto1Entities())
+            {
+                var pro = (from d in db.Productos
+                           where d.Producto.Contains(txtfiltro.Text) || d.Despcricion.Contains(txtfiltro.Text)
+                           select new
+                           {
+                               d.Id,
+                               d.Producto,
+                               d.Precio,
+                               d.ITBS,
+                               d.Despcricion,
+                               d.Cantidad_Existencia
+                           });
 
-            dataGridView1.DataSource = pro.ToList();
-            AutoAJuste();
-            CargaFiltro();
+                dataGridView1.DataSource = pro.ToList();
+                AutoAJuste();
+                
+            }
 
         }
         private void CargaFiltro()
@@ -246,6 +254,28 @@ namespace Proyecto1.Productos
 
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+         
+        }
+
+        private void AutoAJuste()
+        {
+            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            dataGridView1.MultiSelect = true;
+            dataGridView1.AllowUserToOrderColumns = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+
+            dataGridView1.Columns[0].Visible = false;
+            ReadOnly();
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             CargaFiltro();
         }

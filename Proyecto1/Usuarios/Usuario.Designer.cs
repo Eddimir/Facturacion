@@ -107,6 +107,7 @@
             this.lblId.Name = "lblId";
             this.lblId.Size = new System.Drawing.Size(0, 13);
             this.lblId.TabIndex = 17;
+            this.lblId.Visible = false;
             // 
             // txtDireccion
             // 
@@ -276,6 +277,7 @@
             this.btnNuevo.TabIndex = 8;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
+            this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
             // dataGridView1
             // 
@@ -285,6 +287,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(717, 229);
             this.dataGridView1.TabIndex = 7;
+            this.dataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEnter);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 
             // Usuario

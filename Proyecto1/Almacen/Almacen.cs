@@ -75,6 +75,7 @@ namespace Proyecto1.Almacen
             Cargar(id);
         }
 
+
         private void Cargar(int? id)
         {
             if (id != null)
@@ -93,12 +94,23 @@ namespace Proyecto1.Almacen
         }
         private void Autosize()
         {
-            dtgvAlmacen.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dtgvAlmacen.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dtgvAlmacen.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dtgvAlmacen.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dtgvAlmacen.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dtgvAlmacen.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            dtgvAlmacen.MultiSelect = true;
+            dtgvAlmacen.AllowUserToOrderColumns = false;
+            dtgvAlmacen.AllowUserToDeleteRows = false;
+            dtgvAlmacen.BackgroundColor = Color.White;
+
+            dtgvAlmacen.Columns[0].Visible = false;
+            dtgvAlmacen.Columns[1].ReadOnly = true;
+            dtgvAlmacen.Columns[2].ReadOnly = true;
+            dtgvAlmacen.Columns[3].ReadOnly = true;
+            dtgvAlmacen.Columns[4].ReadOnly = true;
+            dtgvAlmacen.Columns[5].ReadOnly = true;
         }
         private void Crear()
         {

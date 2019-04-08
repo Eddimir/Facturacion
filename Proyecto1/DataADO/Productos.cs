@@ -22,6 +22,7 @@ namespace Proyecto1.DataADO
         }
     
         public int Id { get; set; }
+        public Nullable<int> IdCategoria { get; set; }
         public string Codigo { get; set; }
         public string Producto { get; set; }
         public decimal Precio { get; set; }
@@ -32,10 +33,12 @@ namespace Proyecto1.DataADO
         public Nullable<System.DateTime> Registro { get; set; }
         public Nullable<bool> AvisarVencimiento { get; set; }
         public Nullable<int> DiasParaAvisar { get; set; }
+        public byte[] Imagen { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FacturacionDetalle> FacturacionDetalle { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
+        public virtual ProductosCategoria ProductosCategoria { get; set; }
     }
 }

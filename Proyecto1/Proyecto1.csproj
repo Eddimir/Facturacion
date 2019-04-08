@@ -88,6 +88,18 @@
     <Compile Include="Almacen\AlmacenMovimiento.Designer.cs">
       <DependentUpon>AlmacenMovimiento.cs</DependentUpon>
     </Compile>
+    <Compile Include="Categorias\frmcategorias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Categorias\frmcategorias.Designer.cs">
+      <DependentUpon>frmcategorias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Categorias\ListadoCategoria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Categorias\ListadoCategoria.Designer.cs">
+      <DependentUpon>ListadoCategoria.cs</DependentUpon>
+    </Compile>
     <Compile Include="Clases\Veloz.cs" />
     <Compile Include="Clientes\BuscarClientes.cs">
       <SubType>Form</SubType>
@@ -129,9 +141,6 @@
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\Departamentos.cs">
-      <DependentUpon>ProyectoADO.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataADO\Divisas.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\Empresas.cs">
@@ -186,6 +195,9 @@
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\sysdiagrams.cs">
+      <DependentUpon>ProyectoADO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataADO\TipoDeDivisa.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
     <Compile Include="DataADO\TipoDePago.cs">
@@ -322,6 +334,12 @@
     <EmbeddedResource Include="Almacen\AlmacenMovimiento.resx">
       <DependentUpon>AlmacenMovimiento.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Categorias\frmcategorias.resx">
+      <DependentUpon>frmcategorias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Categorias\ListadoCategoria.resx">
+      <DependentUpon>ListadoCategoria.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Clientes\BuscarClientes.resx">
       <DependentUpon>BuscarClientes.cs</DependentUpon>
     </EmbeddedResource>
@@ -436,6 +454,13 @@
       <DependentUpon>ProyectoADO.edmx</DependentUpon>
       <LastGenOutput>ProyectoADO.cs</LastGenOutput>
     </Content>
+    <Content Include="Imagenes\bill.png" />
+    <Content Include="Imagenes\lock.png" />
+    <Content Include="Imagenes\product.png" />
+    <Content Include="Imagenes\service.png" />
+    <Content Include="Imagenes\settings.png" />
+    <Content Include="Imagenes\shopping-cart.png" />
+    <Content Include="Imagenes\warehouse.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
