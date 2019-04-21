@@ -164,7 +164,7 @@ namespace Proyecto1
 
         private void proToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Proveedores.BuscarProveedores fr = new Proveedores.BuscarProveedores
+            Proveedores.verProveedores fr = new Proveedores.verProveedores
             {
                 MdiParent = this
             };
@@ -248,21 +248,24 @@ namespace Proyecto1
 
             this.Location = Screen.PrimaryScreen.WorkingArea.Location;
             this.Size = Screen.PrimaryScreen.WorkingArea.Size;
-
-            //usuarioToolStripMenuItem.Visible = false;
-            //clientesToolStripMenuItem.Visible = false;
-            //proveedoresToolStripMenuItem.Visible = false;
-            //productosToolStripMenuItem.Visible = false;
-            //facturasToolStripMenuItem.Visible = false;
-            //modulosToolStripMenuItem.Visible = false;
-            //almacenToolStripMenuItem.Visible = false;
-            //ordenDeCompraToolStripMenuItem.Visible = false;
-            //ajustesToolStripMenuItem.Visible = false;
+            olcultando();
+            
+        }
+        private void olcultando() {
+            usuarioToolStripMenuItem.Visible = false;
+            clientesToolStripMenuItem.Visible = false;
+            proveedoresToolStripMenuItem.Visible = false;
+            productosToolStripMenuItem.Visible = false;
+            facturasToolStripMenuItem.Visible = false;
+            modulosToolStripMenuItem.Visible = false;
+            almacenToolStripMenuItem.Visible = false;
+            ordenDeCompraToolStripMenuItem.Visible = false;
+            ajustesToolStripMenuItem.Visible = false;
         }
 
         private void mantenimientoToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Productos.BuscarProductos buscarProductos = new Productos.BuscarProductos
+            Productos.VerProductos buscarProductos = new Productos.VerProductos
             {
                 MdiParent = this
             };
@@ -281,7 +284,7 @@ namespace Proyecto1
 
         private void mantenimientoToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            Clientes.BuscarClientes fr = new Clientes.BuscarClientes();
+            Clientes.VerClientes fr = new Clientes.VerClientes();
             fr.MdiParent = this;
             fr.Show();
         }
@@ -309,6 +312,24 @@ namespace Proyecto1
             Categorias.frmcategorias fr = new Categorias.frmcategorias();
             fr.MdiParent = this;
             fr.Show();
+        }
+
+        private void CambiarCuentaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            olcultando();
+            Login fr = new Login();
+            fr.ShowDialog();
+
+            if (veloz22 != null)
+            {
+                nombre = veloz22.Nombre;
+                contrasenia = veloz22.Contrasenia;
+                validacion();
+            }
+            else
+            {
+                Application.Exit();
+            }
         }
     }
 }

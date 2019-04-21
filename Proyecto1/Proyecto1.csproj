@@ -42,8 +42,11 @@
     <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportViewer.Runtime.Common.12.0.2402.15\lib\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
@@ -51,9 +54,11 @@
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -106,6 +111,12 @@
     </Compile>
     <Compile Include="Clientes\BuscarClientes.Designer.cs">
       <DependentUpon>BuscarClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Clientes\Clientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Clientes\Clientes.Designer.cs">
+      <DependentUpon>Clientes.cs</DependentUpon>
     </Compile>
     <Compile Include="Clientes\VerClientes.cs">
       <SubType>Form</SubType>
@@ -253,6 +264,12 @@
     <Compile Include="Modulos\FrmModuloManejocs.Designer.cs">
       <DependentUpon>FrmModuloManejocs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modulos\verMordulos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modulos\verMordulos.Designer.cs">
+      <DependentUpon>verMordulos.cs</DependentUpon>
+    </Compile>
     <Compile Include="OrdenCompra\ListarOrdenCompra.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -301,6 +318,12 @@
     <Compile Include="Proveedores\Proveedores.Designer.cs">
       <DependentUpon>Proveedores.cs</DependentUpon>
     </Compile>
+    <Compile Include="Proveedores\verProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Proveedores\verProveedores.Designer.cs">
+      <DependentUpon>verProveedores.cs</DependentUpon>
+    </Compile>
     <Compile Include="Puestos\frmRolUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,11 +337,11 @@
       <DependentUpon>ReportesGenerales.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <Compile Include="Usuarios\BuscarUsuario.cs">
+    <Compile Include="Usuarios\verUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Usuarios\BuscarUsuario.Designer.cs">
-      <DependentUpon>BuscarUsuario.cs</DependentUpon>
+    <Compile Include="Usuarios\verUsuario.Designer.cs">
+      <DependentUpon>verUsuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Usuarios\Usuario.cs">
       <SubType>Form</SubType>
@@ -342,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Clientes\BuscarClientes.resx">
       <DependentUpon>BuscarClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Clientes\Clientes.resx">
+      <DependentUpon>Clientes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Clientes\VerClientes.resx">
       <DependentUpon>VerClientes.cs</DependentUpon>
@@ -368,6 +394,9 @@
     <EmbeddedResource Include="Modulos\FrmModuloManejocs.resx">
       <DependentUpon>FrmModuloManejocs.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modulos\verMordulos.resx">
+      <DependentUpon>verMordulos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OrdenCompra\ListarOrdenCompra.resx">
       <DependentUpon>ListarOrdenCompra.cs</DependentUpon>
     </EmbeddedResource>
@@ -392,15 +421,17 @@
     <EmbeddedResource Include="Proveedores\Proveedores.resx">
       <DependentUpon>Proveedores.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Proveedores\verProveedores.resx">
+      <DependentUpon>verProveedores.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Puestos\frmRolUsuarios.resx">
       <DependentUpon>frmRolUsuarios.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reportes\Facturacion.rdlc" />
     <EmbeddedResource Include="Reportes\ReportesGenerales.resx">
       <DependentUpon>ReportesGenerales.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Usuarios\BuscarUsuario.resx">
-      <DependentUpon>BuscarUsuario.cs</DependentUpon>
+    <EmbeddedResource Include="Usuarios\verUsuario.resx">
+      <DependentUpon>verUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usuarios\Usuario.resx">
       <DependentUpon>Usuario.cs</DependentUpon>

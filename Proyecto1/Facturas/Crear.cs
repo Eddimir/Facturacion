@@ -43,9 +43,9 @@ namespace Proyecto1.Facturas
         //    //    FrProduct.IdProducto = null;
         //    //}
         //}
-        public string idfiltro;
+        public String idfiltro;
         public string Productos;
-        public decimal Existencia;
+        public Decimal Existencia;
 
         private void Llenarproducto()
         {
@@ -76,7 +76,7 @@ namespace Proyecto1.Facturas
             }
             if (!string.IsNullOrEmpty(valorParte1))
             {
-                var prod = db.Productos.Where(x => x.Codigo == valorParte1 || x.Producto == valorParte1).FirstOrDefault();
+                var prod = db.Productos.Where(x => x.Codigo == valorParte1 || x.Producto.ToUpper() == valorParte1.ToUpper()).FirstOrDefault();
                 
                 if (prod == null)
                 {
@@ -305,6 +305,8 @@ namespace Proyecto1.Facturas
                         //}
 
                         rows.Cells["Total"].Value = result.ToString("N");
+                        //rows.Cells["Precio"].Value = precio.ToString("N");
+                        //rows.Cells["ITBS"].Value = ITBS.ToString("N");
                         //if (cmbTipoDePago.Text == "Dollar" || cmbtipodivisa.Text == "Euro")
                         //{                           
                         //    rows.Cells["ITBS"].Value = ITBS.ToString("N");
@@ -497,7 +499,9 @@ namespace Proyecto1.Facturas
 
         private void btnVer_Click(object sender, EventArgs e)
         {
-            Productos.VerProductos pro = new Productos.VerProductos();     
+            Productos.VerProductos pro = new Productos.VerProductos();
+            pro.Buscando = true;
+            
             pro.Show();
         }
 
@@ -544,6 +548,7 @@ namespace Proyecto1.Facturas
             cmbTipoDePago.DisplayMember = "TipoDePago1";
             cmbTipoDePago.FlatStyle = FlatStyle.Flat;
             cmbTipoDePago.DropDownStyle = ComboBoxStyle.DropDownList;
+
 
             var tipodivisa = db.TipoDeDivisa
                                .Select(x => new

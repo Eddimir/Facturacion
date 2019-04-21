@@ -25,6 +25,7 @@ namespace Proyecto1.Clientes
         {
             this.CenterToScreen();
             Llenar();
+            //this.reportViewer1.RefreshReport();
         }
         private void Llenar()
         {
@@ -41,6 +42,7 @@ namespace Proyecto1.Clientes
                     });
 
                 dtgvVer.DataSource = Clientes.OrderBy(x => x.Id).ToList();
+                label1.Text = "Total de clientes:" + dtgvVer.Rows.Count.ToString();
             }         
 
             autosize();
@@ -95,6 +97,37 @@ namespace Proyecto1.Clientes
                 id = dtgvVer.CurrentRow.Cells[0].Value.ToString();
                 Close();
             }
+            else
+            {
+                Clientes clientes = new Clientes();
+                clientes.lblId.Text =  dtgvVer.CurrentRow.Cells[0].Value.ToString();
+                clientes.ShowDialog();
+            }
+            Llenar();
+        }
+        public void Botones()
+        {
+            var db = new DataADO.Proyecto1Entities();
+            var query = db.Seguridad.Where(x => x.IdUsuario == Principal.veloz22.id && x.Modulos.NombreDeModulo == "Clientes").Select(x => new { x.Ver, x.Editar }).FirstOrDefault();
+
+            if (query.Editar == true)
+            {
+                btnNuevo .Enabled = true;
+                btlseleccionar.Enabled = true;
+            }
+            else
+            {
+                btnNuevo.Enabled = false;
+                btlseleccionar.Enabled = false;
+            }
+        }
+
+        private void BtnNuevo_Click(object sender, EventArgs e)
+        {
+            Clientes clientes = new Clientes();
+            clientes.Limpiar();
+            clientes.ShowDialog();
+            Llenar();
         }
     }
 }

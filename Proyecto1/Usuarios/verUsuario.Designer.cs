@@ -1,6 +1,6 @@
 ﻿namespace Proyecto1.Usuarios
 {
-    partial class BuscarUsuario
+    partial class verUsuario
     {
         /// <summary>
         /// Required designer variable.

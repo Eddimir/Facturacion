@@ -4,16 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="fa041952eb5746dea79ac98dd8b0e4bb" Name="Diagram1" ZoomLevel="91">
+      <Diagram DiagramId="fa041952eb5746dea79ac98dd8b0e4bb" Name="Diagram1" ZoomLevel="68">
         <EntityTypeShape EntityType="DbConexion.Modulos" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DbConexion.sysdiagrams" Width="1.5" PointX="7.75" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DbConexion.Almacen" Width="1.5" PointX="3" PointY="14.375" />
         <EntityTypeShape EntityType="DbConexion.AlmacenMovimiento" Width="1.5" PointX="3" PointY="10.125" />
         <EntityTypeShape EntityType="DbConexion.Puestos" Width="1.5" PointX="0.75" PointY="1" />
-        <EntityTypeShape EntityType="DbConexion.vsModulosUsuarios" Width="1.5" PointX="8.375" PointY="4.75" />
         <EntityTypeShape EntityType="DbConexion.ConfiguracionEmpresa" Width="1.5" PointX="10.375" PointY="0.75" />
-        <EntityTypeShape EntityType="DbConexion.Seguridad" Width="1.5" PointX="8" PointY="11.5" />
-        <AssociationConnector Association="DbConexion.FK_Seguridad_Modulos1" />
         <EntityTypeShape EntityType="DbConexion.FacturacionDetalle" Width="1.5" PointX="5.25" PointY="7.625" />
         <EntityTypeShape EntityType="DbConexion.CXC" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="DbConexion.Sueldos" Width="1.5" PointX="2.75" PointY="3.75" />
@@ -25,34 +22,37 @@
         <EntityTypeShape EntityType="DbConexion.Departamentos" Width="1.5" PointX="14.375" PointY="3.75" />
         <EntityTypeShape EntityType="DbConexion.Empresas" Width="1.5" PointX="5.375" PointY="14.75" />
         <EntityTypeShape EntityType="DbConexion.TipoDePago" Width="1.5" PointX="5.375" PointY="4.875" />
-        <EntityTypeShape EntityType="DbConexion.Usuarios" Width="1.5" PointX="3" PointY="18.125" />
-        <AssociationConnector Association="DbConexion.FK_AlmacenMovimiento_Usuarios" />
-        <AssociationConnector Association="DbConexion.FK_Usuarios_Cargos" />
-        <AssociationConnector Association="DbConexion.FK_Seguridad_Usuarios1" />
         <EntityTypeShape EntityType="DbConexion.AlmacenDetalle" Width="1.5" PointX="8.25" PointY="17" />
         <EntityTypeShape EntityType="DbConexion.OrdenCompraDetalle" Width="1.5" PointX="16.875" PointY="4.25" />
         <AssociationConnector Association="DbConexion.FK_AlmacenDetalle_Almacen" />
         <AssociationConnector Association="DbConexion.FK_AlmacenDetalle_AlmacenMovimiento" />
         <EntityTypeShape EntityType="DbConexion.OrdenCompra" Width="1.5" PointX="13.625" PointY="13.875" />
-        <AssociationConnector Association="DbConexion.FK_CXC_Usuarios" />
         <AssociationConnector Association="DbConexion.FK_OrdenCompra_Proveedores" />
-        <AssociationConnector Association="DbConexion.FK_OrdenCompra_Usuarios" />
         <AssociationConnector Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" />
         <EntityTypeShape EntityType="DbConexion.Clientes" Width="1.5" PointX="0.75" PointY="8.875" />
         <AssociationConnector Association="DbConexion.FK_CXC_Clientes" />
-        <EntityTypeShape EntityType="DbConexion.Productos" Width="1.5" PointX="15.625" PointY="8" />
         <EntityTypeShape EntityType="DbConexion.ProductosCategoria" Width="1.5" PointX="13.375" PointY="9.125" />
-        <AssociationConnector Association="DbConexion.FK_FacturacionDetalle_Productos" />
-        <AssociationConnector Association="DbConexion.FK_OrdenCompraDetalle_Productos" />
-        <AssociationConnector Association="DbConexion.FK_Productos_ProductosCategoria" />
         <EntityTypeShape EntityType="DbConexion.TipoDeDivisa" Width="1.5" PointX="6.375" PointY="0.875" />
         <EntityTypeShape EntityType="DbConexion.Facturacion" Width="1.5" PointX="10.625" PointY="13.125" />
         <AssociationConnector Association="DbConexion.FK_Facturacion_Clientes" />
         <AssociationConnector Association="DbConexion.FK_CXC_Facturacion" />
         <AssociationConnector Association="DbConexion.FK_Facturacion_TipoDeDivisa" />
         <AssociationConnector Association="DbConexion.FK_Facturacion_TipoDePago" />
-        <AssociationConnector Association="DbConexion.FK_Facturacion_Usuarios" />
         <AssociationConnector Association="DbConexion.FK_FacturacionDetalle_Facturacion" />
+        <EntityTypeShape EntityType="DbConexion.Productos" Width="1.5" PointX="15.625" PointY="7.875" />
+        <AssociationConnector Association="DbConexion.FK_FacturacionDetalle_Productos" />
+        <AssociationConnector Association="DbConexion.FK_OrdenCompraDetalle_Productos" />
+        <AssociationConnector Association="DbConexion.FK_Productos_ProductosCategoria" />
+        <EntityTypeShape EntityType="DbConexion.Seguridad" Width="1.5" PointX="8" PointY="10.625" />
+        <AssociationConnector Association="DbConexion.FK_Seguridad_Modulos1" />
+        <EntityTypeShape EntityType="DbConexion.vsModulosUsuarios" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="DbConexion.Usuarios" Width="1.5" PointX="3" PointY="18.375" />
+        <AssociationConnector Association="DbConexion.FK_AlmacenMovimiento_Usuarios" />
+        <AssociationConnector Association="DbConexion.FK_CXC_Usuarios" />
+        <AssociationConnector Association="DbConexion.FK_Facturacion_Usuarios" />
+        <AssociationConnector Association="DbConexion.FK_OrdenCompra_Usuarios" />
+        <AssociationConnector Association="DbConexion.FK_Usuarios_Puestos" />
+        <AssociationConnector Association="DbConexion.FK_Seguridad_Usuarios1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

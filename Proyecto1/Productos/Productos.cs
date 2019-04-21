@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Proyecto1.Clases;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,13 +19,14 @@ namespace Proyecto1.Productos
         {
             InitializeComponent();
         }
-        DataADO.Proyecto1Entities dbproyecto1;
+        DataADO.Proyecto1Entities db;
         DataADO.Productos dsproductos;
         estatus estatus;
 
         private void Productos_Load(object sender, EventArgs e)
         {
-            CenterToScreen();          
+            CenterToScreen();
+            CategoriaProducto();
 
             if (estatus == estatus.Modificando)
                 lblId.Text = string.Empty;
@@ -37,9 +40,18 @@ namespace Proyecto1.Productos
             dsproductos = new DataADO.Productos();
 
 
+          
         }
-
-        private void Limpiar()
+        //Mostrar mensaje de confirmacion
+        private void MensajeOk(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Sistema de ventas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void MensajeError(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Sistema de ventas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public void Limpiar()
         {
             lblId.Text = string.Empty;
             txtproducto.Text = string.Empty;
@@ -48,29 +60,49 @@ namespace Proyecto1.Productos
             txtcantidad.Text = string.Empty;
             txtitbs.Text = string.Empty;
             txtbeneficio.Text = string.Empty;
+            PtImagen.Image = null;
+            dtvencimiento.Value = DateTime.Now;
+
+            ///Value by default
+            //txtitbs.Text = "0.00";
+            //txtPrecio.Text = "";
         }
 
         private void Cargar(int IdPro)
         {
             try
             {
-                using(dbproyecto1 = new DataADO.Proyecto1Entities())
+                using(db = new DataADO.Proyecto1Entities())
                 {
-                    dsproductos = (from pro in dbproyecto1.Productos
+                    dsproductos = (from pro in db.Productos
                                    where pro.Id == IdPro
                                    select pro).Single();
 
-
+                 
                     lblId.Text = dsproductos.Id.ToString();
                     txtproducto.Text = dsproductos.Producto;
                     txtPrecio.Text = dsproductos.Precio.ToString();
                     txtitbs.Text = dsproductos.ITBS.ToString();
                     txtcantidad.Text = dsproductos.Cantidad_Existencia.ToString();
                     txtbeneficio.Text = dsproductos.Margen_Beneficio.ToString();
-                    txtDescripcion.Text = txtDescripcion.Text;
-                    dtFechaDeRegistro.Value = dsproductos.Registro.Value;
+                    txtDescripcion.Text = dsproductos.Despcricion;
+                    cmbcategoriaproducto.SelectedValue = dsproductos.IdCategoria.ToString();
+                    ckbavisarvencimiento.Checked = (bool)dsproductos.AvisarVencimiento; /*Convert.ToBoolean(dsproductos.AvisarVencimiento);*/
+                    txtdiasparaavisar.Text = dsproductos.DiasParaAvisar.ToString();
+                    PtImagen.Image = Veloz.byteArrayToImage(dsproductos.Imagen);
+                    dtvencimiento.Value = (dsproductos.FechaVencimiento.Value == null) ? DateTime.Today: dsproductos.FechaVencimiento.Value;
+                    //}
+                    dtvencimiento.Value = dsproductos.FechaVencimiento.Value;
+                    if (dsproductos.Imagen != null)
+                    {
+                        PtImagen.Image = Veloz.byteArrayToImage(dsproductos.Imagen);
+                    }
+                    else
+                    {
+                        PtImagen.Image = null;
+                    }
                 }
-                
+
             }
             catch { }
             
@@ -95,24 +127,35 @@ namespace Proyecto1.Productos
         {
             try
             {
-                if (estatus == estatus.Modificando)
+                if (estatus == estatus.Modificando || estatus  != estatus.Modificando)
                 {
-                    using (dbproyecto1 = new DataADO.Proyecto1Entities())
+                    using (db = new DataADO.Proyecto1Entities())
                     {
-                        dsproductos = (from pro in dbproyecto1.Productos
+                        dsproductos = (from pro in db.Productos
                                        where pro.Id == Id
                                        select pro).Single();
 
-                        dsproductos.Id = Convert.ToInt32(lblId.Text);
+                      
                         dsproductos.Producto = txtproducto.Text;
                         dsproductos.Despcricion = txtDescripcion.Text;
                         dsproductos.ITBS = Convert.ToDecimal(txtitbs.Text);
                         dsproductos.Precio = Convert.ToDecimal(txtPrecio.Text);
-                        dsproductos.Registro = dtFechaDeRegistro.Value;
+                       
+                        dsproductos.Registro = DateTime.Now;
                         dsproductos.Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text);
                         dsproductos.Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text);
+                        dsproductos.IdCategoria = Convert.ToInt32(cmbcategoriaproducto.SelectedValue);
+                        dsproductos.DiasParaAvisar = txtdiasparaavisar.Text.Length == 0 ? 0: Convert.ToInt32(txtdiasparaavisar.Text);
+                        dsproductos.AvisarVencimiento = (ckbavisarvencimiento.Checked == true) ? true : false;
+                        dsproductos.FechaVencimiento = dtvencimiento.Value;
 
-                        dbproyecto1.SaveChanges();
+                        ///convercion de byte to img...
+                        var img = byteArrayToImage(dsproductos.Imagen);
+                        dsproductos.Imagen = imageToByteArray(img);
+
+
+                        db.SaveChanges();
+                        MensajeOk("Se actualizo de forma correcta");
                     }
                 }
                 else
@@ -125,38 +168,148 @@ namespace Proyecto1.Productos
                            
         }
 
+        //private void Crear()
+        //{
+        //    try
+        //    {
+        //        using (dbproyecto1 = new DataADO.Proyecto1Entities())
+        //        {
+        //            dsproductos = new DataADO.Productos()
+        //            { 
+        //                Producto = txtproducto.Text,
+        //                Precio = Convert.ToDecimal(txtPrecio.Text),
+        //                Despcricion = txtDescripcion.Text,
+        //                ITBS = Convert.ToDecimal(txtitbs.Text),
+        //                Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text),
+        //                Registro = DateTime.Now,
+        //                Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text)
+        //            };
+
+        //            dbproyecto1.Productos.Add(dsproductos);
+        //            dbproyecto1.SaveChanges();
+
+        //            estatus = estatus.Modificando;
+        //            lblId.Text = dsproductos.Id.ToString();
+        //        }
+        //    }
+        //    catch (Exception ex){ MessageBox.Show(ex.Message); }
+
+
+        //}
         private void Crear()
         {
-            try
+            using (var db = new DataADO.Proyecto1Entities())
             {
-                using (dbproyecto1 = new DataADO.Proyecto1Entities())
+
+                decimal beneficio = (txtbeneficio.Text.Length == 0) ? 0 : Convert.ToDecimal(txtbeneficio.Text);
+                decimal Precio = (txtPrecio.Text.Length == 0) ? 0 : Convert.ToDecimal(txtPrecio.Text);
+                decimal precioTotal = ((Precio + beneficio) == 0.00m) ? 0 : Precio + beneficio;
+
+                if(txtproducto.Text == string.Empty)
                 {
-                    dsproductos = new DataADO.Productos()
-                    { 
+                    MensajeError("Falta ingresar algunos datos, seran remarcados");
+                    errorProvider1.SetError(txtproducto, "Ingrese un nombre");
+                }
+
+                if (precioTotal == 0)
+                {
+                    MessageBox.Show("El precio  no  puede ser igual a 0, porfavor modificar el registro");
+                }
+                else if (precioTotal != 0)
+                {
+                    var Producto = new DataADO.Productos
+                    {
+                        Codigo = GeneralCode(),
                         Producto = txtproducto.Text,
-                        Precio = Convert.ToDecimal(txtPrecio.Text),
                         Despcricion = txtDescripcion.Text,
-                        ITBS = Convert.ToDecimal(txtitbs.Text),
-                        Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text),
+                        Precio = precioTotal,
+                        ITBS = (txtitbs.Text.Length == 0) ? 0 : Convert.ToDecimal(txtitbs.Text),
+                        Cantidad_Existencia = (txtcantidad.Text.Length == 0) ? 0 : Convert.ToDecimal(txtcantidad.Text),
+                        Margen_Beneficio = beneficio,
                         Registro = DateTime.Now,
-                        Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text)
+                        AvisarVencimiento = (ckbavisarvencimiento.Checked == true) ? true : false,
+                        DiasParaAvisar = Convert.ToInt32(txtdiasparaavisar.Text),
+                        Imagen =  Veloz.imageToByteArray(PtImagen.Image),
+                        FechaVencimiento = dtvencimiento.Value,
+                        IdCategoria = Convert.ToInt32(cmbcategoriaproducto.SelectedValue)                        
                     };
 
-                    dbproyecto1.Productos.Add(dsproductos);
-                    dbproyecto1.SaveChanges();
+                    db.Productos.Add(Producto);
+                    db.SaveChanges();
 
                     estatus = estatus.Modificando;
-                    lblId.Text = dsproductos.Id.ToString();
+                    lblId.Text = Producto.Id.ToString();
+                    MensajeOk("Se inserto Correctamente");
+                    Close();
+                    Productos productos = new Productos();
+                    productos.ActiveControl = ActiveForm;
+                    productos.ShowDialog();
+                    //RefreshFill();
                 }
             }
-            catch (Exception ex){ MessageBox.Show(ex.Message); }
-
-                         
         }
 
         private void lblId_Click(object sender, EventArgs e)
         {
 
+        }
+        private string GeneralCode()
+        {
+            var yearL = DateTime.Now.Year.ToString().Substring(1);
+            var mes = DateTime.Now.Month;
+            var dia = DateTime.Now.Day;
+            var hora = DateTime.Now.Hour;
+            var segundo = DateTime.Now.Second;
+
+            var codigo = yearL + "" + mes + "" + dia + "" + hora + "" + segundo;
+
+
+            return codigo;
+
+        }
+
+        private void New_Click(object sender, EventArgs e)
+        {
+            Limpiar();
+        }
+
+        private void BtnOpenFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            // image filters  
+            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                // display image in picture box  
+                //PtImagen.Image;
+                var image = new Bitmap(open.FileName);
+                var imagePerfect = new Bitmap(image, 201, 185);
+                PtImagen.Image = imagePerfect;
+                // image file path  
+                PtImagen.Text = open.FileName;
+                textBox1.Text = open.FileName;
+
+            }
+
+        }
+
+        private void CategoriaProducto()
+        {
+            db = new DataADO.Proyecto1Entities(); 
+            var categoria = db.ProductosCategoria.SqlQuery("Select * from ProductosCategoria")
+                               .Select(x => new
+                               {
+                                   x.Id,
+                                   x.Categoria
+                               });
+
+            cmbcategoriaproducto.DataSource = categoria.ToList();
+            cmbcategoriaproducto.DisplayMember = "Categoria";
+            cmbcategoriaproducto.ValueMember = "Id";
+            
+            cmbcategoriaproducto.FlatStyle = FlatStyle.Flat;
+            cmbcategoriaproducto.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbcategoriaproducto.SelectedIndex = -1;
         }
     }
 }

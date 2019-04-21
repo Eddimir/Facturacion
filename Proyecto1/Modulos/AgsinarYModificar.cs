@@ -27,7 +27,7 @@ namespace Proyecto1.Modulos
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Usuarios.BuscarUsuario fr = new Usuarios.BuscarUsuario();
+            Usuarios.verUsuario fr = new Usuarios.verUsuario();
             fr.buscando = true;
             fr.ShowDialog();
             if(fr.Id != null)
@@ -70,8 +70,15 @@ namespace Proyecto1.Modulos
                 dtgvAsignarModulo.DataSource = fill.OrderBy(x => x.id).ToList();
                 dtgvAsignarModulo.Columns[1].Visible = false;
                 dtgvAsignarModulo.Columns[0].Visible = false;
-                dtgvAsignarModulo.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                dtgvAsignarModulo.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dtgvAsignarModulo.Columns[3].Visible = false;
+                dtgvAsignarModulo.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dtgvAsignarModulo.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dtgvAsignarModulo.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+                dtgvAsignarModulo.Columns[4].ValueType = typeof(bool);
+                dtgvAsignarModulo.Columns[5].ValueType = typeof(bool);
+                //dtgvAsignarModulo.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.a;
+
 
             }
         }
@@ -105,6 +112,8 @@ namespace Proyecto1.Modulos
                                              where d.id == IdMODULO
                                              select d).First();
 
+                            //seguridad.Ver = false;
+                            //seguridad.Editar = false;
                             db.Seguridad.Remove(seguridad);
                             db.SaveChanges();
                         }

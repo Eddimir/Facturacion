@@ -20,6 +20,8 @@
             base.Dispose(disposing);
         }
 
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
+
         #region Windows Form Designer generated code
 
         /// <summary>

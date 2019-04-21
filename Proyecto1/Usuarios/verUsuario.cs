@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Proyecto1.Usuarios
 {
-    public partial class BuscarUsuario : Form
+    public partial class verUsuario : Form
     {
-        public BuscarUsuario()
+        public verUsuario()
         {
             InitializeComponent();
         }
@@ -36,7 +36,9 @@ namespace Proyecto1.Usuarios
                                 us.Apellido,
                                 us.Cedula,
                                 us.Direccion,
-                                us.Telefono
+                                us.Telefono,
+                                us.Puestos.Puesto
+                                
                             });
 
 
@@ -76,7 +78,8 @@ namespace Proyecto1.Usuarios
                         x.Apellido,
                         x.Cedula,
                         x.Direccion,
-                        x.Telefono
+                        x.Telefono,
+                        x.Puestos.Puesto
                     });
 
                 dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();

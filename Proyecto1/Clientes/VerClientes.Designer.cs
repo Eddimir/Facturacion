@@ -31,6 +31,8 @@
             this.dtgvVer = new System.Windows.Forms.DataGridView();
             this.txtbusqueda = new System.Windows.Forms.TextBox();
             this.btlseleccionar = new System.Windows.Forms.Button();
+            this.btnNuevo = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvVer)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,11 +63,32 @@
             this.btlseleccionar.UseVisualStyleBackColor = true;
             this.btlseleccionar.Click += new System.EventHandler(this.btlseleccionar_Click);
             // 
+            // btnNuevo
+            // 
+            this.btnNuevo.Location = new System.Drawing.Point(12, 360);
+            this.btnNuevo.Name = "btnNuevo";
+            this.btnNuevo.Size = new System.Drawing.Size(69, 37);
+            this.btnNuevo.TabIndex = 9;
+            this.btnNuevo.Text = "Nuevo";
+            this.btnNuevo.UseVisualStyleBackColor = true;
+            this.btnNuevo.Click += new System.EventHandler(this.BtnNuevo_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(790, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "label1";
+            // 
             // VerClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(876, 409);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnNuevo);
             this.Controls.Add(this.btlseleccionar);
             this.Controls.Add(this.txtbusqueda);
             this.Controls.Add(this.dtgvVer);
@@ -83,5 +106,7 @@
         private System.Windows.Forms.DataGridView dtgvVer;
         private System.Windows.Forms.TextBox txtbusqueda;
         private System.Windows.Forms.Button btlseleccionar;
+        public System.Windows.Forms.Button btnNuevo;
+        private System.Windows.Forms.Label label1;
     }
 }

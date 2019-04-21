@@ -28,14 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblid = new System.Windows.Forms.Label();
             this.lblNombreModulo = new System.Windows.Forms.Label();
             this.txtNombreDeModulo = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.dtgvModulos = new System.Windows.Forms.DataGridView();
-            this.txtfiltro = new System.Windows.Forms.TextBox();
-            this.bTnnuevo = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgvModulos)).BeginInit();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblid
@@ -67,7 +66,7 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(244, 399);
+            this.btnGuardar.Location = new System.Drawing.Point(244, 69);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(88, 32);
             this.btnGuardar.TabIndex = 3;
@@ -75,42 +74,15 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
-            // dtgvModulos
+            // errorProvider1
             // 
-            this.dtgvModulos.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dtgvModulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgvModulos.Location = new System.Drawing.Point(13, 112);
-            this.dtgvModulos.Name = "dtgvModulos";
-            this.dtgvModulos.Size = new System.Drawing.Size(319, 281);
-            this.dtgvModulos.TabIndex = 4;
-            this.dtgvModulos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvModulos_CellClick);
-            // 
-            // txtfiltro
-            // 
-            this.txtfiltro.Location = new System.Drawing.Point(13, 82);
-            this.txtfiltro.Name = "txtfiltro";
-            this.txtfiltro.Size = new System.Drawing.Size(100, 24);
-            this.txtfiltro.TabIndex = 5;
-            this.txtfiltro.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // bTnnuevo
-            // 
-            this.bTnnuevo.Location = new System.Drawing.Point(13, 399);
-            this.bTnnuevo.Name = "bTnnuevo";
-            this.bTnnuevo.Size = new System.Drawing.Size(88, 32);
-            this.bTnnuevo.TabIndex = 6;
-            this.bTnnuevo.Text = "Nuevo";
-            this.bTnnuevo.UseVisualStyleBackColor = true;
-            this.bTnnuevo.Click += new System.EventHandler(this.bTnnuevo_Click);
+            this.errorProvider1.ContainerControl = this;
             // 
             // FrmCrearModulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 443);
-            this.Controls.Add(this.bTnnuevo);
-            this.Controls.Add(this.txtfiltro);
-            this.Controls.Add(this.dtgvModulos);
+            this.ClientSize = new System.Drawing.Size(347, 118);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtNombreDeModulo);
             this.Controls.Add(this.lblNombreModulo);
@@ -120,20 +92,17 @@
             this.Name = "FrmCrearModulos";
             this.Text = "FrmCrearModulos";
             this.Load += new System.EventHandler(this.FrmCrearModulos_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dtgvModulos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblid;
         private System.Windows.Forms.Label lblNombreModulo;
         private System.Windows.Forms.TextBox txtNombreDeModulo;
         private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.DataGridView dtgvModulos;
-        private System.Windows.Forms.TextBox txtfiltro;
-        private System.Windows.Forms.Button bTnnuevo;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
+        public System.Windows.Forms.Label lblid;
     }
 }

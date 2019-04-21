@@ -17,46 +17,46 @@ namespace Proyecto1.Modulos
         {
             InitializeComponent();
         }
-        private DataADO.Proyecto1Entities dbProyecto;
+        private DataADO.Proyecto1Entities db;
         
         private void fillModulos()
         {
             int idUser = AgsinarYModificar.idUser;
 
-            using(dbProyecto = new DataADO.Proyecto1Entities())
+            using(db = new DataADO.Proyecto1Entities())
             {
-                var seguridad = dbProyecto.Seguridad
+                var seguridad = db.Seguridad
                                .Where(x=>x.IdUsuario == idUser)
                                .Select(x=>x.IdModulo);
 
-                var modulos = dbProyecto.Modulos
+                var modulos = db.Modulos
                               .Where(x => x.Id == x.Id &&
                               !seguridad.Contains(x.Id))
                               .Select(x => new
                               {
                                   x.Id,
-                                  x.NombreDeModulo
+                                  Modulo = x.NombreDeModulo
                               });
 
                 if (modulos.Any())
                 {
                     dataGridView1.DataSource = modulos.OrderBy(x => x.Id).ToList();
-                    dataGridView1.Columns[0].ReadOnly = true;
-                    dataGridView1.Columns[1].ReadOnly = true;
+                    dataGridView1.Columns[2].Visible = false;
+                    //dataGridView1.SortedColumn.
+                    dataGridView1.Columns["Modulo"].DisplayIndex = 0;
+                    dataGridView1.Columns["Editar"].DisplayIndex = 1;
+                    dataGridView1.Columns["Ver"].DisplayIndex = 2;
                     dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                    dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    //dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 }
                 else
                 {
-                    var user = dbProyecto.Usuarios.Where(x => x.Id == idUser).Select(x => x.Nombre).Single();
+                    var user = db.Usuarios.Where(x => x.Id == idUser).Select(x => x.Nombre).Single();
                     MessageBox.Show($"El usuario: {user} no tiene modulos por agsinar.");
                                                                                                      Close();
-                }
-               
-
-                    
+                }            
             }
         }
 
@@ -65,30 +65,48 @@ namespace Proyecto1.Modulos
             fillModulos();
             CenterToScreen();
         }
-
+        //public List<int?> IdsSubRoles = new List<int?>();
         private void btnSeleccionar_Click(object sender, EventArgs e)
         {
             if (dataGridView1.Rows.Count > 0)
             {
                 var seguridad = new List<DataADO.Seguridad>();
                 int iduser = AgsinarYModificar.idUser;
-                using (dbProyecto = new DataADO.Proyecto1Entities())
+                using (db = new DataADO.Proyecto1Entities())
                 {
-                    foreach(DataGridViewRow rows in dataGridView1.SelectedRows)
+
+                    foreach (DataGridViewRow rows in dataGridView1.SelectedRows)
                     {
+                        var Editar = Convert.ToBoolean(rows.Cells["Editar"].Value);                    
+                        var Ver = Convert.ToBoolean(rows.Cells["Ver"].Value);
+
+                        if(Editar == true && Ver == false)
+                        {
+                            Ver = true;
+                        }
                         seguridad.Add(new DataADO.Seguridad()
                         {
-                            IdModulo = Convert.ToInt32(rows.Cells[0].Value),
-                            IdUsuario = iduser                                                    
-                        });                   
+                            IdModulo = Convert.ToInt32(rows.Cells["Id"].Value),
+                            IdUsuario = iduser,
+                            Editar = (bool)Editar,
+                            Ver = (bool)Ver
+                        });                                                
                     }
-                    dbProyecto.Seguridad.AddRange(seguridad);
-                    dbProyecto.SaveChanges();
+                    db.Seguridad.AddRange(seguridad);
+                    db.SaveChanges();
                 }
-                Close();
-                MessageBox.Show("Exitoso");
-                
+                if (dataGridView1.SelectedRows.Count >= 1)
+                {
+                    MessageBox.Show("Exitoso");
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("No realizo ningun cambio");
+                    Close();
+                }
             }
-        }
+        }     
+
     }
 }

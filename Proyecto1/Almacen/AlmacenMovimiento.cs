@@ -42,15 +42,15 @@ namespace Proyecto1.Almacen
 
         private void btnProveedor_Click(object sender, EventArgs e)
         {
-            Proveedores.Proveedores proveedores = new Proveedores.Proveedores();
-            proveedores.buscando = true;
-            proveedores.ShowDialog();
+            Proveedores.verProveedores proveedores = new Proveedores.verProveedores();
+            //proveedores.buscando = true;
+            //proveedores.ShowDialog();
 
-            if(proveedores.id != 0)
-            {
-                llenarproveedor(proveedores.id);
-                proveedores = null;
-            }
+            //if(proveedores.id != 0)
+            //{
+            //    llenarproveedor(proveedores.id);
+            //    proveedores = null;
+            //}
         }
 
         private void llenarproveedor(int id)

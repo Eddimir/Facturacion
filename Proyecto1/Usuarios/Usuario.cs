@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using static Proyecto1.Clases.Veloz;
+using Proyecto1.Clases;
 
 namespace Proyecto1
 {
@@ -24,33 +25,68 @@ namespace Proyecto1
         private void Usuario_Load(object sender, EventArgs e)
         {
             this.CenterToScreen();
-            RefreshFill();
+            FillPuestos();
+            
         }
-     
+        private void MensajeOk(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Sistema de ventas", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        private void MensajeError(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Sistema de ventas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
         private void Crear()
         {
             using (db = new DataADO.Proyecto1Entities())
             {
-                var user = new DataADO.Usuarios()
+                if (txtNOmbre.Text == string.Empty)
                 {
-                    Nombre = txtNOmbre.Text,
-                    Apellido = txtApellido.Text,
-                    Cedula = txtCedula.Text,
-                    Celular = txtCelular.Text,
-                    Telefono = txtTelefono.Text,
-                    Activo_estado = true,
-                    Direccion = txtDireccion.Text,
-                    Contrasena = txtconntrasenia.Text,
-                    NombreUsuario = txtNOmbreUser.Text
-                };
+                    MensajeError("Falta ingresar algunos datos, seran remarcados");
+                    errorProvider1.SetError(txtNOmbre, "Ingrese un nombre");
+                }
 
-                db.Usuarios.Add(user);
-                db.SaveChanges();
+                if (txtCedula.Text == string.Empty)
+                {                    
+                    errorProvider1.SetError(txtCedula, "Ingrese la cedula");
+                }
+                if (Clases.Veloz.ValidarEmail(txtcorreoeletronico.Text) == false)
+                {
+                    errorProvider1.SetError(txtNOmbre, "Ingrese un correo valido");
+                }
+                else
+                {
+                    var user = new DataADO.Usuarios()
+                    {
+                        Nombre = txtNOmbre.Text,
+                        Apellido = txtApellido.Text,
+                        Cedula = txtCedula.Text,
+                        Celular = txtCelular.Text,
+                        Telefono = txtTelefono.Text,
+                        Activo_estado = true,
+                        Direccion = txtDireccion.Text,
+                        Contrasena = txtconntrasenia.Text,
+                        NombreUsuario = txtNOmbreUser.Text,
+                        IdPuesto = Convert.ToInt32(cmbPuestos.SelectedValue),
+                        email = txtcorreoeletronico.Text,
+                        imagen = Veloz.imageToByteArray(PtImagen.Image),
 
-                lblId.Text = user.Id.ToString();
-                estatus = estatus.Modificando;
+                    };
+
+                    db.Usuarios.Add(user);
+                    db.SaveChanges();
+
+                    lblId.Text = user.Id.ToString();
+                    estatus = estatus.Modificando;
+                    MensajeOk("Se inserto Correctamente");
+                    Close();
+                    Usuario Usuario = new Usuario();
+                    Usuario.ActiveControl = ActiveForm;
+                    Usuario.ShowDialog();
+                }
             }
+
         }
         private void Actualizar(int id)
         {
@@ -59,20 +95,46 @@ namespace Proyecto1
                 using (db = new DataADO.Proyecto1Entities())
                 {
                     var user = db.Usuarios
-                                .Where(x => x.Id == id)
-                                .First();
+                                .Single(x => x.Id == id);
 
-                    user.Nombre = txtNOmbre.Text;
-                    user.Direccion = txtDireccion.Text;
-                    user.Celular = txtCelular.Text;
-                    user.Cedula = txtCedula.Text;
-                    user.Telefono = txtTelefono.Text;
-                    user.NombreUsuario = txtNOmbreUser.Text;
-                    user.Contrasena = txtconntrasenia.Text;
-                    user.Activo_estado = ckbActivo.Checked;
+                    if (txtNOmbre.Text == string.Empty)
+                    {
+                        MensajeError("Falta ingresar algunos datos, seran remarcados");
+                        errorProvider1.SetError(txtNOmbre, "Ingrese un nombre");
+                    }
 
-                    db.SaveChanges();                   
+                    if (txtCedula.Text == string.Empty)
+                    {
+                        errorProvider1.SetError(txtCedula, "Ingrese la cedula");
+                    }
+                    if (Clases.Veloz.ValidarEmail(txtcorreoeletronico.Text) == false)
+                    {
+                        errorProvider1.SetError(txtNOmbre, "Ingrese un correo valido");
+                    }
+                    else
+                    {
+                        user.Nombre = txtNOmbre.Text;
+                        user.Direccion = txtDireccion.Text;
+                        user.Apellido = txtApellido.Text;
+                        user.Celular = txtCelular.Text;
+                        user.Cedula = txtCedula.Text;
+                        user.Telefono = txtTelefono.Text;
+                        user.email = txtcorreoeletronico.Text;
+                        user.IdPuesto = Convert.ToInt32(cmbPuestos.SelectedValue);
+                        user.NombreUsuario = txtNOmbreUser.Text;
+                        user.Contrasena = txtconntrasenia.Text;
+                        user.Activo_estado = (ckbActivo.Checked == true) ? true : false;
+                        var img = byteArrayToImage(user.imagen);
+                        user.imagen = imageToByteArray(img);
+
+                        db.SaveChanges();
+                        MensajeOk("Se actualizo de forma correcta");
+                    }
                 }
+            }
+            else
+            {
+                Crear();
             }
         }
 
@@ -94,104 +156,102 @@ namespace Proyecto1
                 txtTelefono.Text = user.Telefono;
                 txtNOmbreUser.Text = user.NombreUsuario;
                 txtconntrasenia.Text = user.Contrasena;
+                txtcorreoeletronico.Text = user.email;                
                 ckbActivo.Checked = Convert.ToBoolean(user.Activo_estado);
+
+                if (user.imagen != null)
+                    PtImagen.Image = byteArrayToImage(user.imagen);
+                else
+                    PtImagen = null;
                
                 //cmbPuestos.Text = dsUsuarios.IdPuesto.ToString();
                 
             }
         }
 
-        private void btnGuardar_Click(object sender, EventArgs e)
-        {
-            if (lblId.Text.Length == 0)
-                Crear();
-            else
-                Actualizar(Convert.ToInt32(lblId.Text));
+     
 
-            RefreshFill();
-        }
+        //private void txtfiltro_TextChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        using (db = new DataADO.Proyecto1Entities())
+        //        {
+        //            var filtro = db.Usuarios.Where(x => x.Nombre.Contains(txtfiltro.Text) || x.Apellido.Contains(txtfiltro.Text))
+        //                    .Select(x => new
+        //                    {
+        //                        x.Id,
+        //                        x.Nombre,
+        //                        x.Apellido,
+        //                        x.Cedula,
+        //                        x.Direccion,
+        //                        x.Telefono,
+        //                        x.Celular,
+        //                        x.Activo_estado
+        //                    });
 
-        private void txtfiltro_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                using (db = new DataADO.Proyecto1Entities())
-                {
-                    var filtro = db.Usuarios.Where(x => x.Nombre.Contains(txtfiltro.Text) || x.Apellido.Contains(txtfiltro.Text))
-                            .Select(x => new
-                            {
-                                x.Id,
-                                x.Nombre,
-                                x.Apellido,
-                                x.Cedula,
-                                x.Direccion,
-                                x.Telefono,
-                                x.Celular,
-                                x.Activo_estado
-                            });
-
-                    dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
-                    autoajuste();
-                }
-            }
-            catch { }
+        //            dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
+        //            autoajuste();
+        //        }
+        //    }
+        //    catch { }
            
-        }
-        private void FillFiltro()
-        {
-            lblId.Text = dataGridView1.CurrentRow.Cells["Id"].Value.ToString();
+        //}
+        //private void FillFiltro()
+        //{
+        //    lblId.Text = dataGridView1.CurrentRow.Cells["Id"].Value.ToString();
 
-            int? id = Convert.ToInt32(lblId.Text);
-            Cargar(id);
-        }
-        private void autoajuste()
-        {
-            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        //    int? id = Convert.ToInt32(lblId.Text);
+        //    Cargar(id);
+        //}
+        //private void autoajuste()
+        //{
+        //    dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        //    dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        //    dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        //    dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        //    dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        //    dataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        //    dataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        //    dataGridView1.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
-            dataGridView1.Columns[0].Visible = false;
+        //    dataGridView1.Columns[0].Visible = false;
 
-            dataGridView1.MultiSelect = true;
-            dataGridView1.AllowUserToOrderColumns = false;
-            dataGridView1.BackgroundColor = Color.White;
+        //    dataGridView1.MultiSelect = true;
+        //    dataGridView1.AllowUserToOrderColumns = false;
+        //    dataGridView1.BackgroundColor = Color.White;
 
-            dataGridView1.Columns[1].ReadOnly = true;
-            dataGridView1.Columns[2].ReadOnly = true;
-            dataGridView1.Columns[3].ReadOnly = true;
-            dataGridView1.Columns[4].ReadOnly = true;
-            dataGridView1.Columns[5].ReadOnly = true;
-            dataGridView1.Columns[6].ReadOnly = true;
-            dataGridView1.Columns[7].ReadOnly = true;
-        }
+        //    dataGridView1.Columns[1].ReadOnly = true;
+        //    dataGridView1.Columns[2].ReadOnly = true;
+        //    dataGridView1.Columns[3].ReadOnly = true;
+        //    dataGridView1.Columns[4].ReadOnly = true;
+        //    dataGridView1.Columns[5].ReadOnly = true;
+        //    dataGridView1.Columns[6].ReadOnly = true;
+        //    dataGridView1.Columns[7].ReadOnly = true;
+        //}
 
-        private IEnumerable<object> RefreshFill()
-        {
-            using (db = new DataADO.Proyecto1Entities())
-            {
-                var filtro = db.Usuarios
-                        .Select(x => new
-                        {
-                            x.Id,
-                            x.Nombre,
-                            x.Apellido,
-                            x.Cedula,
-                            x.Direccion,
-                            x.Telefono,
-                            x.Celular,
-                            x.Activo_estado
-                        });
+        //private IEnumerable<object> RefreshFill()
+        //{
+        //    using (db = new DataADO.Proyecto1Entities())
+        //    {
+        //        var filtro = db.Usuarios
+        //                .Select(x => new
+        //                {
+        //                    x.Id,
+        //                    x.Nombre,
+        //                    x.Apellido,
+        //                    x.Cedula,
+        //                    x.Direccion,
+        //                    x.Telefono,
+        //                    x.Celular,
+        //                    x.Activo_estado
+        //                });
 
-                dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
-                autoajuste();
-                return filtro.ToList();
-            }
-        }
+        //        dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
+        //        autoajuste();
+        //        return filtro.ToList();
+        //    }
+        //}
         private void Limpiar()
         {
             lblId.Text = "";
@@ -201,6 +261,7 @@ namespace Proyecto1
             txtCedula.Text = "";
             txtDireccion.Text = "";
             txtCelular.Text = "";
+            txtcorreoeletronico.Text = "";
             txtNOmbreUser.Text = "";
             txtconntrasenia.Text = "";
             txtTelefono.Text = "";
@@ -208,35 +269,35 @@ namespace Proyecto1
 
         }
 
-        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                using (db = new DataADO.Proyecto1Entities())
-                {
-                    if (e.KeyCode == Keys.Delete)
-                    {
-                        if (lblId.Text.Length == 0)
-                        {
-                            MessageBox.Show("Para poder continuar con la accion antes debe de seleccionar el proveedor al eliminar");
-                        }
-                        else
-                        {
-                            if (MessageBox.Show("Seguro que desea eliminar el Usuario esta accion no se podra deshacer?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                            {
-                                var User = db.Usuarios.Find(Convert.ToInt32(lblId.Text));
-                                db.Usuarios.Attach(User);
-                                db.Usuarios.Remove(User);
-                                db.SaveChanges();
-                                MessageBox.Show("El registro fue eliminado correctamente.");
-                                RefreshFill();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex) { MessageBox.Show("El registro del proveedor no puede ser eliminado debido a que este esta asociado a otros registros y dicha accion puede general problemas en los registros asociados.." + ex.Message); }
-        }
+        //private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    try
+        //    {
+        //        using (db = new DataADO.Proyecto1Entities())
+        //        {
+        //            if (e.KeyCode == Keys.Delete)
+        //            {
+        //                if (lblId.Text.Length == 0)
+        //                {
+        //                    MessageBox.Show("Para poder continuar con la accion antes debe de seleccionar el proveedor al eliminar");
+        //                }
+        //                else
+        //                {
+        //                    if (MessageBox.Show("Seguro que desea eliminar el Usuario esta accion no se podra deshacer?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+        //                    {
+        //                        var User = db.Usuarios.Find(Convert.ToInt32(lblId.Text));
+        //                        db.Usuarios.Attach(User);
+        //                        db.Usuarios.Remove(User);
+        //                        db.SaveChanges();
+        //                        MessageBox.Show("El registro fue eliminado correctamente.");
+        //                        //RefreshFill();
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex) { MessageBox.Show("El registro del proveedor no puede ser eliminado debido a que este esta asociado a otros registros y dicha accion puede general problemas en los registros asociados.." + ex.Message); }
+        //}
         private void FillPuestos()
         {
             using (db = new DataADO.Proyecto1Entities())
@@ -252,17 +313,64 @@ namespace Proyecto1
                 cmbPuestos.DisplayMember = "Puesto";
                 cmbPuestos.ValueMember = "Id";
 
+                cmbPuestos.FlatStyle = FlatStyle.Flat;
+                cmbPuestos.DropDownStyle = ComboBoxStyle.DropDownList;
+              
+
             }
         }
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-            FillFiltro();
+            //FillFiltro();
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
             Limpiar();
+        }
+
+        private void GroupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LblApellido_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnGuardar_Click_1(object sender, EventArgs e)
+        {
+            if (lblId.Text.Length == 0)
+                Crear();
+            else
+                Actualizar(Convert.ToInt32(lblId.Text));
+        }
+
+        private void New_Click(object sender, EventArgs e)
+        {
+            Limpiar();
+        }
+
+        private void BtnOpenFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            // image filters  
+            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp)|*.jpg; *.jpeg; *.gif; *.bmp";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                // display image in picture box  
+                //PtImagen.Image;
+                var image = new Bitmap(open.FileName);
+                var imagePerfect = new Bitmap(image, 201, 185);
+                PtImagen.Image = imagePerfect;
+                // image file path  
+                PtImagen.Text = open.FileName;
+                textBox1.Text = open.FileName;
+
+            }
+
         }
     }
 }
