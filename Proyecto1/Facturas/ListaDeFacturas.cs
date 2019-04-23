@@ -41,6 +41,29 @@ namespace Proyecto1.Facturas
             SumalTotal();
             autosize();
         }
+        public void Botones()
+        {
+            var db = new DataADO.Proyecto1Entities();
+            var query = db.Seguridad.Where(x => x.IdUsuario == Principal.veloz22.id && x.Modulos.NombreDeModulo == "Facturas").Select(x => new { x.Ver, x.Editar }).FirstOrDefault();
+
+            if (query.Editar == true)
+            {
+                btnAnular.Enabled = true;
+                btnPagar.Enabled = true;
+                txtobservaciones.ReadOnly = true;
+                dtgvMaestro.ReadOnly = false;
+                dtgvDetalle.ReadOnly = false;
+
+            }
+            else
+            {
+                btnAnular.Enabled = false;
+                btnPagar.Enabled = false;
+                txtobservaciones.ReadOnly = true;
+                dtgvMaestro.ReadOnly = true;
+                dtgvDetalle.ReadOnly = true;
+            }
+        }
         private void autosize()
         {
             dtgvMaestro.BackgroundColor = Color.White;
@@ -116,6 +139,7 @@ namespace Proyecto1.Facturas
         {
             CenterToScreen();
             RefreshMaestro();
+            Botones();
         }
 
         //private bool butonclik;

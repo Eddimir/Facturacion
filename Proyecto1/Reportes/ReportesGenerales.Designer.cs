@@ -20,8 +20,6 @@
             base.Dispose(disposing);
         }
 
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -56,6 +54,31 @@
         //    this.ResumeLayout(false);
 
         //}
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportesGenerales));
+            this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
+            this.SuspendLayout();
+            // 
+            // reportViewer1
+            // 
+            resources.ApplyResources(this.reportViewer1, "reportViewer1");
+            this.reportViewer1.Name = "reportViewer1";
+            this.reportViewer1.ServerReport.BearerToken = null;
+            // 
+            // ReportesGenerales
+            // 
+            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.reportViewer1);
+            this.Name = "ReportesGenerales";
+            this.Load += new System.EventHandler(this.ReportesGenerales_Load_1);
+            this.ResumeLayout(false);
+
+        }
+
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
+
+        //public Microsoft.Reporting.WinForms.ReportViewer reportViewer1;
 
         #endregion
 

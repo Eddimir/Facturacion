@@ -25,6 +25,7 @@ namespace Proyecto1.Clientes
         {
             this.CenterToScreen();
             Llenar();
+            Botones();
             //this.reportViewer1.RefreshReport();
         }
         private void Llenar()

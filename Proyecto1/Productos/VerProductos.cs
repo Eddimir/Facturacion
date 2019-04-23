@@ -49,6 +49,7 @@ namespace Proyecto1.Productos
             dtgvVer.DataSource = query.OrderBy(x => x.Producto).ToList();
 
             label1.Text = "Total de Registros:" + dtgvVer.Rows.Count.ToString();
+            AutoAjuste();
 
             //foreach (var item in query.AsEnumerable())
             //{
@@ -63,8 +64,8 @@ namespace Proyecto1.Productos
         private void AutoAjuste()
         {
             dtgvVer.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dtgvVer.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dtgvVer.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+           
+            dtgvVer.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dtgvVer.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dtgvVer.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 

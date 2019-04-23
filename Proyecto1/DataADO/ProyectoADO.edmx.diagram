@@ -53,6 +53,7 @@
         <AssociationConnector Association="DbConexion.FK_OrdenCompra_Usuarios" />
         <AssociationConnector Association="DbConexion.FK_Usuarios_Puestos" />
         <AssociationConnector Association="DbConexion.FK_Seguridad_Usuarios1" />
+        <EntityTypeShape EntityType="DbConexion.vsFacturacionDetalles" Width="1.5" PointX="16.375" PointY="13.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

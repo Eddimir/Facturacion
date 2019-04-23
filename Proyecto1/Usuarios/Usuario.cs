@@ -24,8 +24,14 @@ namespace Proyecto1
         estatus estatus;
         private void Usuario_Load(object sender, EventArgs e)
         {
-            this.CenterToScreen();
+            CenterToScreen();
             FillPuestos();
+
+            if (estatus == estatus.Modificando)
+                lblId.Text = string.Empty;
+
+            if (lblId.Text.Length != 0)
+                Cargar(Convert.ToInt32(lblId.Text));         
             
         }
         private void MensajeOk(string mensaje)
@@ -53,7 +59,7 @@ namespace Proyecto1
                 }
                 if (Clases.Veloz.ValidarEmail(txtcorreoeletronico.Text) == false)
                 {
-                    errorProvider1.SetError(txtNOmbre, "Ingrese un correo valido");
+                    errorProvider1.SetError(txtcorreoeletronico, "Ingrese un correo valido");
                 }
                 else
                 {
@@ -68,7 +74,6 @@ namespace Proyecto1
                         Direccion = txtDireccion.Text,
                         Contrasena = txtconntrasenia.Text,
                         NombreUsuario = txtNOmbreUser.Text,
-                        IdPuesto = Convert.ToInt32(cmbPuestos.SelectedValue),
                         email = txtcorreoeletronico.Text,
                         imagen = Veloz.imageToByteArray(PtImagen.Image),
 
@@ -81,8 +86,7 @@ namespace Proyecto1
                     estatus = estatus.Modificando;
                     MensajeOk("Se inserto Correctamente");
                     Close();
-                    Usuario Usuario = new Usuario();
-                    Usuario.ActiveControl = ActiveForm;
+                    Usuario Usuario = new Usuario();                  
                     Usuario.ShowDialog();
                 }
             }
@@ -120,12 +124,12 @@ namespace Proyecto1
                         user.Cedula = txtCedula.Text;
                         user.Telefono = txtTelefono.Text;
                         user.email = txtcorreoeletronico.Text;
-                        user.IdPuesto = Convert.ToInt32(cmbPuestos.SelectedValue);
+                        //user.IdPuesto = Convert.ToInt32(cmbPuestos.SelectedValue);
                         user.NombreUsuario = txtNOmbreUser.Text;
                         user.Contrasena = txtconntrasenia.Text;
                         user.Activo_estado = (ckbActivo.Checked == true) ? true : false;
-                        var img = byteArrayToImage(user.imagen);
-                        user.imagen = imageToByteArray(img);
+                        //var img = byteArrayToImage(PtImagen.Image);
+                        user.imagen = imageToByteArray(PtImagen.Image);
 
                         db.SaveChanges();
                         MensajeOk("Se actualizo de forma correcta");
@@ -161,8 +165,7 @@ namespace Proyecto1
 
                 if (user.imagen != null)
                     PtImagen.Image = byteArrayToImage(user.imagen);
-                else
-                    PtImagen = null;
+               
                
                 //cmbPuestos.Text = dsUsuarios.IdPuesto.ToString();
                 
@@ -252,7 +255,7 @@ namespace Proyecto1
         //        return filtro.ToList();
         //    }
         //}
-        private void Limpiar()
+        public void Limpiar()
         {
             lblId.Text = "";
             txtNOmbre.Text = "";
@@ -363,11 +366,14 @@ namespace Proyecto1
                 // display image in picture box  
                 //PtImagen.Image;
                 var image = new Bitmap(open.FileName);
-                var imagePerfect = new Bitmap(image, 201, 185);
+                Bitmap imagePerfect = new Bitmap(image, 201, 185);
+           
                 PtImagen.Image = imagePerfect;
                 // image file path  
                 PtImagen.Text = open.FileName;
                 textBox1.Text = open.FileName;
+
+
 
             }
 

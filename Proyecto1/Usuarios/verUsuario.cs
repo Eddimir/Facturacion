@@ -52,7 +52,7 @@ namespace Proyecto1.Usuarios
         public string Id;
         private void btnSeleccionar_Click(object sender, EventArgs e)
         {
-            //Clientes.VerClientes fr = new Clientes.VerClientes();
+            Usuario fr = new Usuario();
             if (buscando)
             {
                 Id = dataGridView1.CurrentRow.Cells[0].Value.ToString();
@@ -60,8 +60,8 @@ namespace Proyecto1.Usuarios
             }
             else
             {
-                //fr.lblId.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                //fr.ShowDialog();
+                fr.lblId.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                fr.ShowDialog();
             }
         }
 
@@ -79,7 +79,7 @@ namespace Proyecto1.Usuarios
                         x.Cedula,
                         x.Direccion,
                         x.Telefono,
-                        x.Puestos.Puesto
+                        x.Puestos.Puesto                        
                     });
 
                 dataGridView1.DataSource = filtro.OrderBy(x => x.Id).ToList();
@@ -108,6 +108,14 @@ namespace Proyecto1.Usuarios
             dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.Columns[4].ReadOnly = true;
             dataGridView1.Columns[5].ReadOnly = true;
+        }
+
+        private void BtnNuevo_Click(object sender, EventArgs e)
+        {
+            Usuario user = new Usuario();
+            user.Limpiar();
+            user.ShowDialog();
+            Fill();
         }
     }
 }

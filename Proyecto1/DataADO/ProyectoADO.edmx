@@ -297,8 +297,46 @@
           <Property Name="Contrasena" Type="nvarchar" MaxLength="30" />
           <Property Name="imagen" Type="image" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsFacturacionDetalles' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vsFacturacionDetalles">
+          <Key>
+            <PropertyRef Name="Producto" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Nombre" />
+          </Key>
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Producto" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cantidad" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdProducto" Type="int" />
+          <Property Name="idUsario" Type="int" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Cerrada" Type="bit" />
+          <Property Name="idCliente" Type="int" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="500" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FechaVencimiento" Type="datetime" />
+          <Property Name="FechaAnulacion" Type="datetime" />
+          <Property Name="pagada" Type="bit" />
+          <Property Name="DetalleTipoDepago" Type="nvarchar" MaxLength="300" />
+          <Property Name="ITBIS" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Impuesto" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DescripcionImpuesto" Type="nvarchar" MaxLength="150" />
+          <Property Name="IdFacturacion" Type="int" />
+          <Property Name="AvisarVencimiento" Type="bit" />
+          <Property Name="Margen_Beneficio" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Apellido" Type="nvarchar" MaxLength="25" />
+          <Property Name="Celular" Type="nvarchar" MaxLength="20" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="60" />
+          <Property Name="Cedula" Type="nvarchar" MaxLength="20" />
+          <Property Name="TipoDePago" Type="nvarchar" MaxLength="50" />
+          <Property Name="TipoDivisa" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'Proyecto1.dbo.vsModulosUsuarios' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="vsModulosUsuarios">
           <Key>
             <PropertyRef Name="IdUsuario" />
@@ -591,6 +629,39 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <EntitySet Name="TipoDeDivisa" EntityType="Self.TipoDeDivisa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoDePago" EntityType="Self.TipoDePago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vsFacturacionDetalles" EntityType="Self.vsFacturacionDetalles" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vsFacturacionDetalles].[Fecha] AS [Fecha], 
+    [vsFacturacionDetalles].[Producto] AS [Producto], 
+    [vsFacturacionDetalles].[Cantidad] AS [Cantidad], 
+    [vsFacturacionDetalles].[IdProducto] AS [IdProducto], 
+    [vsFacturacionDetalles].[idUsario] AS [idUsario], 
+    [vsFacturacionDetalles].[Total] AS [Total], 
+    [vsFacturacionDetalles].[Cerrada] AS [Cerrada], 
+    [vsFacturacionDetalles].[idCliente] AS [idCliente], 
+    [vsFacturacionDetalles].[Observaciones] AS [Observaciones], 
+    [vsFacturacionDetalles].[Id] AS [Id], 
+    [vsFacturacionDetalles].[FechaVencimiento] AS [FechaVencimiento], 
+    [vsFacturacionDetalles].[FechaAnulacion] AS [FechaAnulacion], 
+    [vsFacturacionDetalles].[pagada] AS [pagada], 
+    [vsFacturacionDetalles].[DetalleTipoDepago] AS [DetalleTipoDepago], 
+    [vsFacturacionDetalles].[ITBIS] AS [ITBIS], 
+    [vsFacturacionDetalles].[Descuento] AS [Descuento], 
+    [vsFacturacionDetalles].[Precio] AS [Precio], 
+    [vsFacturacionDetalles].[Impuesto] AS [Impuesto], 
+    [vsFacturacionDetalles].[DescripcionImpuesto] AS [DescripcionImpuesto], 
+    [vsFacturacionDetalles].[IdFacturacion] AS [IdFacturacion], 
+    [vsFacturacionDetalles].[AvisarVencimiento] AS [AvisarVencimiento], 
+    [vsFacturacionDetalles].[Margen_Beneficio] AS [Margen_Beneficio], 
+    [vsFacturacionDetalles].[Nombre] AS [Nombre], 
+    [vsFacturacionDetalles].[Apellido] AS [Apellido], 
+    [vsFacturacionDetalles].[Celular] AS [Celular], 
+    [vsFacturacionDetalles].[Correo] AS [Correo], 
+    [vsFacturacionDetalles].[Cedula] AS [Cedula], 
+    [vsFacturacionDetalles].[TipoDePago] AS [TipoDePago], 
+    [vsFacturacionDetalles].[TipoDivisa] AS [TipoDivisa]
+    FROM [dbo].[vsFacturacionDetalles] AS [vsFacturacionDetalles]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vsModulosUsuarios" EntityType="Self.vsModulosUsuarios" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vsModulosUsuarios].[IdUsuario] AS [IdUsuario], 
@@ -820,6 +891,7 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="Seguridad" EntitySet="Seguridad" />
           </AssociationSet>
+          <EntitySet Name="vsFacturacionDetalles" EntityType="DbConexion.vsFacturacionDetalles" />
           </EntityContainer>
         <EntityType Name="Almacen">
           <Key>
@@ -1402,6 +1474,42 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="vsFacturacionDetalles">
+          <Key>
+            <PropertyRef Name="Producto" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Nombre" />
+          </Key>
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Producto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdProducto" Type="Int32" />
+          <Property Name="idUsario" Type="Int32" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cerrada" Type="Boolean" />
+          <Property Name="idCliente" Type="Int32" />
+          <Property Name="Observaciones" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FechaVencimiento" Type="DateTime" Precision="3" />
+          <Property Name="FechaAnulacion" Type="DateTime" Precision="3" />
+          <Property Name="pagada" Type="Boolean" />
+          <Property Name="DetalleTipoDepago" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ITBIS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Impuesto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DescripcionImpuesto" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="IdFacturacion" Type="Int32" />
+          <Property Name="AvisarVencimiento" Type="Boolean" />
+          <Property Name="Margen_Beneficio" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Celular" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Correo" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="Cedula" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDePago" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDivisa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1735,6 +1843,41 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vsFacturacionDetalles">
+            <EntityTypeMapping TypeName="DbConexion.vsFacturacionDetalles">
+              <MappingFragment StoreEntitySet="vsFacturacionDetalles">
+                <ScalarProperty Name="TipoDivisa" ColumnName="TipoDivisa" />
+                <ScalarProperty Name="TipoDePago" ColumnName="TipoDePago" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Margen_Beneficio" ColumnName="Margen_Beneficio" />
+                <ScalarProperty Name="AvisarVencimiento" ColumnName="AvisarVencimiento" />
+                <ScalarProperty Name="IdFacturacion" ColumnName="IdFacturacion" />
+                <ScalarProperty Name="DescripcionImpuesto" ColumnName="DescripcionImpuesto" />
+                <ScalarProperty Name="Impuesto" ColumnName="Impuesto" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="ITBIS" ColumnName="ITBIS" />
+                <ScalarProperty Name="DetalleTipoDepago" ColumnName="DetalleTipoDepago" />
+                <ScalarProperty Name="pagada" ColumnName="pagada" />
+                <ScalarProperty Name="FechaAnulacion" ColumnName="FechaAnulacion" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="Cerrada" ColumnName="Cerrada" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="idUsario" ColumnName="idUsario" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Producto" ColumnName="Producto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

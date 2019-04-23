@@ -62,6 +62,10 @@ namespace Proyecto1.Productos
             txtbeneficio.Text = string.Empty;
             PtImagen.Image = null;
             dtvencimiento.Value = DateTime.Now;
+            cmbcategoriaproducto.SelectedIndex = -1;
+            txtdiasparaavisar.Text = "";
+            ckbavisarvencimiento.Checked = false;
+            textBox1.Text = "";
 
             ///Value by default
             //txtitbs.Text = "0.00";
@@ -149,9 +153,9 @@ namespace Proyecto1.Productos
                         dsproductos.AvisarVencimiento = (ckbavisarvencimiento.Checked == true) ? true : false;
                         dsproductos.FechaVencimiento = dtvencimiento.Value;
 
-                        ///convercion de byte to img...
-                        var img = byteArrayToImage(dsproductos.Imagen);
-                        dsproductos.Imagen = imageToByteArray(img);
+                        /// convercion de byte to img...
+                        //var img = byteArrayToImage(dsproductos.Imagen);
+                        dsproductos.Imagen = imageToByteArray(PtImagen.Image);
 
 
                         db.SaveChanges();
@@ -228,8 +232,8 @@ namespace Proyecto1.Productos
                         Margen_Beneficio = beneficio,
                         Registro = DateTime.Now,
                         AvisarVencimiento = (ckbavisarvencimiento.Checked == true) ? true : false,
-                        DiasParaAvisar = Convert.ToInt32(txtdiasparaavisar.Text),
-                        Imagen =  Veloz.imageToByteArray(PtImagen.Image),
+                        DiasParaAvisar =(txtdiasparaavisar.Text.Length == 0)?0: Convert.ToInt32(txtdiasparaavisar.Text),
+                        Imagen = (PtImagen.Image != null)? Veloz.imageToByteArray(PtImagen.Image):null,
                         FechaVencimiento = dtvencimiento.Value,
                         IdCategoria = Convert.ToInt32(cmbcategoriaproducto.SelectedValue)                        
                     };
@@ -242,7 +246,7 @@ namespace Proyecto1.Productos
                     MensajeOk("Se inserto Correctamente");
                     Close();
                     Productos productos = new Productos();
-                    productos.ActiveControl = ActiveForm;
+                 
                     productos.ShowDialog();
                     //RefreshFill();
                 }
@@ -309,7 +313,7 @@ namespace Proyecto1.Productos
             
             cmbcategoriaproducto.FlatStyle = FlatStyle.Flat;
             cmbcategoriaproducto.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbcategoriaproducto.SelectedIndex = -1;
+            
         }
     }
 }

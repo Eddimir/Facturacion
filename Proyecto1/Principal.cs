@@ -15,6 +15,7 @@ namespace Proyecto1
 {
     public partial class Principal : Form
     {
+        public static Form FrmReferencia;
         public Principal()
         {
             GetForm = new Form();
@@ -41,6 +42,7 @@ namespace Proyecto1
             //timer1.Start();
             timer1.Enabled = true;
             Agreggated();
+            hidden();
         }
 
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -78,12 +80,16 @@ namespace Proyecto1
             {
                 nombre = veloz22.Nombre;
                 contrasenia = veloz22.Contrasenia;
-                //validacion();
+                validacion();
+                label1.Visible = true;
+
+                label1.Text = $"Usuario: {veloz22.Nombre} {veloz22.Apellido}";
             }
             else
             {
                 Application.Exit();
-            }            
+            }
+    
         }
 
         private void validacion()
@@ -123,6 +129,7 @@ namespace Proyecto1
                 foreach (var item in menuItem.menuItem.Items)
                     validacion(item, id);
             }
+            label1.Text = $"Usuario: {veloz22.Nombre}";
         }
 
         private DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
@@ -182,16 +189,37 @@ namespace Proyecto1
 
         private void facturasToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+
             Facturas.Crear frcrear = new Facturas.Crear();
             frcrear.MdiParent = this;
             frcrear.Show();
+        }
+        private void hidden()
+        {
+            try
+            {
+                var db = new DataADO.Proyecto1Entities();
+                var query = db.Seguridad.Where(x => x.IdUsuario == Principal.veloz22.id && x.Modulos.NombreDeModulo == "Facturas").Select(x => new { x.Ver, x.Editar }).FirstOrDefault();
+
+                if (query.Editar == true)
+                {
+                    facturasToolStripMenuItem1.Visible = true;
+                }
+                else
+                {
+                    facturasToolStripMenuItem1.Visible = false;
+                }
+            }
+            catch { }
+
+
         }
 
         private void movimientoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Almacen.AlmacenMovimiento fralmacen = new Almacen.AlmacenMovimiento();
             fralmacen.MdiParent = this;
-            fralmacen.Show();
+            fralmacen.Show();          
         }
 
         private void mantenimientoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -248,6 +276,8 @@ namespace Proyecto1
 
             this.Location = Screen.PrimaryScreen.WorkingArea.Location;
             this.Size = Screen.PrimaryScreen.WorkingArea.Size;
+
+        
             olcultando();
             
         }
@@ -261,6 +291,7 @@ namespace Proyecto1
             almacenToolStripMenuItem.Visible = false;
             ordenDeCompraToolStripMenuItem.Visible = false;
             ajustesToolStripMenuItem.Visible = false;
+            label1.Visible = false;
         }
 
         private void mantenimientoToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -275,7 +306,7 @@ namespace Proyecto1
 
         private void mantenimientoToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            Usuario usuario = new Usuario
+            Usuarios.verUsuario usuario = new Usuarios.verUsuario
             {
                 MdiParent = this
             };
@@ -316,6 +347,7 @@ namespace Proyecto1
 
         private void CambiarCuentaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+           
             olcultando();
             Login fr = new Login();
             fr.ShowDialog();
@@ -325,11 +357,16 @@ namespace Proyecto1
                 nombre = veloz22.Nombre;
                 contrasenia = veloz22.Contrasenia;
                 validacion();
+
+                label1.Visible = true;
+
+                label1.Text = $"Usuario: {veloz22.Nombre}";
             }
             else
             {
                 Application.Exit();
             }
+            hidden();
         }
     }
 }

@@ -246,10 +246,20 @@ namespace Proyecto1.Facturas
                 db.SaveChanges();
                 actualizaciondeexistencia();
 
-                Close();
-                Crear fr = new Crear();
-                fr.MdiParent = ActiveForm;                
-                fr.Show();
+                int? idFactura = db.Facturacion.Max(x => x.Id);
+             
+
+                if(idFactura != null)
+                {
+                    Close();
+                    Crear fr = new Crear();
+                    fr.MdiParent = ActiveForm;
+                    fr.Show();
+                    Clases.ReportesPuntoVenta.Facturacion(idFactura);
+                }
+                else { MessageBox.Show("Se guradara pero no se imprimira el recibo."); }
+
+              
             }
             catch { }
             
