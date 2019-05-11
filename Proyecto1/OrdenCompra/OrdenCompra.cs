@@ -228,5 +228,28 @@ namespace Proyecto1.OrdenCompra
             Productos.VerProductos pro = new Productos.VerProductos();
             pro.Show();
         }
+
+        private void GroupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Txtfiltro_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                Producto();
+            }
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            Producto();
+        }
+
+        private void BtnProveedor_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -34,9 +34,7 @@ namespace Proyecto1.Productos
             if (lblId.Text.Length != 0)
                 Cargar(Convert.ToInt32(lblId.Text));
 
-            //if (lblId.Text.Length != 0)
-            //    Limpiar();
-
+            AvisarVencimiento();
             dsproductos = new DataADO.Productos();
 
 
@@ -58,7 +56,7 @@ namespace Proyecto1.Productos
             txtPrecio.Text = string.Empty;
             txtDescripcion.Text = string.Empty;
             txtcantidad.Text = string.Empty;
-            txtitbs.Text = string.Empty;
+            ckbitbs.Checked = false;
             txtbeneficio.Text = string.Empty;
             PtImagen.Image = null;
             dtvencimiento.Value = DateTime.Now;
@@ -86,7 +84,7 @@ namespace Proyecto1.Productos
                     lblId.Text = dsproductos.Id.ToString();
                     txtproducto.Text = dsproductos.Producto;
                     txtPrecio.Text = dsproductos.Precio.ToString();
-                    txtitbs.Text = dsproductos.ITBS.ToString();
+                    ckbitbs.Checked = (dsproductos.ITBS != null) ? true : false;
                     txtcantidad.Text = dsproductos.Cantidad_Existencia.ToString();
                     txtbeneficio.Text = dsproductos.Margen_Beneficio.ToString();
                     txtDescripcion.Text = dsproductos.Despcricion;
@@ -133,16 +131,26 @@ namespace Proyecto1.Productos
             {
                 if (estatus == estatus.Modificando || estatus  != estatus.Modificando)
                 {
+                    if (txtproducto.Text == string.Empty)
+                    {
+                        MensajeError("Falta ingresar algunos datos, seran remarcados");
+                        errorProvider1.SetError(txtproducto, "Ingrese un nombre");
+                    }
+                    if(cmbcategoriaproducto.SelectedValue == null)
+                    {
+                        MensajeError("Falta ingresar algunos datos, seran remarcados");
+                        errorProvider1.SetError(cmbcategoriaproducto, "elija una categoria");
+                    }
                     using (db = new DataADO.Proyecto1Entities())
                     {
                         dsproductos = (from pro in db.Productos
                                        where pro.Id == Id
                                        select pro).Single();
 
-                      
+                        dsproductos.Codigo = (ckbgeneralcode.Checked) ? GeneralCode() : null;
                         dsproductos.Producto = txtproducto.Text;
                         dsproductos.Despcricion = txtDescripcion.Text;
-                        dsproductos.ITBS = Convert.ToDecimal(txtitbs.Text);
+                        dsproductos.ITBS = (ckbitbs.Checked == true) ? Itbs(db) : 0;
                         dsproductos.Precio = Convert.ToDecimal(txtPrecio.Text);
                        
                         dsproductos.Registro = DateTime.Now;
@@ -151,12 +159,13 @@ namespace Proyecto1.Productos
                         dsproductos.IdCategoria = Convert.ToInt32(cmbcategoriaproducto.SelectedValue);
                         dsproductos.DiasParaAvisar = txtdiasparaavisar.Text.Length == 0 ? 0: Convert.ToInt32(txtdiasparaavisar.Text);
                         dsproductos.AvisarVencimiento = (ckbavisarvencimiento.Checked == true) ? true : false;
-                        dsproductos.FechaVencimiento = dtvencimiento.Value;
+                        dsproductos.FechaVencimiento = ckbavisarvencimiento.Checked ? dtvencimiento.Value : Convert.ToDateTime(null) ;
 
                         /// convercion de byte to img...
                         //var img = byteArrayToImage(dsproductos.Imagen);
                         dsproductos.Imagen = imageToByteArray(PtImagen.Image);
 
+                        AvisarVencimiento();
 
                         db.SaveChanges();
                         MensajeOk("Se actualizo de forma correcta");
@@ -200,6 +209,9 @@ namespace Proyecto1.Productos
 
 
         //}
+
+        
+      
         private void Crear()
         {
             using (var db = new DataADO.Proyecto1Entities())
@@ -217,24 +229,25 @@ namespace Proyecto1.Productos
 
                 if (precioTotal == 0)
                 {
-                    MessageBox.Show("El precio  no  puede ser igual a 0, porfavor modificar el registro");
+                    MensajeError("El precio  no  puede ser igual a 0, porfavor modificar el registro");
+                    errorProvider1.SetError(txtPrecio, "modificar el precio");
                 }
                 else if (precioTotal != 0)
                 {
                     var Producto = new DataADO.Productos
                     {
-                        Codigo = GeneralCode(),
+                        Codigo = (ckbgeneralcode.Checked) ?  GeneralCode() : null,
                         Producto = txtproducto.Text,
                         Despcricion = txtDescripcion.Text,
                         Precio = precioTotal,
-                        ITBS = (txtitbs.Text.Length == 0) ? 0 : Convert.ToDecimal(txtitbs.Text),
+                        ITBS = (ckbitbs.Checked == true) ? Itbs(db) : 0,
                         Cantidad_Existencia = (txtcantidad.Text.Length == 0) ? 0 : Convert.ToDecimal(txtcantidad.Text),
                         Margen_Beneficio = beneficio,
                         Registro = DateTime.Now,
                         AvisarVencimiento = (ckbavisarvencimiento.Checked == true) ? true : false,
-                        DiasParaAvisar =(txtdiasparaavisar.Text.Length == 0)?0: Convert.ToInt32(txtdiasparaavisar.Text),
-                        Imagen = (PtImagen.Image != null)? Veloz.imageToByteArray(PtImagen.Image):null,
-                        FechaVencimiento = dtvencimiento.Value,
+                        DiasParaAvisar = (txtdiasparaavisar.Text.Length == 0) ? 0 : Convert.ToInt32(txtdiasparaavisar.Text),
+                        Imagen = (PtImagen.Image != null) ? Veloz.imageToByteArray(PtImagen.Image) : null,
+                        FechaVencimiento = (ckbavisarvencimiento.Checked) ? dtvencimiento.Value : Convert.ToDateTime(null),
                         IdCategoria = Convert.ToInt32(cmbcategoriaproducto.SelectedValue)                        
                     };
 
@@ -245,8 +258,7 @@ namespace Proyecto1.Productos
                     lblId.Text = Producto.Id.ToString();
                     MensajeOk("Se inserto Correctamente");
                     Close();
-                    Productos productos = new Productos();
-                 
+                    Productos productos = new Productos();                 
                     productos.ShowDialog();
                     //RefreshFill();
                 }
@@ -265,8 +277,8 @@ namespace Proyecto1.Productos
             var hora = DateTime.Now.Hour;
             var segundo = DateTime.Now.Second;
 
-            var codigo = yearL + "" + mes + "" + dia + "" + hora + "" + segundo;
-
+            var codigo = yearL +  mes + dia  + hora  + segundo;
+        
 
             return codigo;
 
@@ -314,6 +326,35 @@ namespace Proyecto1.Productos
             cmbcategoriaproducto.FlatStyle = FlatStyle.Flat;
             cmbcategoriaproducto.DropDownStyle = ComboBoxStyle.DropDownList;
             
+        }
+        private decimal? Itbs(DataADO.Proyecto1Entities db)
+        {
+            var itbs = db.TipoDeDivisa.Where(x => x.TipoDivisa == "Dominicano").FirstOrDefault().ITBS;
+            return itbs;
+        }
+
+        private void Ckbavisarvencimiento_CheckedChanged(object sender, EventArgs e)
+        {
+            AvisarVencimiento();
+        }
+        private void AvisarVencimiento()
+        {
+            if (ckbavisarvencimiento.Checked)
+            {
+                lbldiasparavisar.Visible = true;
+                lblvencimiento.Visible = true;
+                dtvencimiento.Visible = true;
+                txtdiasparaavisar.Visible = true;
+            }
+            else
+            {
+                lbldiasparavisar.Visible = false;
+                lblvencimiento.Visible = false;
+                dtvencimiento.Visible = false;
+                txtdiasparaavisar.Visible = false;
+            }
+
+            textBox1.ReadOnly = true;
         }
     }
 }

@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -93,6 +95,12 @@
     </Compile>
     <Compile Include="Almacen\AlmacenMovimiento.Designer.cs">
       <DependentUpon>AlmacenMovimiento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Almacen\verAlmacen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Almacen\verAlmacen.Designer.cs">
+      <DependentUpon>verAlmacen.cs</DependentUpon>
     </Compile>
     <Compile Include="Categorias\frmcategorias.cs">
       <SubType>Form</SubType>
@@ -225,6 +233,12 @@
     <Compile Include="DataADO\vsModulosUsuarios.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
+    <Compile Include="Facturas\Cotizacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturas\Cotizacion.Designer.cs">
+      <DependentUpon>Cotizacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Facturas\Crear.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -342,6 +356,30 @@
       <DependentUpon>ReportesGenerales.cs</DependentUpon>
     </Compile>
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Sueldos\Sueldos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sueldos\Sueldos.Designer.cs">
+      <DependentUpon>Sueldos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sueldos\VerSueldos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sueldos\VerSueldos.Designer.cs">
+      <DependentUpon>VerSueldos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TipoDivisa\Divisas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipoDivisa\Divisas.Designer.cs">
+      <DependentUpon>Divisas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TipoDivisa\verDivisas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipoDivisa\verDivisas.Designer.cs">
+      <DependentUpon>verDivisas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Usuarios\verUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -361,6 +399,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Almacen\AlmacenMovimiento.resx">
       <DependentUpon>AlmacenMovimiento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Almacen\verAlmacen.resx">
+      <DependentUpon>verAlmacen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Categorias\frmcategorias.resx">
       <DependentUpon>frmcategorias.cs</DependentUpon>
@@ -437,6 +478,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\ReportesGenerales.resx">
       <DependentUpon>ReportesGenerales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sueldos\Sueldos.resx">
+      <DependentUpon>Sueldos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sueldos\VerSueldos.resx">
+      <DependentUpon>VerSueldos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoDivisa\Divisas.resx">
+      <DependentUpon>Divisas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipoDivisa\verDivisas.resx">
+      <DependentUpon>verDivisas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usuarios\verUsuario.resx">
       <DependentUpon>verUsuario.cs</DependentUpon>

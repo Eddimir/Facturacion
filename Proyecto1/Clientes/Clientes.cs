@@ -77,11 +77,8 @@ namespace Proyecto1.Clientes
                 MensajeOk("Se inserto correctamente");
                 Close();
 
-                Clientes clientes = new Clientes
-                {
-                    ActiveControl = ActiveForm
-                };
-                ShowDialog();
+                Clientes clientes = new Clientes();               
+                 clientes.ShowDialog();
             }
          
         }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblid = new System.Windows.Forms.Label();
             this.txtprecio = new System.Windows.Forms.TextBox();
@@ -40,12 +41,11 @@
             this.lblitbs = new System.Windows.Forms.Label();
             this.lblexistencia = new System.Windows.Forms.Label();
             this.lblproducto = new System.Windows.Forms.Label();
-            this.txtfiltro = new System.Windows.Forms.TextBox();
-            this.dtgvAlmacen = new System.Windows.Forms.DataGridView();
             this.btnGUardar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgvAlmacen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -95,7 +95,7 @@
             this.txtdescripcion.Location = new System.Drawing.Point(9, 101);
             this.txtdescripcion.Multiline = true;
             this.txtdescripcion.Name = "txtdescripcion";
-            this.txtdescripcion.Size = new System.Drawing.Size(684, 34);
+            this.txtdescripcion.Size = new System.Drawing.Size(684, 29);
             this.txtdescripcion.TabIndex = 7;
             // 
             // txtexistencia
@@ -157,28 +157,9 @@
             this.lblproducto.TabIndex = 0;
             this.lblproducto.Text = "Producto:";
             // 
-            // txtfiltro
-            // 
-            this.txtfiltro.Location = new System.Drawing.Point(12, 180);
-            this.txtfiltro.Name = "txtfiltro";
-            this.txtfiltro.Size = new System.Drawing.Size(100, 20);
-            this.txtfiltro.TabIndex = 10;
-            this.txtfiltro.TextChanged += new System.EventHandler(this.txtfiltro_TextChanged);
-            // 
-            // dtgvAlmacen
-            // 
-            this.dtgvAlmacen.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.dtgvAlmacen.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgvAlmacen.Location = new System.Drawing.Point(12, 206);
-            this.dtgvAlmacen.Name = "dtgvAlmacen";
-            this.dtgvAlmacen.Size = new System.Drawing.Size(710, 238);
-            this.dtgvAlmacen.TabIndex = 11;
-            this.dtgvAlmacen.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvAlmacen_CellEnter);
-            this.dtgvAlmacen.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dtgvAlmacen_KeyDown);
-            // 
             // btnGUardar
             // 
-            this.btnGUardar.Location = new System.Drawing.Point(639, 450);
+            this.btnGUardar.Location = new System.Drawing.Point(641, 170);
             this.btnGUardar.Name = "btnGUardar";
             this.btnGUardar.Size = new System.Drawing.Size(83, 33);
             this.btnGUardar.TabIndex = 12;
@@ -188,7 +169,7 @@
             // 
             // btnNuevo
             // 
-            this.btnNuevo.Location = new System.Drawing.Point(9, 450);
+            this.btnNuevo.Location = new System.Drawing.Point(12, 170);
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(75, 33);
             this.btnNuevo.TabIndex = 13;
@@ -196,24 +177,25 @@
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // Almacen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(736, 495);
+            this.ClientSize = new System.Drawing.Size(736, 212);
             this.Controls.Add(this.btnNuevo);
             this.Controls.Add(this.btnGUardar);
-            this.Controls.Add(this.dtgvAlmacen);
-            this.Controls.Add(this.txtfiltro);
             this.Controls.Add(this.groupBox1);
             this.Name = "Almacen";
             this.Text = "Almacen";
             this.Load += new System.EventHandler(this.Almacen_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgvAlmacen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -230,10 +212,9 @@
         private System.Windows.Forms.Label lblitbs;
         private System.Windows.Forms.Label lblexistencia;
         private System.Windows.Forms.Label lblproducto;
-        private System.Windows.Forms.TextBox txtfiltro;
-        private System.Windows.Forms.DataGridView dtgvAlmacen;
         private System.Windows.Forms.Button btnGUardar;
         private System.Windows.Forms.Button btnNuevo;
-        private System.Windows.Forms.Label lblid;
+        public System.Windows.Forms.Label lblid;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

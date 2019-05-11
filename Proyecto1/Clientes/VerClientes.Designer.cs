@@ -67,7 +67,7 @@
             // 
             this.btnNuevo.Location = new System.Drawing.Point(12, 360);
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(69, 37);
+            this.btnNuevo.Size = new System.Drawing.Size(80, 37);
             this.btnNuevo.TabIndex = 9;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
@@ -76,7 +76,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(790, 22);
+            this.label1.Location = new System.Drawing.Point(759, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 10;

@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="DbConexion.ConfiguracionEmpresa" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="DbConexion.FacturacionDetalle" Width="1.5" PointX="5.25" PointY="7.625" />
         <EntityTypeShape EntityType="DbConexion.CXC" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="DbConexion.Sueldos" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="DbConexion.Proveedores" Width="1.5" PointX="10.375" PointY="8" />
         <AssociationConnector Association="DbConexion.FK_AlmacenMovimiento_Proveedores1" />
         <EntityTypeShape EntityType="DbConexion.Cargos" Width="1.5" PointX="0.75" PointY="13.375" />
@@ -32,11 +31,9 @@
         <EntityTypeShape EntityType="DbConexion.Clientes" Width="1.5" PointX="0.75" PointY="8.875" />
         <AssociationConnector Association="DbConexion.FK_CXC_Clientes" />
         <EntityTypeShape EntityType="DbConexion.ProductosCategoria" Width="1.5" PointX="13.375" PointY="9.125" />
-        <EntityTypeShape EntityType="DbConexion.TipoDeDivisa" Width="1.5" PointX="6.375" PointY="0.875" />
         <EntityTypeShape EntityType="DbConexion.Facturacion" Width="1.5" PointX="10.625" PointY="13.125" />
         <AssociationConnector Association="DbConexion.FK_Facturacion_Clientes" />
         <AssociationConnector Association="DbConexion.FK_CXC_Facturacion" />
-        <AssociationConnector Association="DbConexion.FK_Facturacion_TipoDeDivisa" />
         <AssociationConnector Association="DbConexion.FK_Facturacion_TipoDePago" />
         <AssociationConnector Association="DbConexion.FK_FacturacionDetalle_Facturacion" />
         <EntityTypeShape EntityType="DbConexion.Productos" Width="1.5" PointX="15.625" PointY="7.875" />
@@ -54,6 +51,11 @@
         <AssociationConnector Association="DbConexion.FK_Usuarios_Puestos" />
         <AssociationConnector Association="DbConexion.FK_Seguridad_Usuarios1" />
         <EntityTypeShape EntityType="DbConexion.vsFacturacionDetalles" Width="1.5" PointX="16.375" PointY="13.75" />
+        <EntityTypeShape EntityType="DbConexion.TipoDeDivisa" Width="1.5" PointX="16.375" PointY="0.875" />
+        <AssociationConnector Association="DbConexion.FK_Facturacion_TipoDeDivisa" />
+        <EntityTypeShape EntityType="DbConexion.Sueldos" Width="1.5" PointX="5.25" PointY="18.125" />
+        <AssociationConnector Association="DbConexion.FK_Sueldos_Puestos" />
+        <AssociationConnector Association="DbConexion.FK_Sueldos_Usuarios" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

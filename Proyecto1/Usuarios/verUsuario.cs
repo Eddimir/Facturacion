@@ -21,7 +21,8 @@ namespace Proyecto1.Usuarios
         private void BuscarUsuario_Load(object sender, EventArgs e)
         {
             CenterToScreen();
-            Fill();           
+            Fill();
+            Botones();
         }
 
         private void Fill()
@@ -108,6 +109,7 @@ namespace Proyecto1.Usuarios
             dataGridView1.Columns[3].ReadOnly = true;
             dataGridView1.Columns[4].ReadOnly = true;
             dataGridView1.Columns[5].ReadOnly = true;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void BtnNuevo_Click(object sender, EventArgs e)
@@ -116,6 +118,23 @@ namespace Proyecto1.Usuarios
             user.Limpiar();
             user.ShowDialog();
             Fill();
+        }
+        public void Botones()
+        {
+            var db = new DataADO.Proyecto1Entities();
+            var query = db.Seguridad.Where(x => x.IdUsuario == Principal.veloz22.id && x.Modulos.NombreDeModulo == "Usuarios")
+                                    .Select(x => new { x.Ver, x.Editar }).FirstOrDefault();
+
+            if (query.Editar == true)
+            {
+                btnNuevo.Enabled = true;
+                btnSeleccionar.Enabled = true;
+            }
+            else
+            {
+                btnNuevo.Enabled = false;
+                btnSeleccionar.Enabled = false;
+            }
         }
     }
 }

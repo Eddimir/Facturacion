@@ -378,5 +378,33 @@ namespace Proyecto1
             }
 
         }
+
+        private void Btnelim_Click(object sender, EventArgs e)
+        {
+            if (lblId.Text.Length == 0)
+            {
+                MessageBox.Show("Para poder continuar con la accion antes debe de seleccionar el proveedor que desea  eliminar");
+            }
+            else
+            {
+                if (MessageBox.Show($"Seguro que desea eliminar a: {txtNOmbre.Text} esta accion no se podra deshacer?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    using (var db = new DataADO.Proyecto1Entities())
+                    {
+                        var cli = db.Usuarios.Find(Convert.ToInt32(lblId.Text));
+                        db.Usuarios.Attach(cli);
+                        db.Usuarios.Remove(cli);
+                        db.Facturacion.RemoveRange(cli.Facturacion);
+                        db.Seguridad.RemoveRange(cli.Seguridad);
+                        db.AlmacenMovimiento.RemoveRange(cli.AlmacenMovimiento);
+                        db.OrdenCompra.RemoveRange(cli.OrdenCompra);
+                        db.CXC.RemoveRange(cli.CXC);
+                        db.SaveChanges();
+                       
+
+                    }
+                }
+            }
+        }
     }
 }

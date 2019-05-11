@@ -27,7 +27,7 @@ namespace Proyecto1.Proveedores
         {
             MessageBox.Show(mensaje, "Sistema de ventas", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        private void LimpiarCampos()
+        public void LimpiarCampos()
         {
             lblId.Text = string.Empty;
             txtNOmbre.Text = string.Empty;

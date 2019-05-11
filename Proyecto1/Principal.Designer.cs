@@ -59,8 +59,10 @@
             this.departamentosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.categoriasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cambiarCuentaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cambiarCuentaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.divisasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +78,8 @@
             this.modulosToolStripMenuItem,
             this.almacenToolStripMenuItem,
             this.ordenDeCompraToolStripMenuItem,
-            this.ajustesToolStripMenuItem});
+            this.ajustesToolStripMenuItem,
+            this.cambiarCuentaToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1261, 60);
@@ -281,7 +284,8 @@
             this.puestosToolStripMenuItem,
             this.departamentosToolStripMenuItem,
             this.categoriasToolStripMenuItem,
-            this.cambiarCuentaToolStripMenuItem});
+            this.cambiarCuentaToolStripMenuItem,
+            this.divisasToolStripMenuItem});
             this.ajustesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ajustesToolStripMenuItem.Image")));
             this.ajustesToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.ajustesToolStripMenuItem.Name = "ajustesToolStripMenuItem";
@@ -327,6 +331,13 @@
             this.cambiarCuentaToolStripMenuItem.Text = "cambiar cuenta";
             this.cambiarCuentaToolStripMenuItem.Click += new System.EventHandler(this.CambiarCuentaToolStripMenuItem_Click);
             // 
+            // cambiarCuentaToolStripMenuItem1
+            // 
+            this.cambiarCuentaToolStripMenuItem1.Name = "cambiarCuentaToolStripMenuItem1";
+            this.cambiarCuentaToolStripMenuItem1.Size = new System.Drawing.Size(127, 56);
+            this.cambiarCuentaToolStripMenuItem1.Text = "Cambiar Cuenta";
+            this.cambiarCuentaToolStripMenuItem1.Click += new System.EventHandler(this.CambiarCuentaToolStripMenuItem1_Click);
+            // 
             // timer1
             // 
             this.timer1.Interval = 70000;
@@ -336,11 +347,18 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(1077, 19);
+            this.label1.Location = new System.Drawing.Point(1118, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 31);
             this.label1.TabIndex = 3;
             this.label1.Text = "label1";
+            // 
+            // divisasToolStripMenuItem
+            // 
+            this.divisasToolStripMenuItem.Name = "divisasToolStripMenuItem";
+            this.divisasToolStripMenuItem.Size = new System.Drawing.Size(181, 24);
+            this.divisasToolStripMenuItem.Text = "Divisas";
+            this.divisasToolStripMenuItem.Click += new System.EventHandler(this.DivisasToolStripMenuItem_Click);
             // 
             // Principal
             // 
@@ -395,5 +413,7 @@
         private System.Windows.Forms.ToolStripMenuItem categoriasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cambiarCuentaToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem cambiarCuentaToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem divisasToolStripMenuItem;
     }
 }

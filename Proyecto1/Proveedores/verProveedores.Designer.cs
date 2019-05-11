@@ -59,15 +59,17 @@
             this.btnSeleccionar.TabIndex = 6;
             this.btnSeleccionar.Text = "Seleccionar";
             this.btnSeleccionar.UseVisualStyleBackColor = true;
+            this.btnSeleccionar.Click += new System.EventHandler(this.BtnSeleccionar_Click_1);
             // 
             // btnNuevo
             // 
             this.btnNuevo.Location = new System.Drawing.Point(12, 344);
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(92, 26);
+            this.btnNuevo.Size = new System.Drawing.Size(92, 31);
             this.btnNuevo.TabIndex = 9;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
+            this.btnNuevo.Click += new System.EventHandler(this.BtnNuevo_Click);
             // 
             // verProveedores
             // 

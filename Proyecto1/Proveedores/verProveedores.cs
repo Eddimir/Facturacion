@@ -63,6 +63,8 @@ namespace Proyecto1.Proveedores
             dgvProveedores.Columns[2].ReadOnly = true;
             dgvProveedores.Columns[3].ReadOnly = true;
             dgvProveedores.Columns[4].ReadOnly = true;
+
+            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void txtfiltro_TextChanged(object sender, EventArgs e)
@@ -106,6 +108,29 @@ namespace Proyecto1.Proveedores
                 btnNuevo.Enabled = false;
                 btnSeleccionar.Enabled = false;
             }
+        }
+        Proveedores proveedores = new Proveedores();
+        private void BtnSeleccionar_Click_1(object sender, EventArgs e)
+        {
+           
+            if (buscando)
+            {
+                id = Convert.ToInt32(dgvProveedores.CurrentRow.Cells[0].Value);
+                Close();
+            }
+            else
+            {
+                proveedores.lblId.Text = dgvProveedores.CurrentRow.Cells[0].Value.ToString();
+                proveedores.ShowDialog();
+
+            }
+        }
+
+        private void BtnNuevo_Click(object sender, EventArgs e)
+        {
+            proveedores.LimpiarCampos();
+            proveedores.ShowDialog();
+            RefreSFill();
         }
     }
 }

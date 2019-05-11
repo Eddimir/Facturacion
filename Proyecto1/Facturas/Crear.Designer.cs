@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lbltotal = new System.Windows.Forms.Label();
             this.txttotal = new System.Windows.Forms.TextBox();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -76,11 +77,14 @@
             this.lbltipodivisa = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnCancelar = new System.Windows.Forms.Button();
+            this.ckbITBS = new System.Windows.Forms.CheckBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbltotal
@@ -274,7 +278,7 @@
             this.txtfiltro.Location = new System.Drawing.Point(13, 123);
             this.txtfiltro.Name = "txtfiltro";
             this.txtfiltro.Size = new System.Drawing.Size(362, 21);
-            this.txtfiltro.TabIndex = 32;
+            this.txtfiltro.TabIndex = 1;
             this.txtfiltro.TextChanged += new System.EventHandler(this.txtfiltro_TextChanged);
             this.txtfiltro.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtfiltro_KeyDown);
             // 
@@ -435,10 +439,10 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(479, 38);
+            this.btnLimpiar.Location = new System.Drawing.Point(485, 41);
             this.btnLimpiar.Margin = new System.Windows.Forms.Padding(4);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(57, 29);
+            this.btnLimpiar.Size = new System.Drawing.Size(70, 29);
             this.btnLimpiar.TabIndex = 26;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
@@ -446,10 +450,10 @@
             // 
             // btnCliente
             // 
-            this.btnCliente.Location = new System.Drawing.Point(544, 36);
+            this.btnCliente.Location = new System.Drawing.Point(563, 41);
             this.btnCliente.Margin = new System.Windows.Forms.Padding(4);
             this.btnCliente.Name = "btnCliente";
-            this.btnCliente.Size = new System.Drawing.Size(133, 30);
+            this.btnCliente.Size = new System.Drawing.Size(114, 30);
             this.btnCliente.TabIndex = 24;
             this.btnCliente.Text = "Buscar Cliente";
             this.btnCliente.UseVisualStyleBackColor = true;
@@ -564,11 +568,28 @@
             this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // ckbITBS
+            // 
+            this.ckbITBS.AutoSize = true;
+            this.ckbITBS.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckbITBS.Location = new System.Drawing.Point(692, 119);
+            this.ckbITBS.Name = "ckbITBS";
+            this.ckbITBS.Size = new System.Drawing.Size(64, 24);
+            this.ckbITBS.TabIndex = 58;
+            this.ckbITBS.Text = "ITBS";
+            this.ckbITBS.UseVisualStyleBackColor = true;
+            this.ckbITBS.CheckedChanged += new System.EventHandler(this.CkbITBS_CheckedChanged);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // Crear
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1191, 611);
+            this.Controls.Add(this.ckbITBS);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.lbltipodivisa);
@@ -607,6 +628,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -662,5 +684,7 @@
         private System.Windows.Forms.Label lbltipodivisa;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.CheckBox ckbITBS;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

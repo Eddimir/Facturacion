@@ -19,7 +19,7 @@ namespace Proyecto1.Productos
         }
         private DataADO.Proyecto1Entities db;
         public bool Buscando;
-        public int Id;
+        public int? Id;
         //private DataTable productos;
         //private bool buton;
         private void VerProductos_Load(object sender, EventArgs e)
@@ -79,7 +79,10 @@ namespace Proyecto1.Productos
             dtgvVer.Columns[2].ReadOnly = true;
             dtgvVer.Columns[3].ReadOnly = true;
             dtgvVer.Columns[4].ReadOnly = true;
+            dtgvVer.Columns[5].ReadOnly = true;
             dtgvVer.Columns[0].Visible = false;
+
+            dtgvVer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             avisarvencimiento();
         }

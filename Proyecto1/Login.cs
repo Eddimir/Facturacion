@@ -38,7 +38,8 @@ namespace Proyecto1
                 {
                     var User = db.Usuarios.FirstOrDefault(x => x.Nombre == txtuser.Text &&
                                                           x.Contrasena == txtContrasenia.Text);
-                    
+
+                    //db.Seguridad.Where(x => x.IdUsuario == User.Id).Select(s => new { s.Editar, s.Ver });
                    
                     if (User == null)
                     {

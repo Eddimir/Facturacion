@@ -83,7 +83,8 @@ namespace Proyecto1
                 validacion();
                 label1.Visible = true;
 
-                label1.Text = $"Usuario: {veloz22.Nombre} {veloz22.Apellido}";
+                label1.Text = $"Usuario: {veloz22.Nombre}";
+                cambiarCuentaToolStripMenuItem1.Visible = true;
             }
             else
             {
@@ -129,7 +130,7 @@ namespace Proyecto1
                 foreach (var item in menuItem.menuItem.Items)
                     validacion(item, id);
             }
-            label1.Text = $"Usuario: {veloz22.Nombre}";
+            
         }
 
         private DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
@@ -204,10 +205,12 @@ namespace Proyecto1
                 if (query.Editar == true)
                 {
                     facturasToolStripMenuItem1.Visible = true;
+                    listarToolStripMenuItem.Text = "Listar y Realizar mantenimiento";
                 }
                 else
                 {
                     facturasToolStripMenuItem1.Visible = false;
+                    listarToolStripMenuItem.Text = "Listar";
                 }
             }
             catch { }
@@ -224,7 +227,7 @@ namespace Proyecto1
 
         private void mantenimientoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Almacen.Almacen fralmacen = new Almacen.Almacen();
+            Almacen.verAlmacen fralmacen = new Almacen.verAlmacen();
             fralmacen.MdiParent = this;
             fralmacen.Show();
         }
@@ -292,6 +295,7 @@ namespace Proyecto1
             ordenDeCompraToolStripMenuItem.Visible = false;
             ajustesToolStripMenuItem.Visible = false;
             label1.Visible = false;
+            cambiarCuentaToolStripMenuItem1.Visible = false;
         }
 
         private void mantenimientoToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -347,7 +351,15 @@ namespace Proyecto1
 
         private void CambiarCuentaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
+
+            Sueldos.VerSueldos sueldos = new Sueldos.VerSueldos();
+            sueldos.MdiParent = this;
+            sueldos.Show();
+        }
+
+        private void CambiarCuentaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
             olcultando();
             Login fr = new Login();
             fr.ShowDialog();
@@ -359,14 +371,23 @@ namespace Proyecto1
                 validacion();
 
                 label1.Visible = true;
-
                 label1.Text = $"Usuario: {veloz22.Nombre}";
+                cambiarCuentaToolStripMenuItem1.Visible = true;
             }
             else
             {
                 Application.Exit();
             }
             hidden();
+        }
+
+        private void DivisasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TipoDivisa.verDivisas verDivisas = new TipoDivisa.verDivisas
+            {
+                MdiParent = this
+            };
+            verDivisas.Show();
         }
     }
 }

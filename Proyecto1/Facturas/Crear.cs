@@ -50,17 +50,14 @@ namespace Proyecto1.Facturas
         private void Llenarproducto()
         {
             try
-            {
-                //idfiltro = dtgvFiltro.CurrentRow.Cells[0].Value.ToString();
-                //Productos = dtgvFiltro.CurrentRow.Cells[1].Value.ToString();
-                //Existencia = Convert.ToDecimal(dtgvFiltro.CurrentRow.Cells[5].Value.ToString());                
+            {             
+                string filtro =  txtfiltro.Text;
                 
-                string Filtro = txtfiltro.Text;
-                
-                if (Filtro != null)
+                if (filtro != null)
                 {
-                    LlenarPro(Filtro);
-                    Filtro = null;
+                    LlenarPro(filtro);
+                    filtro = null;
+                    txtfiltro.Text = "";
                 }
             }
             catch { }
@@ -68,23 +65,27 @@ namespace Proyecto1.Facturas
         private decimal? partcantidad = 1;
         private void LlenarPro(string Filtro)
         {
-            string[] parts = Filtro.Split('*');
-            string valorParte1 =  Clases.Veloz.VerificacionString(parts[0]); // primera parte
+
+            string[] parts = Filtro.ToString().Split('*');
+            string valorParte1 = Clases.Veloz.VerificacionString(parts[0]); // primera parte
+
             if (parts.Length == 2)
             {
-                partcantidad = Convert.ToDecimal(parts[1]); // Segunda parte
-            }
-            if (!string.IsNullOrEmpty(valorParte1))
+                partcantidad = Convert.ToDecimal(parts[1]); // Segunda parte               
+            }         
+
+            if (!string.IsNullOrEmpty(valorParte1) || Filtro != null)
             {
-                var prod = db.Productos.Where(x => x.Codigo == valorParte1 || x.Producto.ToUpper() == valorParte1.ToUpper()).FirstOrDefault();
-                
+                //si es diferente de nulo el textbox entrara a la primera condicion de lo contrario entrara a la segunda
+                var prod =(txtfiltro.Text.Length != 0)? db.Productos.Where(x => x.Codigo == valorParte1 || x.Producto.ToUpper() == valorParte1.ToUpper()).FirstOrDefault() 
+                    : db.Productos.Find(Convert.ToInt32(Filtro));
+
                 if (prod == null)
                 {
                     MessageBox.Show("Porfavor intetelo de nuevo el producto no existe");
                 }
                 else
                 {
-                    //var pro = db.Productos.Find(Convert.ToInt32(prod.Id));
                     if (prod.Cantidad_Existencia >= 1)
                     {
                         bool Existe = false;
@@ -102,9 +103,9 @@ namespace Proyecto1.Facturas
                             {
                                 if (prod.Cantidad_Existencia <= 5)
                                 {
-                                    MessageBox.Show($"El producto: {Productos} se esta agotanto solo quedan: {prod.Cantidad_Existencia}");
+                                    MessageBox.Show($"El producto: {prod.Producto} se esta agotanto la cantidad existente es de: {prod.Cantidad_Existencia}");
                                 }
-                                dataGridView1.Rows.Add(prod.Id, prod.Producto, partcantidad, prod.Precio, prod.ITBS);
+                                dataGridView1.Rows.Add(prod.Id, prod.Producto, partcantidad, prod.Precio,0);
                                 dataGridView1.MultiSelect = true;
                                 partcantidad = 1;
                             }
@@ -115,15 +116,16 @@ namespace Proyecto1.Facturas
                         }
                         dataGridView1.AllowUserToOrderColumns = false;
                         dataGridView1.BackgroundColor = Color.White;
-                        dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                        dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     }
                     else
                     {
-                        MessageBox.Show($"El producto: {Productos} esta agotado.");
+                        MessageBox.Show($"El producto: {prod.Producto} esta agotado.");
                     }
                     ReadOnly();
                 }
             }
+            //Filtro = null;
         }
         private void btnCliente_Click(object sender, EventArgs e)
         {
@@ -208,15 +210,15 @@ namespace Proyecto1.Facturas
                                 Descuento = Convert.ToDecimal(rows.Cells[5].Value),
                                 Cantidad = Convert.ToDecimal(rows.Cells[2].Value),
                                 ITBIS = Convert.ToDecimal(rows.Cells[4].Value),
-                                Precio = Convert.ToDecimal(rows.Cells[3].Value),     
-                                //Impuesto = Convert.ToDecimal(rows.Cells[3].Value) * 0.18m,
+                                Precio = Convert.ToDecimal(rows.Cells[3].Value),
+                                //Impuesto = Convert.ToDecimal(rows.Cells[3].Value),
                                 Facturacion = facturacion
                             });
                             validacion = true;
                         }
                         else
                         {
-                            MessageBox.Show($"NO es posible guardar una cantidad no exitente del producto: {Query.Producto} solo queda un acnatidad de: {Query.Cantidad_Existencia}.");
+                            MessageBox.Show($"NO es posible guardar una cantidad no exitente del producto: {Query.Producto} solo queda una cantidad de: {Query.Cantidad_Existencia}.");
                             validacion = false;
                         }
                     }                   
@@ -232,7 +234,7 @@ namespace Proyecto1.Facturas
             }
         }
         /// <summary>
-        /// Inplementacion para guardar el ecabezado y detalle de la factura
+        /// Inplementacion para guardar el encabezado y detalle de la factura
         /// </summary>
         /// <param name="resultado"></param>
         /// <param name="detalle"></param>
@@ -246,8 +248,7 @@ namespace Proyecto1.Facturas
                 db.SaveChanges();
                 actualizaciondeexistencia();
 
-                int? idFactura = db.Facturacion.Max(x => x.Id);
-             
+                int? idFactura = db.Facturacion.Max(x => x.Id);             
 
                 if(idFactura != null)
                 {
@@ -255,11 +256,9 @@ namespace Proyecto1.Facturas
                     Crear fr = new Crear();
                     fr.MdiParent = ActiveForm;
                     fr.Show();
-                    Clases.ReportesPuntoVenta.Facturacion(idFactura);
+                    //Clases.ReportesPuntoVenta.Facturacion(idFactura);
                 }
-                else { MessageBox.Show("Se guradara pero no se imprimira el recibo."); }
-
-              
+                else { MessageBox.Show("Se guradara pero no se imprimira el recibo."); }              
             }
             catch { }
             
@@ -269,83 +268,56 @@ namespace Proyecto1.Facturas
         {
             try
             {
-                decimal TotalCalculo = 0, SubTotal = 0, TotalDevuelta, cantidad, precio, Descuento, ITBS, Total;
-                decimal? /*dollar, Euro, PrecioDivisa, ItbsDivisa, Desdivisa,*/ tipodinero = 0;
+                decimal TotalCalculo = 0, SubTotal = 0, cantidad, precio, Descuento, Total;
+                decimal?  ITBS=0, tipodinero = 0;
 
                 db = new DataADO.Proyecto1Entities();
                 if (dataGridView1.Rows.Count >= 1)
                 {
+                    foreach (var tipo in db.TipoDeDivisa.Select(x => new { x.TipoDivisa, x.Valor, x.ITBS }).ToList())
+                    {
+                        if (cmbtipodivisa.Text.ToUpper() == tipo.TipoDivisa.ToUpper())
+                        {
+                            tipodinero = tipo.Valor;
+                            if (ckbITBS.Checked)
+                                ITBS = tipo.ITBS;
+                            break;
+                        }
+                    }
                     foreach (DataGridViewRow rows in dataGridView1.Rows)
                     {
-
-                        var tipodivisa = db.TipoDeDivisa.Select(x => new { x.TipoDivisa, x.Valor });
-                        if (cmbtipodivisa.Text == "Dollar")
-                        {
-                            tipodinero = tipodivisa.Where(x => x.TipoDivisa == "Dollar").Select(x => x.Valor).Single();
-                        }
-                        else if (cmbtipodivisa.Text == "Euro")
-                        {
-                            tipodinero = tipodivisa.Where(x => x.TipoDivisa == "Euro").Select(x => x.Valor).Single();
-                        }
-
-
-
                         cantidad = Convert.ToDecimal(rows.Cells["Cantidad"].Value);
-                        precio = (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? Convert.ToDecimal(rows.Cells["Precio"].Value) / Convert.ToDecimal(tipodinero) : Convert.ToDecimal(rows.Cells["Precio"].Value);
-                        Descuento = (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? Convert.ToDecimal(rows.Cells["Descuento"].Value) / (decimal)tipodinero : Convert.ToDecimal(rows.Cells["Descuento"].Value);
-                        ITBS = (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? Convert.ToDecimal(rows.Cells["ITBS"].Value) / Convert.ToDecimal(tipodinero) : Convert.ToDecimal(rows.Cells["ITBS"].Value);
+                        precio = (cmbtipodivisa.Text != "Dominicano") ? Convert.ToDecimal(rows.Cells["Precio"].Value) / Convert.ToDecimal(tipodinero)
+                            : Convert.ToDecimal(rows.Cells["Precio"].Value);
 
-                        //precio = (decimal)rows.Cells["Precio"].Value;
-                        Total = (precio * cantidad) - Descuento + ITBS;
-                        decimal result = (Total != 0) ? Total : ITBS;
+                        Descuento =  Convert.ToDecimal(rows.Cells["Descuento"].Value);
+                       
+                        Total = (precio * cantidad) - Descuento + (decimal)ITBS;
+                        decimal result = (Total != 0) ? Total : (decimal)ITBS;
 
-                        //if(dataGridView1.Rows.Count >= 1)
-                        //{
-
-                        //   result = (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? result : result;
-                        //    //if (cmbtipodivisa.Text == "Dollar")
-                        //    //{
-                        //    //    result /= Convert.ToDecimal(dollar);
-
-                        //    //}
-                        //    //else if (cmbtipodivisa.Text == "Euro")
-                        //    //{
-                        //    //    result /= Convert.ToDecimal(Euro);
-                        //    //}
-                        //}
-
-                        rows.Cells["Total"].Value = result.ToString("N");
-                        //rows.Cells["Precio"].Value = precio.ToString("N");
-                        //rows.Cells["ITBS"].Value = ITBS.ToString("N");
-                        //if (cmbTipoDePago.Text == "Dollar" || cmbtipodivisa.Text == "Euro")
-                        //{                           
-                        //    rows.Cells["ITBS"].Value = ITBS.ToString("N");
-                        //    rows.Cells["Precio"].Value = precio.ToString("N");
-                        //}
-
+                        rows.Cells["Total"].Value = Convert.ToDecimal(((result * ITBS) + result)).ToString("N2");
+                        rows.Cells["ITBS"].Value = Convert.ToDecimal(ITBS).ToString("N3");
+                       
 
                         TotalCalculo += Convert.ToDecimal(rows.Cells["Total"].Value);
-                        SubTotal += (cmbtipodivisa.Text == "Dollar" || cmbtipodivisa.Text == "Euro") ? result : cantidad * precio;
-                  
-
-                        
+                        SubTotal += cantidad * precio;
                     }
   
                     txttotal.Text = TotalCalculo.ToString("N");
-                    txtsubtotal.Text = SubTotal.ToString("N");
-
-                    //Devolucion Calculo
+                    txtsubtotal.Text = SubTotal.ToString("N");                    
+                    
                     if (txttotal.Text.Length != 0)
                     {
                         if (Convert.ToDecimal(txtefectivo.Text) >= TotalCalculo)
                         {
-                            TotalDevuelta = Convert.ToDecimal(txtefectivo.Text) - TotalCalculo;
-                            txtdevuelta.Text = TotalDevuelta.ToString("N");
+                            txtdevuelta.Text = (Convert.ToDecimal(txtefectivo.Text) - TotalCalculo).ToString("N");
+                            errorProvider1.Clear();
                         }
                         else
                         {
                             txtefectivo.Text = string.Empty;
                             txtdevuelta.Text = string.Empty;
+                            errorProvider1.SetError(txtefectivo, "El total entregado por el cliente debe de ser igual o mayor al total.");                         
                         }
                     }
                 }
@@ -365,7 +337,7 @@ namespace Proyecto1.Facturas
         {
             CenterToScreen();
             FillUserAndAgregatted();
-            TiposDePagoYDivisas();
+            CargarFactura();
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -381,8 +353,6 @@ namespace Proyecto1.Facturas
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             richTextBox1.Clear();
-            //richTextBox1.Text = string.Empty;
-            //richTextBox1.Text = "";
         }
         private void FillUserAndAgregatted()
         {
@@ -511,8 +481,13 @@ namespace Proyecto1.Facturas
         {
             Productos.VerProductos pro = new Productos.VerProductos();
             pro.Buscando = true;
-            
-            pro.Show();
+            pro.ShowDialog();
+
+            if(pro.Id != null)
+            {
+                LlenarPro(Convert.ToString(pro.Id));
+                pro.Id = null;
+            }
         }
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -544,7 +519,7 @@ namespace Proyecto1.Facturas
             }
         }
 
-        private void TiposDePagoYDivisas()
+        private void CargarFactura()
         {
             var Tipos = from t in db.TipoDePago
                         select new
@@ -559,7 +534,7 @@ namespace Proyecto1.Facturas
             cmbTipoDePago.FlatStyle = FlatStyle.Flat;
             cmbTipoDePago.DropDownStyle = ComboBoxStyle.DropDownList;
 
-
+            ///////////////////////////
             var tipodivisa = db.TipoDeDivisa
                                .Select(x => new
                                {
@@ -573,6 +548,24 @@ namespace Proyecto1.Facturas
             cmbtipodivisa.FlatStyle = FlatStyle.Flat;
             cmbtipodivisa.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbtipodivisa.SelectedIndex = 2;
+
+            ///////////////////////
+            var clientedefault = db.Clientes.Where(x => x.Nombre.ToLower() == "Efectivo".ToLower())
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Nombre,
+                    x.Apellido
+                }).FirstOrDefault();
+
+            lblidcliente.Text = clientedefault.Id.ToString();
+            txtNOmbre.Text = clientedefault.Nombre;
+            txtApellido.Text = clientedefault.Apellido;
+
+
+            ///
+            lblidcliente.Visible = false;
+            lbliduser.Visible = false;
         }
 
         private void ckbPagada_Click(object sender, EventArgs e)
@@ -607,6 +600,12 @@ namespace Proyecto1.Facturas
         private void cmbtipodivisa_SelectedValueChanged(object sender, EventArgs e)
         {
             Calculo();
+        }
+
+        private void CkbITBS_CheckedChanged(object sender, EventArgs e)
+        {
+            if (dataGridView1.Rows.Count >= 1)
+                Calculo();
         }
     }
 }

@@ -122,6 +122,7 @@
             this.lblcorreo.Size = new System.Drawing.Size(122, 17);
             this.lblcorreo.TabIndex = 22;
             this.lblcorreo.Text = "Correo Eletronico:";
+           
             // 
             // txtcedula
             // 

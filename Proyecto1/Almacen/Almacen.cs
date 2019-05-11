@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Proyecto1.Clases.Veloz;
 
@@ -25,55 +20,52 @@ namespace Proyecto1.Almacen
 
         }
 
-        private void RefreshAlmacen()
+        private void MensajeOk(string mensaje)
         {
-            var almacen = from al in db.Almacen
-                          select new
-                          {
-                              al.Id,
-                              al.Producto,
-                              al.Descripcion,
-                              al.Precio,
-                              al.Existencia,
-                              al.ITBS
-                          };
-
-            dtgvAlmacen.DataSource = almacen.OrderBy(x => x.Id).ToList();
-            Autosize();
+            MessageBox.Show(mensaje, "Sistema de ventas", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+        private void MensajeError(string mensaje)
+        {
+            MessageBox.Show(mensaje, "Sistema de ventas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
 
         private void Almacen_Load(object sender, EventArgs e)
         {
             CenterToScreen();
-            RefreshAlmacen();
+
+            if (estatus == estatus.creando)
+                lblid.Text = "";
+            if (lblid.Text.Length != 0)
+                Cargar(Convert.ToInt32(lblid.Text));
         }
 
-        private void txtfiltro_TextChanged(object sender, EventArgs e)
-        {
-            var almacen = from d in db.Almacen
-                          where d.Producto.Contains(txtfiltro.Text) || d.Descripcion.Contains(txtfiltro.Text)
-                          select new
-                          {
-                              d.Id,
-                              d.Producto,
-                              d.Descripcion,
-                              d.Precio,
-                              d.Existencia,
-                              d.ITBS
-                          };
-            dtgvAlmacen.DataSource = almacen.OrderBy(x => x.Id).ToList();
-            Autosize();
+        //private void txtfiltro_TextChanged(object sender, EventArgs e)
+        //{
+        //    var almacen = from d in db.Almacen
+        //                  where d.Producto.Contains(txtfiltro.Text) || d.Descripcion.Contains(txtfiltro.Text)
+        //                  select new
+        //                  {
+        //                      d.Id,
+        //                      d.Producto,
+        //                      d.Descripcion,
+        //                      d.Precio,
+        //                      d.Existencia,
+        //                      d.ITBS
+        //                  };
+        //    dtgvAlmacen.DataSource = almacen.OrderBy(x => x.Id).ToList();
+        //    Autosize();
 
-            Filtro();
+        //    Filtro();
 
-        }
+        //}
 
-        private void Filtro()
-        {
-            lblid.Text = dtgvAlmacen.CurrentRow.Cells["Id"].Value.ToString();
-            int? id = Convert.ToInt32(lblid.Text);
-            Cargar(id);
-        }
+        //private void Filtro()
+        //{
+        //    lblid.Text = dtgvAlmacen.CurrentRow.Cells["Id"].Value.ToString();
+        //    int? id = Convert.ToInt32(lblid.Text);
+        //    Cargar(id);
+        //}
 
 
         private void Cargar(int? id)
@@ -92,72 +84,68 @@ namespace Proyecto1.Almacen
                 txtdescripcion.Text = almacen.Descripcion;
             }
         }
-        private void Autosize()
-        {
-            dtgvAlmacen.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dtgvAlmacen.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dtgvAlmacen.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dtgvAlmacen.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dtgvAlmacen.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-
-            dtgvAlmacen.MultiSelect = true;
-            dtgvAlmacen.AllowUserToOrderColumns = false;
-            dtgvAlmacen.AllowUserToDeleteRows = false;
-            dtgvAlmacen.BackgroundColor = Color.White;
-
-            dtgvAlmacen.Columns[0].Visible = false;
-            dtgvAlmacen.Columns[1].ReadOnly = true;
-            dtgvAlmacen.Columns[2].ReadOnly = true;
-            dtgvAlmacen.Columns[3].ReadOnly = true;
-            dtgvAlmacen.Columns[4].ReadOnly = true;
-            dtgvAlmacen.Columns[5].ReadOnly = true;
-        }
+     
         private void Crear()
         {
-            DataADO.Almacen almacen = new DataADO.Almacen()
+            if (txtproducto.Text == string.Empty)
             {
-                Producto = txtproducto.Text,
-                Precio = Convert.ToDecimal(txtprecio.Text),
-                Existencia = Convert.ToDecimal(txtexistencia.Text),
-                Descripcion = txtdescripcion.Text,
-                ITBS = Convert.ToDecimal(txtitbs.Text)
-            };
+                errorProvider1.SetError(txtproducto, "Ingrese un nombre");
+            }
+            if (txtprecio.Text == "")
+                errorProvider1.SetError(txtprecio, "Ingrese un precio del producto");
+            else
+            {
+                DataADO.Almacen almacen = new DataADO.Almacen()
+                {
+                    Producto = txtproducto.Text,
+                    Precio = Convert.ToDecimal(txtprecio.Text),
+                    Existencia = Convert.ToDecimal(txtexistencia.Text),
+                    Descripcion = txtdescripcion.Text,
+                    ITBS = Convert.ToDecimal(txtitbs.Text)
+                };
 
-            db.Almacen.Add(almacen);
-            db.SaveChanges();
+                db.Almacen.Add(almacen);
+                db.SaveChanges();
 
-            estatus = estatus.Modificando;
-            lblid.Text = almacen.Id.ToString();
+                estatus = estatus.creando;
+                lblid.Text = almacen.Id.ToString();
+            }
         }
         private void Actualizar(int id)
         {
-            if (estatus == estatus.Modificando || estatus != estatus.Modificando)
+            if (txtproducto.Text == "")
+                errorProvider1.SetError(txtproducto, "Ingrese el nombre del producto");
+            if (txtprecio.Text == "")
+                errorProvider1.SetError(txtprecio, "Ingrese el precio del producto");
+            else
             {
-                var almacen = (from al in db.Almacen
-                               where al.Id == id
-                               select al).First();
 
-                almacen.Id = Convert.ToInt32(lblid.Text);
-                almacen.Producto = txtproducto.Text;
-                almacen.Precio = Convert.ToDecimal(txtprecio.Text);
-                almacen.ITBS = Convert.ToDecimal(txtitbs.Text);
-                almacen.Existencia = Convert.ToDecimal(txtexistencia.Text);
-                almacen.Descripcion = txtdescripcion.Text;
+                if (estatus == estatus.Modificando)
+                {
+                    var almacen = (from al in db.Almacen
+                                   where al.Id == id
+                                   select al).First();
 
-                db.SaveChanges();
+                    almacen.Id = Convert.ToInt32(lblid.Text);
+                    almacen.Producto = txtproducto.Text;
+                    almacen.Precio = Convert.ToDecimal(txtprecio.Text);
+                    almacen.ITBS = Convert.ToDecimal(txtitbs.Text);
+                    almacen.Existencia = Convert.ToDecimal(txtexistencia.Text);
+                    almacen.Descripcion = txtdescripcion.Text;
+
+                    db.SaveChanges();
+                }
             }
         }
         private void btnGUardar_Click(object sender, EventArgs e)
         {
-            if (lblid.Text.Length == 0 && txtproducto.Text != null)
-            {
+            if (lblid.Text.Length == 0)
                 Crear();
-            }
             else
             {
                 Actualizar(Convert.ToInt32(lblid.Text));
+                estatus = estatus.Modificando;
             }
-            RefreshAlmacen();
         }
 
         private void dtgvAlmacen_KeyDown(object sender, KeyEventArgs e)
@@ -178,7 +166,6 @@ namespace Proyecto1.Almacen
                             db.Almacen.Remove(almacen);
                             db.SaveChanges();
                             MessageBox.Show("Registro eliminado correctamente");
-                            RefreshAlmacen();
                         }
                     }
                 }
@@ -191,19 +178,16 @@ namespace Proyecto1.Almacen
         {
             Limpiar();
         }
-        private void Limpiar()
+        public void Limpiar()
         {
             lblid.Text = "";
             txtproducto.Text = "";
             txtprecio.Text = "";
             txtitbs.Text = "";
             txtexistencia.Text = "";
-            txtdescripcion.Text = "";            
+            txtdescripcion.Text = ""; 
         }
 
-        private void dtgvAlmacen_CellEnter(object sender, DataGridViewCellEventArgs e)
-        {
-            Filtro();
-        }
+       
     }
 }

@@ -67,6 +67,8 @@ namespace Proyecto1.Clientes
             dtgvVer.Columns[2].ReadOnly = true;
             dtgvVer.Columns[3].ReadOnly = true;
             dtgvVer.Columns[4].ReadOnly = true;
+
+            dtgvVer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
         private void txtbusqueda_TextChanged(object sender, EventArgs e)
@@ -109,7 +111,8 @@ namespace Proyecto1.Clientes
         public void Botones()
         {
             var db = new DataADO.Proyecto1Entities();
-            var query = db.Seguridad.Where(x => x.IdUsuario == Principal.veloz22.id && x.Modulos.NombreDeModulo == "Clientes").Select(x => new { x.Ver, x.Editar }).FirstOrDefault();
+            var query = db.Seguridad.Where(x => x.IdUsuario == Principal.veloz22.id && x.Modulos.NombreDeModulo == "Clientes")
+                          .Select(x => new { x.Ver, x.Editar }).FirstOrDefault();
 
             if (query.Editar == true)
             {
