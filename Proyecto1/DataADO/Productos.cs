@@ -38,8 +38,8 @@ namespace Proyecto1.DataADO
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FacturacionDetalle> FacturacionDetalle { get; set; }
+        public virtual ProductosCategoria ProductosCategoria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
-        public virtual ProductosCategoria ProductosCategoria { get; set; }
     }
 }

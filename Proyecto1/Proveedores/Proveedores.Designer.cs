@@ -68,6 +68,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.btnNuevo = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.txtemail = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.lblRNC = new System.Windows.Forms.Label();
+            this.txtrnc = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -75,10 +79,14 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.txtTelefonoEmpresa);
-            this.groupBox1.Controls.Add(this.lblTelefonoempresa);
             this.groupBox1.Controls.Add(this.txtDireccion);
             this.groupBox1.Controls.Add(this.lblDirecion);
+            this.groupBox1.Controls.Add(this.lblRNC);
+            this.groupBox1.Controls.Add(this.txtrnc);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.txtTelefonoEmpresa);
+            this.groupBox1.Controls.Add(this.txtemail);
+            this.groupBox1.Controls.Add(this.lblTelefonoempresa);
             this.groupBox1.Controls.Add(this.lblceudla);
             this.groupBox1.Controls.Add(this.txtcedula);
             this.groupBox1.Controls.Add(this.txtEmpresa);
@@ -94,7 +102,7 @@
             this.groupBox1.Controls.Add(this.lblNombre);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(739, 164);
+            this.groupBox1.Size = new System.Drawing.Size(734, 207);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.GroupBox1_Enter);
@@ -117,16 +125,16 @@
             // 
             // txtDireccion
             // 
-            this.txtDireccion.Location = new System.Drawing.Point(6, 125);
+            this.txtDireccion.Location = new System.Drawing.Point(6, 165);
             this.txtDireccion.Multiline = true;
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(460, 20);
+            this.txtDireccion.Size = new System.Drawing.Size(719, 20);
             this.txtDireccion.TabIndex = 42;
             // 
             // lblDirecion
             // 
             this.lblDirecion.AutoSize = true;
-            this.lblDirecion.Location = new System.Drawing.Point(3, 109);
+            this.lblDirecion.Location = new System.Drawing.Point(3, 149);
             this.lblDirecion.Name = "lblDirecion";
             this.lblDirecion.Size = new System.Drawing.Size(55, 13);
             this.lblDirecion.TabIndex = 40;
@@ -239,9 +247,9 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(656, 182);
+            this.btnGuardar.Location = new System.Drawing.Point(643, 225);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(95, 32);
+            this.btnGuardar.Size = new System.Drawing.Size(103, 32);
             this.btnGuardar.TabIndex = 9;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
@@ -412,9 +420,9 @@
             // 
             // btnNuevo
             // 
-            this.btnNuevo.Location = new System.Drawing.Point(561, 182);
+            this.btnNuevo.Location = new System.Drawing.Point(534, 225);
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(89, 32);
+            this.btnNuevo.Size = new System.Drawing.Size(103, 32);
             this.btnNuevo.TabIndex = 7;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
@@ -424,11 +432,43 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // txtemail
+            // 
+            this.txtemail.Location = new System.Drawing.Point(6, 125);
+            this.txtemail.Name = "txtemail";
+            this.txtemail.Size = new System.Drawing.Size(227, 20);
+            this.txtemail.TabIndex = 45;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 109);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(90, 13);
+            this.label10.TabIndex = 44;
+            this.label10.Text = "Correo eletronico:";
+            // 
+            // lblRNC
+            // 
+            this.lblRNC.AutoSize = true;
+            this.lblRNC.Location = new System.Drawing.Point(236, 109);
+            this.lblRNC.Name = "lblRNC";
+            this.lblRNC.Size = new System.Drawing.Size(33, 13);
+            this.lblRNC.TabIndex = 46;
+            this.lblRNC.Text = "RNC:";
+            // 
+            // txtrnc
+            // 
+            this.txtrnc.Location = new System.Drawing.Point(239, 125);
+            this.txtrnc.Name = "txtrnc";
+            this.txtrnc.Size = new System.Drawing.Size(227, 20);
+            this.txtrnc.TabIndex = 47;
+            // 
             // Proveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(762, 225);
+            this.ClientSize = new System.Drawing.Size(759, 273);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnNuevo);
@@ -486,5 +526,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btnNuevo;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Label lblRNC;
+        private System.Windows.Forms.TextBox txtrnc;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtemail;
     }
 }

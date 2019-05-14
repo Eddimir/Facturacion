@@ -40,13 +40,6 @@
           <Property Name="Observacion" Type="nvarchar" MaxLength="600" />
           <Property Name="Total" Type="decimal" Precision="16" Scale="2" Nullable="false" />
         </EntityType>
-        <EntityType Name="Cargos">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Cargo" Type="nchar" MaxLength="10" />
-        </EntityType>
         <EntityType Name="Ciudades">
           <Key>
             <PropertyRef Name="Id" />
@@ -176,7 +169,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdProducto" Type="int" />
           <Property Name="IdOrdenCompra" Type="int" />
           <Property Name="Cantidad" Type="decimal" Precision="18" Scale="2" />
@@ -632,7 +625,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <EntitySet Name="Almacen" EntityType="Self.Almacen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlmacenDetalle" EntityType="Self.AlmacenDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlmacenMovimiento" EntityType="Self.AlmacenMovimiento" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Cargos" EntityType="Self.Cargos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ciudades" EntityType="Self.Ciudades" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComprobantesImpuestos" EntityType="Self.ComprobantesImpuestos" Schema="dbo" store:Type="Tables" />
@@ -827,14 +819,12 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="AlmacenMovimiento" EntitySet="AlmacenMovimiento" />
           </AssociationSet>
-          <EntitySet Name="Cargos" EntityType="DbConexion.Cargos" />
           <EntitySet Name="Ciudades" EntityType="DbConexion.Ciudades" />
           <EntitySet Name="ComprobantesImpuestos" EntityType="DbConexion.ComprobantesImpuestos" />
           <EntitySet Name="Departamentos" EntityType="DbConexion.Departamentos" />
           <EntitySet Name="Empresas" EntityType="DbConexion.Empresas" />
           <EntitySet Name="TipoDePago" EntityType="DbConexion.TipoDePago" />
           <EntitySet Name="AlmacenDetalle" EntityType="DbConexion.AlmacenDetalle" />
-          <EntitySet Name="OrdenCompraDetalle" EntityType="DbConexion.OrdenCompraDetalle" />
           <AssociationSet Name="FK_AlmacenDetalle_Almacen" Association="DbConexion.FK_AlmacenDetalle_Almacen">
             <End Role="Almacen" EntitySet="Almacen" />
             <End Role="AlmacenDetalle" EntitySet="AlmacenDetalle" />
@@ -847,10 +837,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <AssociationSet Name="FK_OrdenCompra_Proveedores" Association="DbConexion.FK_OrdenCompra_Proveedores">
             <End Role="Proveedores" EntitySet="Proveedores" />
             <End Role="OrdenCompra" EntitySet="OrdenCompra" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdenCompraDetalle_OrdenCompra" Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra">
-            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
-            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
           </AssociationSet>
           <EntitySet Name="Clientes" EntityType="DbConexion.Clientes" />
           <AssociationSet Name="FK_CXC_Clientes" Association="DbConexion.FK_CXC_Clientes">
@@ -879,10 +865,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <AssociationSet Name="FK_FacturacionDetalle_Productos" Association="DbConexion.FK_FacturacionDetalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
             <End Role="FacturacionDetalle" EntitySet="FacturacionDetalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdenCompraDetalle_Productos" Association="DbConexion.FK_OrdenCompraDetalle_Productos">
-            <End Role="Productos" EntitySet="Productos" />
-            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
           </AssociationSet>
           <AssociationSet Name="FK_Productos_ProductosCategoria" Association="DbConexion.FK_Productos_ProductosCategoria">
             <End Role="ProductosCategoria" EntitySet="ProductosCategoria" />
@@ -933,6 +915,15 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <AssociationSet Name="FK_Sueldos_Usuarios" Association="DbConexion.FK_Sueldos_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="Sueldos" EntitySet="Sueldos" />
+          </AssociationSet>
+          <EntitySet Name="OrdenCompraDetalle" EntityType="DbConexion.OrdenCompraDetalle" />
+          <AssociationSet Name="FK_OrdenCompraDetalle_OrdenCompra" Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra">
+            <End Role="OrdenCompra" EntitySet="OrdenCompra" />
+            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenCompraDetalle_Productos" Association="DbConexion.FK_OrdenCompraDetalle_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Almacen">
@@ -1040,13 +1031,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Cargos">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cargo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-        </EntityType>
         <EntityType Name="Ciudades">
           <Key>
             <PropertyRef Name="Id" />
@@ -1105,20 +1089,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <NavigationProperty Name="Almacen" Relationship="DbConexion.FK_AlmacenDetalle_Almacen" FromRole="AlmacenDetalle" ToRole="Almacen" />
           <NavigationProperty Name="AlmacenMovimiento" Relationship="DbConexion.FK_AlmacenDetalle_AlmacenMovimiento" FromRole="AlmacenDetalle" ToRole="AlmacenMovimiento" />
         </EntityType>
-        <EntityType Name="OrdenCompraDetalle">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="IdProducto" Type="Int32" />
-          <Property Name="IdOrdenCompra" Type="Int32" />
-          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ITBS" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Descuento" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
-          <NavigationProperty Name="OrdenCompra" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompraDetalle" ToRole="OrdenCompra" />
-          <NavigationProperty Name="Productos" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="OrdenCompraDetalle" ToRole="Productos" />
-        </EntityType>
         <Association Name="FK_AlmacenDetalle_Almacen">
           <End Type="DbConexion.Almacen" Role="Almacen" Multiplicity="0..1" />
           <End Type="DbConexion.AlmacenDetalle" Role="AlmacenDetalle" Multiplicity="*" />
@@ -1154,8 +1124,8 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Fecha" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Proveedores" Relationship="DbConexion.FK_OrdenCompra_Proveedores" FromRole="OrdenCompra" ToRole="Proveedores" />
-          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompra" ToRole="OrdenCompraDetalle" />
           <NavigationProperty Name="Usuarios" Relationship="DbConexion.FK_OrdenCompra_Usuarios" FromRole="OrdenCompra" ToRole="Usuarios" />
+          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompra" ToRole="OrdenCompraDetalle" />
         </EntityType>
         <Association Name="FK_OrdenCompra_Proveedores">
           <End Type="DbConexion.Proveedores" Role="Proveedores" Multiplicity="0..1" />
@@ -1166,18 +1136,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
             </Principal>
             <Dependent Role="OrdenCompra">
               <PropertyRef Name="IdProveedor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenCompraDetalle_OrdenCompra">
-          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="0..1" />
-          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrdenCompra">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenCompraDetalle">
-              <PropertyRef Name="IdOrdenCompra" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1314,8 +1272,8 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <Property Name="DiasParaAvisar" Type="Int32" />
           <Property Name="Imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="FacturacionDetalle" Relationship="DbConexion.FK_FacturacionDetalle_Productos" FromRole="Productos" ToRole="FacturacionDetalle" />
-          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="Productos" ToRole="OrdenCompraDetalle" />
           <NavigationProperty Name="ProductosCategoria" Relationship="DbConexion.FK_Productos_ProductosCategoria" FromRole="Productos" ToRole="ProductosCategoria" />
+          <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="Productos" ToRole="OrdenCompraDetalle" />
         </EntityType>
         <Association Name="FK_FacturacionDetalle_Productos">
           <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
@@ -1325,18 +1283,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="FacturacionDetalle">
-              <PropertyRef Name="IdProducto" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenCompraDetalle_Productos">
-          <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
-          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Productos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenCompraDetalle">
               <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
@@ -1582,6 +1528,44 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="OrdenCompraDetalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProducto" Type="Int32" />
+          <Property Name="IdOrdenCompra" Type="Int32" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ITBS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="OrdenCompra" Relationship="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" FromRole="OrdenCompraDetalle" ToRole="OrdenCompra" />
+          <NavigationProperty Name="Productos" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="OrdenCompraDetalle" ToRole="Productos" />
+        </EntityType>
+        <Association Name="FK_OrdenCompraDetalle_OrdenCompra">
+          <End Type="DbConexion.OrdenCompra" Role="OrdenCompra" Multiplicity="0..1" />
+          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrdenCompra">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenCompraDetalle">
+              <PropertyRef Name="IdOrdenCompra" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenCompraDetalle_Productos">
+          <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
+          <End Type="DbConexion.OrdenCompraDetalle" Role="OrdenCompraDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenCompraDetalle">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1694,14 +1678,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Cargos">
-            <EntityTypeMapping TypeName="DbConexion.Cargos">
-              <MappingFragment StoreEntitySet="Cargos">
-                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Ciudades">
             <EntityTypeMapping TypeName="DbConexion.Ciudades">
               <MappingFragment StoreEntitySet="Ciudades">
@@ -1759,19 +1735,6 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="Idalmacen" ColumnName="Idalmacen" />
                 <ScalarProperty Name="IdAlmacenMovimiento" ColumnName="IdAlmacenMovimiento" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrdenCompraDetalle">
-            <EntityTypeMapping TypeName="DbConexion.OrdenCompraDetalle">
-              <MappingFragment StoreEntitySet="OrdenCompraDetalle">
-                <ScalarProperty Name="Precio" ColumnName="Precio" />
-                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
-                <ScalarProperty Name="ITBS" ColumnName="ITBS" />
-                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="IdOrdenCompra" ColumnName="IdOrdenCompra" />
-                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1951,6 +1914,19 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
                 <ScalarProperty Name="Sueldo" ColumnName="Sueldo" />
                 <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdenCompraDetalle">
+            <EntityTypeMapping TypeName="DbConexion.OrdenCompraDetalle">
+              <MappingFragment StoreEntitySet="OrdenCompraDetalle">
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="ITBS" ColumnName="ITBS" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdOrdenCompra" ColumnName="IdOrdenCompra" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

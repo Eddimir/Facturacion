@@ -80,7 +80,12 @@ namespace Proyecto1.Productos
                                    where pro.Id == IdPro
                                    select pro).Single();
 
-                 
+
+                    if (dsproductos.Codigo != null)
+                        ckbgeneralcode.Visible = false;
+                    else
+                        ckbgeneralcode.Visible = true;
+
                     lblId.Text = dsproductos.Id.ToString();
                     txtproducto.Text = dsproductos.Producto;
                     txtPrecio.Text = dsproductos.Precio.ToString();

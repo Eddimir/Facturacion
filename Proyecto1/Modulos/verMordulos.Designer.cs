@@ -41,6 +41,7 @@
             this.txtfiltro.Name = "txtfiltro";
             this.txtfiltro.Size = new System.Drawing.Size(107, 20);
             this.txtfiltro.TabIndex = 7;
+            this.txtfiltro.TextChanged += new System.EventHandler(this.Txtfiltro_TextChanged);
             // 
             // dtgvModulos
             // 
@@ -82,6 +83,7 @@
             this.Controls.Add(this.dtgvModulos);
             this.Name = "verMordulos";
             this.Text = "verMordulos";
+            this.Load += new System.EventHandler(this.VerMordulos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dtgvModulos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

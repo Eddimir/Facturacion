@@ -26,18 +26,18 @@ namespace Proyecto1.Almacen
         private void FillUserAndAgreggated()
         {
             lbliduser.Text = Principal.veloz22.id.ToString();
-            txtNombreUser.Text = Principal.veloz22.Nombre;
-            txtApellidoUser.Text = Principal.veloz22.Apellido;
+            txtNombreUser.Text = Principal.veloz22.Nombre + Principal.veloz22.Apellido;
 
             /*User*/
             lbliduser.Enabled = false;
             txtNombreUser.Enabled = false;
-            txtApellidoUser.Enabled = false;
+        
 
             /*Customer*/
             lblidProveedor.Enabled = false;
             txtNOmbre.Enabled = false;
             txtApellido.Enabled = false;
+            txtrnc.Enabled = false;
         }
 
         private void btnProveedor_Click(object sender, EventArgs e)
@@ -89,7 +89,8 @@ namespace Proyecto1.Almacen
 
         private void llenarAlmacen(string Filtro)
         {
-            var Almacen = db.Almacen.Where(x => x.Producto == Filtro).FirstOrDefault();
+            var Almacen = (txtfiltro.Text.Length != 0) ? db.Almacen.Where(x => x.Producto == Filtro).FirstOrDefault() 
+                : db.Almacen.Find(Convert.ToInt32(Filtro));
             if(Almacen == null)
             {
                 MessageBox.Show("Intentelo nuevo el producto no existe");
@@ -277,8 +278,15 @@ namespace Proyecto1.Almacen
 
         private void btnVer_Click(object sender, EventArgs e)
         {
-            Almacen fralmacen = new Almacen();
-            fralmacen.Show();
+            verAlmacen fralmacen = new verAlmacen();
+            fralmacen.buscando = true;
+            fralmacen.ShowDialog();
+
+            if (fralmacen.id != null)
+            {
+                llenarAlmacen(fralmacen.id);
+                fralmacen.id = null;
+            }
         }
 
         private void btnCleam_Click(object sender, EventArgs e)

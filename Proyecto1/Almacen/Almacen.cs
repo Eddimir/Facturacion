@@ -101,7 +101,7 @@ namespace Proyecto1.Almacen
                     Precio = Convert.ToDecimal(txtprecio.Text),
                     Existencia = Convert.ToDecimal(txtexistencia.Text),
                     Descripcion = txtdescripcion.Text,
-                    ITBS = Convert.ToDecimal(txtitbs.Text)
+                    ITBS = (txtitbs.Text.Length != 0) ? Convert.ToDecimal(txtitbs.Text) : 0
                 };
 
                 db.Almacen.Add(almacen);

@@ -106,10 +106,9 @@ namespace Proyecto1.Modulos
                     foreach(DataGridViewRow row in dtgvAsignarModulo.SelectedRows)
                     {
                         using (var db = new DataADO.Proyecto1Entities())
-                        {
-                            int? IdMODULO = Convert.ToInt32(row.Cells["Id"].Value);
+                        {                         
                             var seguridad = (from d in db.Seguridad
-                                             where d.id == IdMODULO
+                                             where d.id == Convert.ToInt32(row.Cells["Id"].Value)
                                              select d).First();
 
                             //seguridad.Ver = false;

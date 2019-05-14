@@ -31,27 +31,16 @@ namespace Proyecto1.Modulos
 
                 dtgvModulos.DataSource = query.OrderBy(x => x.Id).ToList();
 
+                dtgvModulos.Columns[0].Visible = false;
+                dtgvModulos.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
                 return query.ToArray();
+
+                
             }
          
         }
-        private void blabla()
-        {
-            var db = new DataADO.Proyecto1Entities();
-
-            var query = from d in db.Modulos
-                        where d.NombreDeModulo.Contains(txtfiltro.Text)
-                        select new
-                        {
-                            d.Id,
-                            d.NombreDeModulo
-                        };
-
-            dtgvModulos.DataSource = query.OrderBy(x => x.Id).ToList();
-
-
-        }
+    
          FrmCrearModulos frm = new FrmCrearModulos();
         private void BtnNew_Click(object sender, EventArgs e)
         {
@@ -63,10 +52,32 @@ namespace Proyecto1.Modulos
         
         private void BtnSelect_Click(object sender, EventArgs e)
         {
-
             frm.lblid.Text = dtgvModulos.CurrentRow.Cells[0].Value.ToString();
             frm.ShowDialog();
-            
+            RefreshFill();
+        }
+
+        private void VerMordulos_Load(object sender, EventArgs e)
+        {
+            RefreshFill();
+            CenterToScreen();
+        }
+
+        private void Txtfiltro_TextChanged(object sender, EventArgs e)
+        {
+            var db = new DataADO.Proyecto1Entities();
+
+            var query = from d in db.Modulos
+                        where d.NombreDeModulo.Contains(txtfiltro.Text)
+                        select new
+                        {
+                            d.Id,
+                            d.NombreDeModulo
+                        };
+
+            dtgvModulos.Columns[0].Visible = false;
+            dtgvModulos.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dtgvModulos.DataSource = query.OrderBy(x => x.Id).ToList();
         }
     }
 }

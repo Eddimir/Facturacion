@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblRoles = new System.Windows.Forms.Label();
             this.lblid = new System.Windows.Forms.Label();
             this.txtPuestos = new System.Windows.Forms.TextBox();
+            this.lblRoles = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -46,15 +46,6 @@
             this.groupBox1.Size = new System.Drawing.Size(244, 81);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            // 
-            // lblRoles
-            // 
-            this.lblRoles.AutoSize = true;
-            this.lblRoles.Location = new System.Drawing.Point(3, 22);
-            this.lblRoles.Name = "lblRoles";
-            this.lblRoles.Size = new System.Drawing.Size(37, 13);
-            this.lblRoles.TabIndex = 1;
-            this.lblRoles.Text = "Roles:";
             // 
             // lblid
             // 
@@ -71,6 +62,15 @@
             this.txtPuestos.Name = "txtPuestos";
             this.txtPuestos.Size = new System.Drawing.Size(230, 20);
             this.txtPuestos.TabIndex = 3;
+            // 
+            // lblRoles
+            // 
+            this.lblRoles.AutoSize = true;
+            this.lblRoles.Location = new System.Drawing.Point(3, 22);
+            this.lblRoles.Name = "lblRoles";
+            this.lblRoles.Size = new System.Drawing.Size(40, 13);
+            this.lblRoles.TabIndex = 1;
+            this.lblRoles.Text = "Puesto";
             // 
             // btnGuardar
             // 
@@ -91,6 +91,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "frmRolUsuarios";
             this.Text = "frmRolUsuarios";
+            this.Load += new System.EventHandler(this.FrmRolUsuarios_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

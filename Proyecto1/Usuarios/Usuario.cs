@@ -74,8 +74,8 @@ namespace Proyecto1
                         Direccion = txtDireccion.Text,
                         Contrasena = txtconntrasenia.Text,
                         NombreUsuario = txtNOmbreUser.Text,
-                        email = txtcorreoeletronico.Text,
-                        imagen = Veloz.imageToByteArray(PtImagen.Image),
+                        email = txtcorreoeletronico.Text,                        
+                        imagen = Veloz.imageToByteArray(PtImagen.Image) ?? null
 
                     };
 
@@ -124,12 +124,16 @@ namespace Proyecto1
                         user.Cedula = txtCedula.Text;
                         user.Telefono = txtTelefono.Text;
                         user.email = txtcorreoeletronico.Text;
-                        //user.IdPuesto = Convert.ToInt32(cmbPuestos.SelectedValue);
+                        user.IdPuesto = Convert.ToInt32(cmbPuestos.SelectedValue);
                         user.NombreUsuario = txtNOmbreUser.Text;
                         user.Contrasena = txtconntrasenia.Text;
                         user.Activo_estado = (ckbActivo.Checked == true) ? true : false;
                         //var img = byteArrayToImage(PtImagen.Image);
-                        user.imagen = imageToByteArray(PtImagen.Image);
+
+                        if (PtImagen.Image != null)
+                        {
+                            user.imagen = imageToByteArray(PtImagen.Image);
+                        }
 
                         db.SaveChanges();
                         MensajeOk("Se actualizo de forma correcta");
@@ -379,7 +383,9 @@ namespace Proyecto1
 
         }
 
-        private void Btnelim_Click(object sender, EventArgs e)
+        
+
+        private void Btneliminar_Click(object sender, EventArgs e)
         {
             if (lblId.Text.Length == 0)
             {
@@ -392,16 +398,18 @@ namespace Proyecto1
                     using (var db = new DataADO.Proyecto1Entities())
                     {
                         var cli = db.Usuarios.Find(Convert.ToInt32(lblId.Text));
-                        db.Usuarios.Attach(cli);
-                        db.Usuarios.Remove(cli);
+                        //db.Usuarios.Attach(cli);
+                   
                         db.Facturacion.RemoveRange(cli.Facturacion);
                         db.Seguridad.RemoveRange(cli.Seguridad);
                         db.AlmacenMovimiento.RemoveRange(cli.AlmacenMovimiento);
                         db.OrdenCompra.RemoveRange(cli.OrdenCompra);
                         db.CXC.RemoveRange(cli.CXC);
-                        db.SaveChanges();
-                       
 
+                        db.Usuarios.Remove(cli);
+                        db.SaveChanges();
+                        MessageBox.Show("Exitoso.");
+                        Close();
                     }
                 }
             }

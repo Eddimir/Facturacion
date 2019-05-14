@@ -59,10 +59,10 @@
             this.departamentosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.categoriasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cambiarCuentaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.divisasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cambiarCuentaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.divisasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -310,6 +310,7 @@
             this.puestosToolStripMenuItem.Name = "puestosToolStripMenuItem";
             this.puestosToolStripMenuItem.Size = new System.Drawing.Size(181, 24);
             this.puestosToolStripMenuItem.Text = "Puestos";
+            this.puestosToolStripMenuItem.Click += new System.EventHandler(this.PuestosToolStripMenuItem_Click);
             // 
             // departamentosToolStripMenuItem
             // 
@@ -330,6 +331,13 @@
             this.cambiarCuentaToolStripMenuItem.Size = new System.Drawing.Size(181, 24);
             this.cambiarCuentaToolStripMenuItem.Text = "cambiar cuenta";
             this.cambiarCuentaToolStripMenuItem.Click += new System.EventHandler(this.CambiarCuentaToolStripMenuItem_Click);
+            // 
+            // divisasToolStripMenuItem
+            // 
+            this.divisasToolStripMenuItem.Name = "divisasToolStripMenuItem";
+            this.divisasToolStripMenuItem.Size = new System.Drawing.Size(181, 24);
+            this.divisasToolStripMenuItem.Text = "Divisas";
+            this.divisasToolStripMenuItem.Click += new System.EventHandler(this.DivisasToolStripMenuItem_Click);
             // 
             // cambiarCuentaToolStripMenuItem1
             // 
@@ -352,13 +360,6 @@
             this.label1.Size = new System.Drawing.Size(86, 31);
             this.label1.TabIndex = 3;
             this.label1.Text = "label1";
-            // 
-            // divisasToolStripMenuItem
-            // 
-            this.divisasToolStripMenuItem.Name = "divisasToolStripMenuItem";
-            this.divisasToolStripMenuItem.Size = new System.Drawing.Size(181, 24);
-            this.divisasToolStripMenuItem.Text = "Divisas";
-            this.divisasToolStripMenuItem.Click += new System.EventHandler(this.DivisasToolStripMenuItem_Click);
             // 
             // Principal
             // 

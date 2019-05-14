@@ -58,6 +58,7 @@
             this.New = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btneliminar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PtImagen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -334,11 +335,23 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // btneliminar
+            // 
+            this.btneliminar.Location = new System.Drawing.Point(12, 301);
+            this.btneliminar.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.btneliminar.Name = "btneliminar";
+            this.btneliminar.Size = new System.Drawing.Size(124, 37);
+            this.btneliminar.TabIndex = 31;
+            this.btneliminar.Text = "Eliminar";
+            this.btneliminar.UseVisualStyleBackColor = true;
+            this.btneliminar.Click += new System.EventHandler(this.Btneliminar_Click);
+            // 
             // Usuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 349);
+            this.Controls.Add(this.btneliminar);
             this.Controls.Add(this.New);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.groupBox1);
@@ -385,6 +398,7 @@
         private System.Windows.Forms.Button btnOpenFile;
         private System.Windows.Forms.PictureBox PtImagen;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button btneliminar;
     }
 }
 

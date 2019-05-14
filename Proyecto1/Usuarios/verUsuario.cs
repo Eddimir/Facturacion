@@ -64,6 +64,7 @@ namespace Proyecto1.Usuarios
                 fr.lblId.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
                 fr.ShowDialog();
             }
+            Fill();
         }
 
 

@@ -143,9 +143,6 @@
     <Compile Include="DataADO\AlmacenMovimiento.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataADO\Cargos.cs">
-      <DependentUpon>ProyectoADO.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataADO\Ciudades.cs">
       <DependentUpon>ProyectoADO.tt</DependentUpon>
     </Compile>
@@ -349,6 +346,12 @@
     <Compile Include="Puestos\frmRolUsuarios.Designer.cs">
       <DependentUpon>frmRolUsuarios.cs</DependentUpon>
     </Compile>
+    <Compile Include="Puestos\VerRoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Puestos\VerRoles.Designer.cs">
+      <DependentUpon>VerRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reportes\ReportesGenerales.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -473,6 +476,9 @@
     <EmbeddedResource Include="Puestos\frmRolUsuarios.resx">
       <DependentUpon>frmRolUsuarios.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Puestos\VerRoles.resx">
+      <DependentUpon>VerRoles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reportes\ReporteFacturacion.rdlc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -571,7 +577,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Cargos\" />
     <Folder Include="Ciudades\" />
     <Folder Include="Deparatamentod\" />
     <Folder Include="Tools\" />

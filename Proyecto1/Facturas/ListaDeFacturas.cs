@@ -33,7 +33,7 @@ namespace Proyecto1.Facturas
                               
                           };
 
-            dtgvMaestro.DataSource = maestro.OrderByDescending(x=>x.Fecha).ToList();            
+            dtgvMaestro.DataSource = maestro.OrderBy(x=>x.Fecha).ToList();            
             if (dtgvMaestro.Rows.Count == 1)
             {
                 button1.Visible = false;

@@ -326,7 +326,7 @@ namespace Proyecto1
 
         private void crearToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Modulos.FrmCrearModulos fr = new Modulos.FrmCrearModulos
+            Modulos.verMordulos fr = new Modulos.verMordulos
             {
                 MdiParent = this
             };
@@ -388,6 +388,13 @@ namespace Proyecto1
                 MdiParent = this
             };
             verDivisas.Show();
+        }
+
+        private void PuestosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Puestos.VerRoles verRoles = new Puestos.VerRoles();
+            verRoles.MdiParent = this;
+            verRoles.Show();
         }
     }
 }

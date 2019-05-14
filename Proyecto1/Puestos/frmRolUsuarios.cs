@@ -57,12 +57,38 @@ namespace Proyecto1.Puestos
             }
         }
 
+        private void Cargar(int id)
+        {
+            var db = new DataADO.Proyecto1Entities();
+
+            var rol = db.Puestos.Find(id);
+
+            lblid.Text = rol.Id.ToString();
+            txtPuestos.Text = rol.Puesto;
+
+        }
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             if (lblid.Text.Length == 0)
                 crear();
             else
                 Actualizar(Convert.ToInt32(lblid.Text));
+        }
+        public void LImpiar()
+        {
+            lblid.Text = "";
+            txtPuestos.Text = "";
+        }
+
+        private void FrmRolUsuarios_Load(object sender, EventArgs e)
+        {
+            if (estatus == estatus.Modificando)
+                lblid.Text = string.Empty;
+
+            if (lblid.Text.Length != 0)
+                Cargar(Convert.ToInt32(lblid.Text));
+
+            CenterToScreen();
         }
     }
 

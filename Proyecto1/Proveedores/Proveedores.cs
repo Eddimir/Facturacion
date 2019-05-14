@@ -38,41 +38,47 @@ namespace Proyecto1.Proveedores
             txtCelular.Clear();
             txtProvincia.Text = string.Empty;
             txtDireccion.Text = string.Empty;
+            txtrnc.Text = "";
+            txtemail.Text = "";
         }
 
         private void Crear()
         {
             using (var db = new DataADO.Proyecto1Entities())
             {
-                if (txtNOmbre.Text == string.Empty)
-                {
-                    MensajeError("Falta ingresar algunos datos, seran remarcados");
-                    errorProvider1.SetError(txtNOmbre, "Ingrese un nombre");
+                if (txtNOmbre.Text.Length == 0)
+                    errorProvider1.SetError(txtNOmbre, "Ingresar el nombre del proveedor");
+                if (txtEmpresa.Text == "")
+                    errorProvider1.SetError(txtEmpresa, "Ingrese el nombre de la empresa perteneciente");
+                if (Clases.Veloz.ValidarEmail(txtemail.Text) == false)
+                    errorProvider1.SetError(txtemail, "Ingrese un correo valido");
+                else {
+                    var dsProveedores = new DataADO.Proveedores
+                    {
+                        Nombre = txtNOmbre.Text,
+                        Apellido = txtApellido.Text,
+                        Cedula = txtcedula.Text,
+                        Celular = txtCelular.Text,
+                        Direccion = txtDireccion.Text,
+                        Empresa = txtEmpresa.Text,
+                        Provincia = txtProvincia.Text,
+                        Telefono_Empresa = txtTelefonoEmpresa.Text,
+                        razonsocial = txtrnc.Text,
+                        email = Clases.Veloz.ValidarEmail(txtemail.Text) == true ? txtemail.Text : null
+                    };
+
+                    db.Proveedores.Add(dsProveedores);
+                    db.SaveChanges();
+
+                    estatus = estatus.creando;
+                    lblId.Text = dsProveedores.Id.ToString();
+
+
+                    MensajeOk("Se inserto Correctamente");
+                    Close();
+                    Proveedores pro = new Proveedores();                
+                    pro.ShowDialog();
                 }
-                var dsProveedores = new DataADO.Proveedores
-                {
-                    Nombre = txtNOmbre.Text,
-                    Apellido = txtApellido.Text,
-                    Cedula = txtcedula.Text,
-                    Celular = txtCelular.Text,
-                    Direccion = txtDireccion.Text,
-                    Empresa = txtEmpresa.Text,
-                    Provincia = txtProvincia.Text,
-                    Telefono_Empresa = txtTelefonoEmpresa.Text
-                };
-
-                db.Proveedores.Add(dsProveedores);
-                db.SaveChanges();
-
-                estatus = estatus.Modificando;
-                lblId.Text = dsProveedores.Id.ToString();
-
-             
-                MensajeOk("Se inserto Correctamente");
-                Close();
-                Proveedores pro = new Proveedores();
-                pro.ActiveControl = this;
-                pro.ShowDialog();
             }
 
         }
@@ -81,24 +87,34 @@ namespace Proyecto1.Proveedores
         {
             if (estatus == estatus.Modificando)
             {
-                using (var db = new DataADO.Proyecto1Entities())
+                if(txtNOmbre.Text.Length == 0)
+                    errorProvider1.SetError(txtNOmbre, "Ingresar el nombre del proveedor");
+                if (txtEmpresa.Text == "")
+                    errorProvider1.SetError(txtEmpresa, "Ingrese el nombre de la empresa perteneciente");
+                if (Clases.Veloz.ValidarEmail(txtemail.Text) == false)
+                    errorProvider1.SetError(txtemail, "Ingrese un correo valido");
+                else
                 {
-                    var pro = db.Proveedores
-                              .Where(x => x.Id == id)
-                              .Single();
+                    using (var db = new DataADO.Proyecto1Entities())
+                    {
+                        var pro = db.Proveedores
+                                  .Where(x => x.Id == id)
+                                  .Single();
 
-                    pro.Id = Convert.ToInt32(lblId.Text);
-                    pro.Nombre = txtNOmbre.Text;
-                    txtApellido.Text = pro.Apellido;
-                    txtcedula.Text = pro.Cedula;
-                    txtDireccion.Text = pro.Direccion;
-                    txtEmpresa.Text = pro.Empresa;
-                    txtProvincia.Text = pro.Provincia;
-                    txtTelefonoEmpresa.Text = pro.Telefono_Empresa;
-                    txtCelular.Text = pro.Celular;
+                        pro.Id = Convert.ToInt32(lblId.Text);
+                        pro.Nombre = txtNOmbre.Text;
+                        pro.Apellido = txtApellido.Text;
+                        pro.Celular = txtCelular.Text;
+                        pro.Cedula = txtcedula.Text;
+                        pro.Direccion = txtDireccion.Text;
+                        pro.Provincia = txtProvincia.Text;
+                        pro.Telefono_Empresa = txtTelefonoEmpresa.Text;
+                        pro.Empresa = txtEmpresa.Text;
+                        pro.email = txtemail.Text;
 
-                    db.SaveChanges();
-                    MensajeOk("Se actualizo de forma correcta");
+                        db.SaveChanges();
+                        MensajeOk("Se actualizo de forma correcta");
+                    }
                 }
             }
 
@@ -116,11 +132,14 @@ namespace Proyecto1.Proveedores
                 lblId.Text = dsProveedores.Id.ToString();
                 txtNOmbre.Text = dsProveedores.Nombre;
                 txtApellido.Text = dsProveedores.Apellido;
-                txtTelefonoEmpresa.Text = dsProveedores.Cedula;
+                txtTelefonoEmpresa.Text = dsProveedores.Telefono_Empresa;
                 txtCelular.Text = dsProveedores.Celular;
                 txtEmpresa.Text = dsProveedores.Empresa;
                 txtProvincia.Text = dsProveedores.Provincia;
                 txtTelefonoEmpresa.Text = dsProveedores.Telefono_Empresa;
+                txtrnc.Text = dsProveedores.razonsocial;
+                txtemail.Text = dsProveedores.email;
+                txtcedula.Text = dsProveedores.Cedula;
             }
         }
 
@@ -132,14 +151,13 @@ namespace Proyecto1.Proveedores
         private void Proveedores_Load(object sender, EventArgs e)
         {
             CenterToScreen();
+
             if (estatus == estatus.Modificando)
             {
                 lblId.Text = "";
             }
             if (lblId.Text.Length != 0)
-            {
                 Cargar(Convert.ToInt32(lblId.Text));
-            }
         }
 
         private void BtnNuevo_Click(object sender, EventArgs e)
@@ -152,7 +170,10 @@ namespace Proyecto1.Proveedores
             if (lblId.Text.Length == 0)
                 Crear();
             else
-                Actualizar(Convert.ToInt32(lblId.Text));
+            {
+                estatus = estatus.Modificando;
+                Actualizar(Convert.ToInt32(lblId.Text));           
+            }
         }
         //private void Eliminar()
         //{

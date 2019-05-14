@@ -34,14 +34,12 @@ namespace Proyecto1.DataADO
         public virtual DbSet<FacturacionDetalle> FacturacionDetalle { get; set; }
         public virtual DbSet<CXC> CXC { get; set; }
         public virtual DbSet<Proveedores> Proveedores { get; set; }
-        public virtual DbSet<Cargos> Cargos { get; set; }
         public virtual DbSet<Ciudades> Ciudades { get; set; }
         public virtual DbSet<ComprobantesImpuestos> ComprobantesImpuestos { get; set; }
         public virtual DbSet<Departamentos> Departamentos { get; set; }
         public virtual DbSet<Empresas> Empresas { get; set; }
         public virtual DbSet<TipoDePago> TipoDePago { get; set; }
         public virtual DbSet<AlmacenDetalle> AlmacenDetalle { get; set; }
-        public virtual DbSet<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
         public virtual DbSet<OrdenCompra> OrdenCompra { get; set; }
         public virtual DbSet<Clientes> Clientes { get; set; }
         public virtual DbSet<ProductosCategoria> ProductosCategoria { get; set; }
@@ -53,5 +51,6 @@ namespace Proyecto1.DataADO
         public virtual DbSet<vsFacturacionDetalles> vsFacturacionDetalles { get; set; }
         public virtual DbSet<TipoDeDivisa> TipoDeDivisa { get; set; }
         public virtual DbSet<Sueldos> Sueldos { get; set; }
+        public virtual DbSet<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
     }
 }

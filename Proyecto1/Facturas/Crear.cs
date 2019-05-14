@@ -15,9 +15,10 @@ namespace Proyecto1.Facturas
         public Crear()
         {
             InitializeComponent();
+            db  = new DataADO.Proyecto1Entities();
         }
 
-        DataADO.Proyecto1Entities db = new DataADO.Proyecto1Entities();
+        DataADO.Proyecto1Entities db;
         private DataADO.Facturacion facturacion;
         private List<DataADO.FacturacionDetalle> FacturacionDetalle;
 
@@ -65,7 +66,6 @@ namespace Proyecto1.Facturas
         private decimal? partcantidad = 1;
         private void LlenarPro(string Filtro)
         {
-
             string[] parts = Filtro.ToString().Split('*');
             string valorParte1 = Clases.Veloz.VerificacionString(parts[0]); // primera parte
 
@@ -105,7 +105,7 @@ namespace Proyecto1.Facturas
                                 {
                                     MessageBox.Show($"El producto: {prod.Producto} se esta agotanto la cantidad existente es de: {prod.Cantidad_Existencia}");
                                 }
-                                dataGridView1.Rows.Add(prod.Id, prod.Producto, partcantidad, prod.Precio,0);
+                                dataGridView1.Rows.Add(prod.Id,prod.Codigo, prod.Producto, partcantidad, prod.Precio,0,0);
                                 dataGridView1.MultiSelect = true;
                                 partcantidad = 1;
                             }
@@ -148,6 +148,9 @@ namespace Proyecto1.Facturas
                 lblidcliente.Text = cliente.Id.ToString();
                 txtNOmbre.Text = cliente.Nombre;
                 txtApellido.Text = cliente.Apellido;
+                textBox1.Text = cliente.Cedula;
+
+                textBox1.Enabled = false;
             }
         }
         //private void llenarUser()
@@ -190,7 +193,7 @@ namespace Proyecto1.Facturas
                 foreach (DataGridViewRow rows in dataGridView1.Rows)
                 {
                     int id = (int)rows.Cells["Id"].Value;
-                    decimal Cantidad = Convert.ToDecimal( rows.Cells["Cantidad"].Value);
+                    decimal Cantidad = Convert.ToDecimal(rows.Cells["Cantidad"].Value);
 
                     var Query = (from pro in db.Productos
                                  where pro.Id == id
@@ -206,11 +209,11 @@ namespace Proyecto1.Facturas
                         {
                             FacturacionDetalle.Add(new DataADO.FacturacionDetalle()
                             {
-                                IdProducto = Convert.ToInt32(rows.Cells[0].Value),
-                                Descuento = Convert.ToDecimal(rows.Cells[5].Value),
-                                Cantidad = Convert.ToDecimal(rows.Cells[2].Value),
-                                ITBIS = Convert.ToDecimal(rows.Cells[4].Value),
-                                Precio = Convert.ToDecimal(rows.Cells[3].Value),
+                                IdProducto = Convert.ToInt32(rows.Cells["Id"].Value),
+                                Descuento = Convert.ToDecimal(rows.Cells["Descuento"].Value),
+                                Cantidad = Convert.ToDecimal(rows.Cells["Cantidad"].Value),
+                                ITBIS = Convert.ToDecimal(rows.Cells["ITBS"].Value),
+                                Precio = Convert.ToDecimal(rows.Cells["Precio"].Value),                                
                                 //Impuesto = Convert.ToDecimal(rows.Cells[3].Value),
                                 Facturacion = facturacion
                             });
@@ -258,7 +261,7 @@ namespace Proyecto1.Facturas
                     fr.Show();
                     //Clases.ReportesPuntoVenta.Facturacion(idFactura);
                 }
-                else { MessageBox.Show("Se guradara pero no se imprimira el recibo."); }              
+                else { MessageBox.Show("Se guardara pero no se imprimira el recibo."); }              
             }
             catch { }
             
@@ -606,6 +609,11 @@ namespace Proyecto1.Facturas
         {
             if (dataGridView1.Rows.Count >= 1)
                 Calculo();
+        }
+
+        private void GroupBox4_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
