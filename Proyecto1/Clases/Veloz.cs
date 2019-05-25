@@ -16,10 +16,10 @@ namespace Proyecto1.Clases
             creando = 1 , Modificando = 2, Eliminando = 3
         }
 
-        public   int id;
-        public   String Nombre;
-        public  String Contrasenia;
-        public  string Apellido;
+        public int id;
+        public String Nombre;
+        public String Contrasenia;
+        public string Apellido;
 
         //Ejemplo de implementacion de propiedad, campo privado...
         //private int Identificacion;
@@ -83,8 +83,7 @@ namespace Proyecto1.Clases
             MemoryStream ms = new MemoryStream(byteArrayIn);
             Image returnImage = Image.FromStream(ms);
             return returnImage;
-        }
-       
+        }     
        
     }
     public static class Funciones

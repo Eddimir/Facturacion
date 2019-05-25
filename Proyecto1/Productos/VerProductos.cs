@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -182,32 +183,34 @@ namespace Proyecto1.Productos
                               select pro;
 
             int count = 0;
+            ProductosFaltandoDiasParaVencimiento = new List<string>();
+            ProductoDiaDeVencimiento = new List<string>();
             //TimeSpan TotalDiasEntreFechas;
-            foreach(var item in vencimiento)
+            foreach (var item in vencimiento)
             {
                 int? dias = (item.DiasParaAvisar == null)? 0 : item.DiasParaAvisar;
                 var fecha = Convert.ToDateTime(item.FechaVencimiento);
 
                 TimeSpan TotalDiasEntreFechas = fecha.Subtract(DateTime.Today); /*DateTime.Today.Subtract(fecha);*/
-                //TimeSpan DiasParavencer = 
+                                                                                //TimeSpan DiasParavencer = 
+
 
                 //var totaldias = fecha.AddDays(Convert.ToDouble(dias));                
-                //var fecha1 = totaldias.ToString("dd/MM/yyyy");
+                //var fecha1 = totaldias.ToString("dd/MM/yyyy"); diasparaavisar = 10    fechavencimiento and today  20 25  = 5 || totalentrefechas = 5
                 //var fecha2 = DateTime.Today.ToString("dd/MM/yyyy");
 
-                if (fecha.ToString("dd/MM/yyyy") == DateTime.Today.ToString("dd/MM/yyyy"))
+                var fecha1 = fecha.Date.ToString("dd/MM/yyyy");
+                var fehcha2 = DateTime.Today.ToString("dd/MM/yyyy");
+                if ( fecha1== fehcha2)
                 {
-                    //MessageBox.Show($"El producto: {item.Producto}, de codigo: {item.Codigo} esta vencido");
-                    count++;
-                    ProductoDiaDeVencimiento = new List<string>();
+                    
+                    count++;                   
                     ProductoDiaDeVencimiento.Add(item.Producto);
                     banderin = true;
-                    //codigos.Add(item.Codigo);
                 } 
-                else if(TotalDiasEntreFechas.Days <= dias && TotalDiasEntreFechas.Days > dias)
+                else if(dias <= TotalDiasEntreFechas.Days && dias <= 10)
                 {
                     count++;
-                    ProductosFaltandoDiasParaVencimiento = new List<string>();
                     ProductosFaltandoDiasParaVencimiento.Add(item.Producto);
                     banderin2 = true;
                 }
@@ -215,20 +218,19 @@ namespace Proyecto1.Productos
 
             if (count >= 1)
             {
-
                 if (banderin == true)
                 {
                     result = Funciones.ToString(ProductoDiaDeVencimiento);
-                    Verificacion = (count == 1 && count != 0) ? "El producto:" : "Los productos:";
-                    cantidad = (count == 1 && count != 0) ? " esta vencido." : " estan vencidos.";
+                    Verificacion = (count >= 1) ? "El producto:" : "Los productos:";
+                    cantidad = (count >= 1 /*&& count != 0*/) ? " esta vencido." : " estan vencidos.";
                     MessageBox.Show($"{Verificacion} {result}{cantidad}");
                 }
                 else if(banderin2 == true)
                 {
 
                     result2 = Funciones.ToString(ProductosFaltandoDiasParaVencimiento);
-                    Verificacion = (count == 1 && count != 0) ? "El producto:" : "Los productos:";
-                    cantidad = (count == 1 && count != 0) ? " esta proximos a vencer." : " estan proximos a vencer.";
+                    Verificacion = (count == 1) ? "El producto:" : "Los productos:";
+                    cantidad = (count == 1 ) ? " esta proximos a vencer." : " estan proximos a vencer.";
                     MessageBox.Show($"{Verificacion} {result2}{cantidad}");
                 }
             }

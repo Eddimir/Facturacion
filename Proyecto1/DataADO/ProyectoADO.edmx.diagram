@@ -55,6 +55,12 @@
         <EntityTypeShape EntityType="DbConexion.OrdenCompraDetalle" Width="1.5" PointX="17.875" PointY="9.875" />
         <AssociationConnector Association="DbConexion.FK_OrdenCompraDetalle_OrdenCompra" />
         <AssociationConnector Association="DbConexion.FK_OrdenCompraDetalle_Productos" />
+        <EntityTypeShape EntityType="DbConexion.Cotizacion" Width="1.5" PointX="8.25" PointY="20.875" />
+        <EntityTypeShape EntityType="DbConexion.CotizacionDetalle" Width="1.5" PointX="18.875" PointY="14.375" />
+        <AssociationConnector Association="DbConexion.FK_Cotizacion_Clientes" />
+        <AssociationConnector Association="DbConexion.FK_Cotizacion_Usuarios" />
+        <AssociationConnector Association="DbConexion.FK_CotizacionDetalle_Cotizacion" />
+        <AssociationConnector Association="DbConexion.FK_CotizacionDetalle_Productos" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

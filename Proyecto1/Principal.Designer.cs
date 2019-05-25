@@ -42,6 +42,8 @@
             this.facturasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.facturasToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.listarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cotizacionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listarCotizacionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modulosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.crearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.crearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -166,7 +168,9 @@
             // 
             this.facturasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.facturasToolStripMenuItem1,
-            this.listarToolStripMenuItem});
+            this.listarToolStripMenuItem,
+            this.cotizacionToolStripMenuItem,
+            this.listarCotizacionesToolStripMenuItem});
             this.facturasToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("facturasToolStripMenuItem.Image")));
             this.facturasToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.facturasToolStripMenuItem.Name = "facturasToolStripMenuItem";
@@ -188,6 +192,20 @@
             this.listarToolStripMenuItem.Size = new System.Drawing.Size(276, 24);
             this.listarToolStripMenuItem.Text = "Ver y  realzar manteniemiento";
             this.listarToolStripMenuItem.Click += new System.EventHandler(this.listarToolStripMenuItem_Click);
+            // 
+            // cotizacionToolStripMenuItem
+            // 
+            this.cotizacionToolStripMenuItem.Name = "cotizacionToolStripMenuItem";
+            this.cotizacionToolStripMenuItem.Size = new System.Drawing.Size(276, 24);
+            this.cotizacionToolStripMenuItem.Text = "Cotizacion";
+            this.cotizacionToolStripMenuItem.Click += new System.EventHandler(this.CotizacionToolStripMenuItem_Click);
+            // 
+            // listarCotizacionesToolStripMenuItem
+            // 
+            this.listarCotizacionesToolStripMenuItem.Name = "listarCotizacionesToolStripMenuItem";
+            this.listarCotizacionesToolStripMenuItem.Size = new System.Drawing.Size(276, 24);
+            this.listarCotizacionesToolStripMenuItem.Text = "Listar cotizaciones";
+            this.listarCotizacionesToolStripMenuItem.Click += new System.EventHandler(this.ListarCotizacionesToolStripMenuItem_Click);
             // 
             // modulosToolStripMenuItem
             // 
@@ -416,5 +434,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem cambiarCuentaToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem divisasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cotizacionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listarCotizacionesToolStripMenuItem;
     }
 }

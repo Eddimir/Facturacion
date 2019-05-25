@@ -105,7 +105,7 @@ namespace Proyecto1.Facturas
                                 {
                                     MessageBox.Show($"El producto: {prod.Producto} se esta agotanto la cantidad existente es de: {prod.Cantidad_Existencia}");
                                 }
-                                dataGridView1.Rows.Add(prod.Id,prod.Codigo, prod.Producto, partcantidad, prod.Precio,0,0);
+                                dataGridView1.Rows.Add(prod.Id,prod.Codigo ?? "Sin Codigo", prod.Producto, partcantidad, prod.Precio,0,0);
                                 dataGridView1.MultiSelect = true;
                                 partcantidad = 1;
                             }
@@ -259,7 +259,7 @@ namespace Proyecto1.Facturas
                     Crear fr = new Crear();
                     fr.MdiParent = ActiveForm;
                     fr.Show();
-                    //Clases.ReportesPuntoVenta.Facturacion(idFactura);
+                    Clases.ReportesPuntoVenta.Facturacion(idFactura);
                 }
                 else { MessageBox.Show("Se guardara pero no se imprimira el recibo."); }              
             }
@@ -356,6 +356,10 @@ namespace Proyecto1.Facturas
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             richTextBox1.Clear();
+            txtNOmbre.Clear();
+            txtApellido.Clear();
+            textBox1.Text = "";
+            
         }
         private void FillUserAndAgregatted()
         {
@@ -447,7 +451,7 @@ namespace Proyecto1.Facturas
                 foreach(DataGridViewRow row in dataGridView1.Rows)
                 {
                     int id = (Int32)row.Cells[0].Value;
-                    var cantidad = Convert.ToDecimal(row.Cells[2].Value);
+                    var cantidad = Convert.ToDecimal(row.Cells[3].Value);
 
                     var query = (from h in db.Productos
                                  where h.Id == id

@@ -23,6 +23,7 @@ namespace Proyecto1.DataADO
             this.OrdenCompra = new HashSet<OrdenCompra>();
             this.Seguridad = new HashSet<Seguridad>();
             this.Sueldos = new HashSet<Sueldos>();
+            this.Cotizacion = new HashSet<Cotizacion>();
         }
     
         public int Id { get; set; }
@@ -53,5 +54,7 @@ namespace Proyecto1.DataADO
         public virtual ICollection<Seguridad> Seguridad { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sueldos> Sueldos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cotizacion> Cotizacion { get; set; }
     }
 }

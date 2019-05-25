@@ -158,7 +158,7 @@ namespace Proyecto1.Productos
                         dsproductos.ITBS = (ckbitbs.Checked == true) ? Itbs(db) : 0;
                         dsproductos.Precio = Convert.ToDecimal(txtPrecio.Text);
                        
-                        dsproductos.Registro = DateTime.Now;
+                        dsproductos.Registro = DateTime.Today;
                         dsproductos.Cantidad_Existencia = Convert.ToDecimal(txtcantidad.Text);
                         dsproductos.Margen_Beneficio = Convert.ToDecimal(txtbeneficio.Text);
                         dsproductos.IdCategoria = Convert.ToInt32(cmbcategoriaproducto.SelectedValue);
@@ -168,6 +168,8 @@ namespace Proyecto1.Productos
 
                         /// convercion de byte to img...
                         //var img = byteArrayToImage(dsproductos.Imagen);
+
+                        if(PtImagen.Image != null)
                         dsproductos.Imagen = imageToByteArray(PtImagen.Image);
 
                         AvisarVencimiento();

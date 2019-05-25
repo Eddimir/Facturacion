@@ -19,6 +19,7 @@ namespace Proyecto1.DataADO
         {
             this.FacturacionDetalle = new HashSet<FacturacionDetalle>();
             this.OrdenCompraDetalle = new HashSet<OrdenCompraDetalle>();
+            this.CotizacionDetalle = new HashSet<CotizacionDetalle>();
         }
     
         public int Id { get; set; }
@@ -41,5 +42,7 @@ namespace Proyecto1.DataADO
         public virtual ProductosCategoria ProductosCategoria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CotizacionDetalle> CotizacionDetalle { get; set; }
     }
 }

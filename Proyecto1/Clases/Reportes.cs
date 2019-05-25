@@ -17,26 +17,26 @@ namespace Proyecto1.Clases
                 {
                     var configuracion = db.ConfiguracionEmpresa.ToList();
 
-                    var facturacion = db.Facturacion
-                                        .Where(x => x.Id == id)
-                                        .FirstOrDefault();
+                    var facturacion = db.vsFacturacionDetalles
+                                        .Where(x => x.Id == id).ToList();
+                                        
 
                     var usuario = db.Usuarios.ToList();
 
 
                     Reportes.ReportesGenerales reportesGenerales = new Reportes.ReportesGenerales();
 
-                    //reportesGenerales.reportViewer1.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
-                    //string ruta = Application.StartupPath.ToString() + @"\Reportes\ReporteFacturacion.rdlc";
-                    //reportesGenerales.reportViewer1.LocalReport.ReportPath = ruta;
+                    reportesGenerales.reportViewer1.ProcessingMode = Microsoft.Reporting.WinForms.ProcessingMode.Local;
+                    string ruta = Application.StartupPath.ToString() + @"\Reportes\ReporteFacturacion.rdlc";
+                    reportesGenerales.reportViewer1.LocalReport.ReportPath = ruta;
 
-                    //reportesGenerales.reportViewer1.LocalReport.DataSources.Clear();
-                    //reportesGenerales.reportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource("Facturacion", facturacion));
-                    //reportesGenerales.reportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource("Configuraciones", configuracion));
-                    //reportesGenerales.reportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource("Usuarios", usuario));
-                    //reportesGenerales.reportViewer1.Refresh();
+                    reportesGenerales.reportViewer1.LocalReport.DataSources.Clear();
+                    reportesGenerales.reportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource("Facturacion", facturacion));
+                    reportesGenerales.reportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource("Configuraciones", configuracion));
+                    reportesGenerales.reportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource("Usuarios", usuario));
+                    reportesGenerales.reportViewer1.Refresh();
 
-                    reportesGenerales.MdiParent = Principal.FrmReferencia.MdiParent;
+                    reportesGenerales.MdiParent = Principal.GetForm.MdiParent;
                     reportesGenerales.Show();
                 }
             }

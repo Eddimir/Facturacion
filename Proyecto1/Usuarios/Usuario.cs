@@ -63,6 +63,7 @@ namespace Proyecto1
                 }
                 else
                 {
+                  
                     var user = new DataADO.Usuarios()
                     {
                         Nombre = txtNOmbre.Text,
@@ -75,7 +76,7 @@ namespace Proyecto1
                         Contrasena = txtconntrasenia.Text,
                         NombreUsuario = txtNOmbreUser.Text,
                         email = txtcorreoeletronico.Text,                        
-                        imagen = Veloz.imageToByteArray(PtImagen.Image) ?? null
+                        imagen = (PtImagen.Image != null ) ? Veloz.imageToByteArray(PtImagen.Image) : null
 
                     };
 
@@ -129,11 +130,12 @@ namespace Proyecto1
                         user.Contrasena = txtconntrasenia.Text;
                         user.Activo_estado = (ckbActivo.Checked == true) ? true : false;
                         //var img = byteArrayToImage(PtImagen.Image);
+                        user.imagen = (PtImagen.Image != null) ? imageToByteArray(PtImagen.Image) : null;
 
-                        if (PtImagen.Image != null)
-                        {
-                            user.imagen = imageToByteArray(PtImagen.Image);
-                        }
+                        //if (PtImagen.Image != null)
+                        //{
+                        //    user.imagen = imageToByteArray(PtImagen.Image);
+                        //}
 
                         db.SaveChanges();
                         MensajeOk("Se actualizo de forma correcta");

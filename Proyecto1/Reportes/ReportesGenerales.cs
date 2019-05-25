@@ -19,17 +19,18 @@ namespace Proyecto1.Reportes
             Current = this;
         }       
 
-        private void ReportesGenerales_Load(object sender, EventArgs e)
-        {
-            CenterToScreen();
-            //this.reportViewer1.RefreshReport();
+        //private void ReportesGenerales_Load(object sender, EventArgs e)
+        //{
+        //    CenterToScreen();
+        //    //this.reportViewer1.RefreshReport();
           
-        }
+        //}
 
         private void ReportesGenerales_Load_1(object sender, EventArgs e)
         {
 
             this.reportViewer1.RefreshReport();
+            CenterToScreen();
         }
     }
 }

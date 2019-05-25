@@ -52,5 +52,7 @@ namespace Proyecto1.DataADO
         public virtual DbSet<TipoDeDivisa> TipoDeDivisa { get; set; }
         public virtual DbSet<Sueldos> Sueldos { get; set; }
         public virtual DbSet<OrdenCompraDetalle> OrdenCompraDetalle { get; set; }
+        public virtual DbSet<Cotizacion> Cotizacion { get; set; }
+        public virtual DbSet<CotizacionDetalle> CotizacionDetalle { get; set; }
     }
 }

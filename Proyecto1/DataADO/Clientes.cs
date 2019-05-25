@@ -19,6 +19,7 @@ namespace Proyecto1.DataADO
         {
             this.CXC = new HashSet<CXC>();
             this.Facturacion = new HashSet<Facturacion>();
+            this.Cotizacion = new HashSet<Cotizacion>();
         }
     
         public int Id { get; set; }
@@ -35,5 +36,7 @@ namespace Proyecto1.DataADO
         public virtual ICollection<CXC> CXC { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facturacion> Facturacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cotizacion> Cotizacion { get; set; }
     }
 }

@@ -81,6 +81,29 @@
           <Property Name="Provincia" Type="nvarchar" MaxLength="50" />
           <Property Name="Telefono" Type="nvarchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="Cotizacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="IdCliente" Type="int" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="CotizacionDetalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProducto" Type="int" />
+          <Property Name="IdCotizacion" Type="int" />
+          <Property Name="Cantidad" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ITBS" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
         <EntityType Name="CXC">
           <Key>
             <PropertyRef Name="Id" />
@@ -393,6 +416,54 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Cotizacion_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+          <End Role="Cotizacion" Type="Self.Cotizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cotizacion">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cotizacion_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Cotizacion" Type="Self.Cotizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cotizacion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CotizacionDetalle_Cotizacion">
+          <End Role="Cotizacion" Type="Self.Cotizacion" Multiplicity="0..1" />
+          <End Role="CotizacionDetalle" Type="Self.CotizacionDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cotizacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CotizacionDetalle">
+              <PropertyRef Name="IdCotizacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CotizacionDetalle_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="0..1" />
+          <End Role="CotizacionDetalle" Type="Self.CotizacionDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CotizacionDetalle">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CXC_Clientes">
           <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
           <End Role="CXC" Type="Self.CXC" Multiplicity="*" />
@@ -629,6 +700,8 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ComprobantesImpuestos" EntityType="Self.ComprobantesImpuestos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConfiguracionEmpresa" EntityType="Self.ConfiguracionEmpresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cotizacion" EntityType="Self.Cotizacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CotizacionDetalle" EntityType="Self.CotizacionDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CXC" EntityType="Self.CXC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departamentos" EntityType="Self.Departamentos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresas" EntityType="Self.Empresas" Schema="dbo" store:Type="Tables" />
@@ -705,6 +778,22 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <AssociationSet Name="FK_AlmacenMovimiento_Usuarios" Association="Self.FK_AlmacenMovimiento_Usuarios">
             <End Role="Usuarios" EntitySet="Usuarios" />
             <End Role="AlmacenMovimiento" EntitySet="AlmacenMovimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cotizacion_Clientes" Association="Self.FK_Cotizacion_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Cotizacion" EntitySet="Cotizacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cotizacion_Usuarios" Association="Self.FK_Cotizacion_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Cotizacion" EntitySet="Cotizacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CotizacionDetalle_Cotizacion" Association="Self.FK_CotizacionDetalle_Cotizacion">
+            <End Role="Cotizacion" EntitySet="Cotizacion" />
+            <End Role="CotizacionDetalle" EntitySet="CotizacionDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CotizacionDetalle_Productos" Association="Self.FK_CotizacionDetalle_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="CotizacionDetalle" EntitySet="CotizacionDetalle" />
           </AssociationSet>
           <AssociationSet Name="FK_CXC_Clientes" Association="Self.FK_CXC_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
@@ -924,6 +1013,24 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <AssociationSet Name="FK_OrdenCompraDetalle_Productos" Association="DbConexion.FK_OrdenCompraDetalle_Productos">
             <End Role="Productos" EntitySet="Productos" />
             <End Role="OrdenCompraDetalle" EntitySet="OrdenCompraDetalle" />
+          </AssociationSet>
+          <EntitySet Name="Cotizacion" EntityType="DbConexion.Cotizacion" />
+          <EntitySet Name="CotizacionDetalle" EntityType="DbConexion.CotizacionDetalle" />
+          <AssociationSet Name="FK_Cotizacion_Clientes" Association="DbConexion.FK_Cotizacion_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Cotizacion" EntitySet="Cotizacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cotizacion_Usuarios" Association="DbConexion.FK_Cotizacion_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Cotizacion" EntitySet="Cotizacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CotizacionDetalle_Cotizacion" Association="DbConexion.FK_CotizacionDetalle_Cotizacion">
+            <End Role="Cotizacion" EntitySet="Cotizacion" />
+            <End Role="CotizacionDetalle" EntitySet="CotizacionDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CotizacionDetalle_Productos" Association="DbConexion.FK_CotizacionDetalle_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="CotizacionDetalle" EntitySet="CotizacionDetalle" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Almacen">
@@ -1154,6 +1261,7 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <Property Name="Correo" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CXC" Relationship="DbConexion.FK_CXC_Clientes" FromRole="Clientes" ToRole="CXC" />
           <NavigationProperty Name="Facturacion" Relationship="DbConexion.FK_Facturacion_Clientes" FromRole="Clientes" ToRole="Facturacion" />
+          <NavigationProperty Name="Cotizacion" Relationship="DbConexion.FK_Cotizacion_Clientes" FromRole="Clientes" ToRole="Cotizacion" />
         </EntityType>
         <Association Name="FK_CXC_Clientes">
           <End Type="DbConexion.Clientes" Role="Clientes" Multiplicity="0..1" />
@@ -1274,6 +1382,7 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <NavigationProperty Name="FacturacionDetalle" Relationship="DbConexion.FK_FacturacionDetalle_Productos" FromRole="Productos" ToRole="FacturacionDetalle" />
           <NavigationProperty Name="ProductosCategoria" Relationship="DbConexion.FK_Productos_ProductosCategoria" FromRole="Productos" ToRole="ProductosCategoria" />
           <NavigationProperty Name="OrdenCompraDetalle" Relationship="DbConexion.FK_OrdenCompraDetalle_Productos" FromRole="Productos" ToRole="OrdenCompraDetalle" />
+          <NavigationProperty Name="CotizacionDetalle" Relationship="DbConexion.FK_CotizacionDetalle_Productos" FromRole="Productos" ToRole="CotizacionDetalle" />
         </EntityType>
         <Association Name="FK_FacturacionDetalle_Productos">
           <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
@@ -1361,6 +1470,7 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
           <NavigationProperty Name="Puestos" Relationship="DbConexion.FK_Usuarios_Puestos" FromRole="Usuarios" ToRole="Puestos" />
           <NavigationProperty Name="Seguridad" Relationship="DbConexion.FK_Seguridad_Usuarios1" FromRole="Usuarios" ToRole="Seguridad" />
           <NavigationProperty Name="Sueldos" Relationship="DbConexion.FK_Sueldos_Usuarios" FromRole="Usuarios" ToRole="Sueldos" />
+          <NavigationProperty Name="Cotizacion" Relationship="DbConexion.FK_Cotizacion_Usuarios" FromRole="Usuarios" ToRole="Cotizacion" />
         </EntityType>
         <Association Name="FK_AlmacenMovimiento_Usuarios">
           <End Type="DbConexion.Usuarios" Role="Usuarios" Multiplicity="1" />
@@ -1562,6 +1672,82 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrdenCompraDetalle">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Cotizacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="IdCliente" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Observaciones" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Clientes" Relationship="DbConexion.FK_Cotizacion_Clientes" FromRole="Cotizacion" ToRole="Clientes" />
+          <NavigationProperty Name="Usuarios" Relationship="DbConexion.FK_Cotizacion_Usuarios" FromRole="Cotizacion" ToRole="Usuarios" />
+          <NavigationProperty Name="CotizacionDetalle" Relationship="DbConexion.FK_CotizacionDetalle_Cotizacion" FromRole="Cotizacion" ToRole="CotizacionDetalle" />
+        </EntityType>
+        <EntityType Name="CotizacionDetalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProducto" Type="Int32" />
+          <Property Name="IdCotizacion" Type="Int32" />
+          <Property Name="Cantidad" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ITBS" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Descuento" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Cotizacion" Relationship="DbConexion.FK_CotizacionDetalle_Cotizacion" FromRole="CotizacionDetalle" ToRole="Cotizacion" />
+          <NavigationProperty Name="Productos" Relationship="DbConexion.FK_CotizacionDetalle_Productos" FromRole="CotizacionDetalle" ToRole="Productos" />
+        </EntityType>
+        <Association Name="FK_Cotizacion_Clientes">
+          <End Type="DbConexion.Clientes" Role="Clientes" Multiplicity="0..1" />
+          <End Type="DbConexion.Cotizacion" Role="Cotizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cotizacion">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cotizacion_Usuarios">
+          <End Type="DbConexion.Usuarios" Role="Usuarios" Multiplicity="0..1" />
+          <End Type="DbConexion.Cotizacion" Role="Cotizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cotizacion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CotizacionDetalle_Cotizacion">
+          <End Type="DbConexion.Cotizacion" Role="Cotizacion" Multiplicity="0..1" />
+          <End Type="DbConexion.CotizacionDetalle" Role="CotizacionDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cotizacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CotizacionDetalle">
+              <PropertyRef Name="IdCotizacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CotizacionDetalle_Productos">
+          <End Type="DbConexion.Productos" Role="Productos" Multiplicity="0..1" />
+          <End Type="DbConexion.CotizacionDetalle" Role="CotizacionDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CotizacionDetalle">
               <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
@@ -1926,6 +2112,31 @@ warning 6002: The table/view 'Proyecto1.dbo.vsModulosUsuarios' does not have a p
                 <ScalarProperty Name="ITBS" ColumnName="ITBS" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="IdOrdenCompra" ColumnName="IdOrdenCompra" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cotizacion">
+            <EntityTypeMapping TypeName="DbConexion.Cotizacion">
+              <MappingFragment StoreEntitySet="Cotizacion">
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CotizacionDetalle">
+            <EntityTypeMapping TypeName="DbConexion.CotizacionDetalle">
+              <MappingFragment StoreEntitySet="CotizacionDetalle">
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="ITBS" ColumnName="ITBS" />
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="IdCotizacion" ColumnName="IdCotizacion" />
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -15,11 +15,11 @@ namespace Proyecto1
 {
     public partial class Principal : Form
     {
-        public static Form FrmReferencia;
+        //public static Form FrmReferencia;
         public Principal()
         {
             GetForm = new Form();
-            GetForm = MdiParent;
+            //GetForm = MdiParent;
             InitializeComponent();
         }
 
@@ -84,6 +84,7 @@ namespace Proyecto1
                 label1.Visible = true;
 
                 label1.Text = $"Usuario: {veloz22.Nombre}";
+
                 cambiarCuentaToolStripMenuItem1.Visible = true;
             }
             else
@@ -395,6 +396,24 @@ namespace Proyecto1
             Puestos.VerRoles verRoles = new Puestos.VerRoles();
             verRoles.MdiParent = this;
             verRoles.Show();
+        }
+
+        private void CotizacionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Facturas.Cotizacion  cotizacion= new Facturas.Cotizacion
+            {
+                MdiParent = this
+            };
+            cotizacion.Show();
+        }
+
+        private void ListarCotizacionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Facturas.Cotizaciones listaDeFacturas = new Facturas.Cotizaciones
+            {
+                MdiParent = this
+            };
+            listaDeFacturas.Show();
         }
     }
 }

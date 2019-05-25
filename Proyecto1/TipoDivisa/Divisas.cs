@@ -145,18 +145,26 @@ namespace Proyecto1.TipoDivisa
             {
                 if(MessageBox.Show($"Esta seguro de que el valor de ITBS en su region es igual a: {txtitbs.Text}%","Sistemas de ventas",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    if (txttipodivisa.Text != "Dominicano")
-                    {
-                        var ValorDivi = Convert.ToDecimal(ValorDivisa.Text);
-                        var ValorITBS = Convert.ToDecimal(ITBSXPorcentaje.Text);
+                    //Obteniendo la primera parte y ignorando el signo de procentaje...
+                    string[] valor = ITBSXPorcentaje.Text.Split('%');
 
-
-                        return ValorITBS / 100 / ValorDivi;
-                    }
-                    else
+                    try
                     {
-                        return Convert.ToDecimal(ITBSXPorcentaje.Text) /  100;
+                        if (txttipodivisa.Text != "Dominicano")
+                        {
+                            var ValorDivi = Convert.ToDecimal(ValorDivisa.Text);
+                            //var dd = ITBSXPorcentaje.Text;                          
+
+                            var ValorITBS = Convert.ToDecimal(valor[0]);
+                            return ValorITBS / 100 / ValorDivi;
+                        }
+
+                        else
+                        {
+                            return Convert.ToDecimal(valor[0]) /  100;
+                        }
                     }
+                    catch { }
                 }
             }
             return 0;      
